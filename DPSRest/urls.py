@@ -20,7 +20,8 @@ from catalog import views
 
 
 router = routers.DefaultRouter()
-router.register(r'pizzas', views.PizzaViewSet)
+router.register(r'pizza', views.PizzaViewSet)
+router.register(r'size', views.SizeViewSet)
 
 
 urlpatterns = [
