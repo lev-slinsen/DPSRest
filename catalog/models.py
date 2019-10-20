@@ -5,44 +5,36 @@ from django.db import models
 from django.utils.translation import pgettext_lazy as _
 
 
-class Size(models.Model):
+class Filter(models.Model):
     """
     Category model.
     """
-    name = models.CharField(verbose_name=_('Size|Name', 'Name'), max_length=100)
+    name = models.CharField(verbose_name=_('Filter|Name', 'Name'), max_length=100)
 
     def __str__(self):
         return self.name
 
     class Meta:
-        verbose_name = _('Size|Meta', 'Size')
-        verbose_name_plural = _('Size|Meta_plural', 'Sizes')
-
-
-class Taste(models.Model):
-    """
-    Category model.
-    """
-    name = models.CharField(verbose_name=_('Taste|Name', 'Name'), max_length=100)
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        verbose_name = _('Taste|Meta', 'Taste')
-        verbose_name_plural = _('Taste|Meta_plural', 'Tastes')
+        verbose_name = _('Filter|Meta', 'Filter')
+        verbose_name_plural = _('Filter|Meta_plural', 'Filters')
 
 
 class Pizza(models.Model):
     """
     Pizza model.
     """
+    CHOICES = (
+        ('1', _('Size|1', '1')),
+        ('2', _('Size|2', '2')),
+        ('3', _('Size|3', '3')),
+        ('4', _('Size|4', '4')),
+    )
     name = models.CharField(verbose_name=_('Pizza|Name', 'Name'), max_length=100)
-    price = models.SmallIntegerField(verbose_name=_('Pizza|Price', 'Price'))
+    price = models.DecimalField(default=0, max_digits=6, decimal_places=2, verbose_name=_('Pizza|Price', 'Price'))
     text_short = models.CharField(verbose_name=_('Pizza|Short text', 'Short text'), max_length=100)
     text_long = models.TextField(verbose_name=_('Pizza|Long text', 'Long text'))
-    size = models.ManyToManyField(Size, verbose_name=_('Pizza|Size', 'Size'))
-    taste = models.ManyToManyField(Taste, verbose_name=_('Pizza|Taste', 'Taste'))
+    size = models.CharField(choices=CHOICES, verbose_name=_('Pizza|Size', 'Size'), max_length=1)
+    filter = models.ManyToManyField(Filter, verbose_name=_('Pizza|Filter', 'Filter'))
     photo = models.ImageField(upload_to='images/', verbose_name=_('Pizza|Image', 'Image'))
 
     class Meta:
