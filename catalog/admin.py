@@ -3,13 +3,13 @@ from django.contrib import admin
 from django.db import models
 from django.forms import CheckboxSelectMultiple
 
-from .models import Pizza, Size, Taste
+from .models import Pizza, Filter
 
 
 class PizzaAdmin(admin.ModelAdmin):
     list_display = ('name',)
-    fields = ('name', 'price', 'text_short', 'text_long', 'size', 'taste', 'photo')
-    list_filter = ('size__name', 'taste__name')
+    fields = ('name', 'price', 'size', 'text_short', 'text_long', 'filter', 'photo')
+    list_filter = ('filter__name',)
 
     formfield_overrides = {
         models.ManyToManyField: {'widget': CheckboxSelectMultiple},
@@ -17,5 +17,4 @@ class PizzaAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Pizza, PizzaAdmin)
-admin.site.register(Size)
-admin.site.register(Taste)
+admin.site.register(Filter)

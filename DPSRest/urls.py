@@ -17,16 +17,20 @@ from django.contrib import admin
 from django.urls import include, path
 from rest_framework import routers
 from catalog import views
+from django.conf.urls.static import static
+from django.conf import settings
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 
 router = routers.DefaultRouter()
-router.register(r'pizzas', views.PizzaViewSet)
+router.register(r'pizza', views.PizzaViewSet)
+router.register(r'filter', views.FilterViewSet)
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include(router.urls)),
-    # path('accounts/', include('accounts.urls', namespace='accounts')),
-    # path('catalog/', include('catalog.urls', namespace='catalog')),
-    path('api/', include('rest_framework.urls', namespace='rest_framework'))
+    path('api/', include(router.urls)),
+    path('rest/', include('rest_framework.urls', namespace='rest_framework')),
 ]
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns += staticfiles_urlpatterns()
