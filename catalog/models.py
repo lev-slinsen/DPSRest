@@ -45,10 +45,6 @@ class Pizza(models.Model):
     def size_display(self):
         return ' '.join(str(cat) for cat in self.size.all())
 
-    @property
-    def taste_display(self):
-        return ' '.join(str(cat) for cat in self.taste.all())
-
     def __str__(self):
         #    return "name = {}, size = {}".format(self.name, self.size)
         #    return "name = %s, size = %s" % (self.name, self.size)

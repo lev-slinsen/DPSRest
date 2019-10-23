@@ -29,7 +29,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DJANGO_DEBUG', False)
 
-ALLOWED_HOSTS = [os.environ.get('HOST_NAME', 'localhost'), os.environ.get('HOST_IP', '127.0.0.1')]
+ALLOWED_HOSTS = [os.environ.get('HOST_NAME', 'localhost'), os.environ.get('HOST_IP', '127.0.0.1'), '2222cb31.ngrok.io']
 
 
 # Application definition
@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
     'accounts',
     'catalog',
     'rest_framework',
@@ -65,6 +66,12 @@ MIDDLEWARE = [
     'accounts.middleware.UserLanguageMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
+]
+
+CORS_ORIGIN_WHITELIST = [
+    'https://localhost:8000',
 ]
 
 ROOT_URLCONF = 'DPSRest.urls'
