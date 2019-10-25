@@ -29,21 +29,25 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DJANGO_DEBUG', False)
 
-ALLOWED_HOSTS = [os.environ.get('HOST_NAME', 'localhost'), os.environ.get('HOST_IP', '127.0.0.1'), '2222cb31.ngrok.io']
+ALLOWED_HOSTS = [os.environ.get('HOST_NAME', 'localhost'), os.environ.get('HOST_IP', '127.0.0.1')]
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    # django core apps
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # custom apps
+    'accounts.apps.AccountsConfig',
+    'catalog.apps.CatalogConfig',
+    'shop.apps.ShopConfig',
+    # plugins
     'corsheaders',
-    'accounts',
-    'catalog',
     'rest_framework',
 ]
 
@@ -72,6 +76,8 @@ MIDDLEWARE = [
 
 CORS_ORIGIN_WHITELIST = [
     'https://localhost:8000',
+    'http://localhost:3000',
+    'http://localhost:3001',
 ]
 
 ROOT_URLCONF = 'DPSRest.urls'
@@ -129,8 +135,8 @@ AUTHENTICATION_BACKENDS = [
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
 LANGUAGES = (
-    ('en', _('English|Language', 'English')),
-    ('ru', _('Russian|Language', 'Russian')),
+    ('en', _('Language|English', 'English')),
+    ('ru', _('Language|Russian', 'Russian')),
 )
 
 LANGUAGE_CODE = 'ru'

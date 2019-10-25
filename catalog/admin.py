@@ -6,9 +6,9 @@ from django.forms import CheckboxSelectMultiple
 from .models import Pizza, Filter
 
 
+@admin.register(Pizza)
 class PizzaAdmin(admin.ModelAdmin):
     list_display = ('name',)
-    fields = ('name', 'price', 'size', 'text_short', 'text_long', 'filter', 'photo')
     list_filter = ('filter__name',)
 
     formfield_overrides = {
@@ -16,5 +16,4 @@ class PizzaAdmin(admin.ModelAdmin):
     }
 
 
-admin.site.register(Pizza, PizzaAdmin)
 admin.site.register(Filter)

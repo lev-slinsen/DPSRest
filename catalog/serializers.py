@@ -13,4 +13,4 @@ class PizzaSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Pizza
-        fields = ['name', 'price', 'text_short', 'text_long', 'size', 'filter', 'photo']
+        exclude = ('url',)

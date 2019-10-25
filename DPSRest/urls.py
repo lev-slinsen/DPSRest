@@ -16,15 +16,18 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 from rest_framework import routers
-from catalog import views
+from catalog import views as catalog_views
+from shop import views as shop_views
 from django.conf.urls.static import static
 from django.conf import settings
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 
 router = routers.DefaultRouter()
-router.register(r'pizza', views.PizzaViewSet)
-router.register(r'filter', views.FilterViewSet)
+router.register(r'pizza', catalog_views.PizzaViewSet)
+router.register(r'filter', catalog_views.FilterViewSet)
+router.register(r'order', shop_views.OrderViewSet)
+router.register(r'orderitem', shop_views.OrderItemViewSet)
 
 
 urlpatterns = [
