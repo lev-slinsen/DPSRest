@@ -51,7 +51,7 @@ class Order(models.Model):
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE, verbose_name=_('OrderItem|Order', 'Order'))
-    item = models.ForeignKey(Pizza, on_delete=models.DO_NOTHING, verbose_name=_('OrderItem|Item', 'Item'))
+    item_id = models.ForeignKey(Pizza, on_delete=models.DO_NOTHING, verbose_name=_('OrderItem|Item', 'Item'))
     quantity = models.PositiveSmallIntegerField(verbose_name=_('OrderItem|Quantity', 'Quantity'))
 
     @property

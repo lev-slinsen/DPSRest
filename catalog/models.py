@@ -50,4 +50,4 @@ class Pizza(models.Model):
     def __str__(self):
         #    return "name = {}, size = {}".format(self.name, self.size)
         #    return "name = %s, size = %s" % (self.name, self.size)
-        return f"{self.name}"
+        return f"{self.pizza_id}"

@@ -5,7 +5,7 @@ from rest_framework import serializers
 class OrderItemSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = OrderItem
-        fields = '__all__'
+        fields = ('item_id', 'quantity')
 
 
 class OrderSerializer(serializers.HyperlinkedModelSerializer):
