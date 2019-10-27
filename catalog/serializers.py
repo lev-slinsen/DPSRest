@@ -5,7 +5,7 @@ from rest_framework import serializers
 class FilterSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Filter
-        fields = ['name']
+        fields = ('name',)
 
 
 class PizzaSerializer(serializers.HyperlinkedModelSerializer):
@@ -13,4 +13,4 @@ class PizzaSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Pizza
-        exclude = ('url',)
+        fields = ('id', 'name', 'size', 'price', 'text_short', 'text_long', 'photo', 'filter')

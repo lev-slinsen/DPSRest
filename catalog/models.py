@@ -29,7 +29,7 @@ class Pizza(models.Model):
         ('3', _('Size|3', '3')),
         ('4', _('Size|4', '4')),
     )
-    pizza_id = models.SmallIntegerField(unique=True, verbose_name=_('Pizza|ID', 'ID'))
+    id = models.PositiveSmallIntegerField(primary_key=True)
     name = models.CharField(verbose_name=_('Pizza|Name', 'Name'), max_length=100)
     size = models.CharField(choices=CHOICES, verbose_name=_('Pizza|Size', 'Size'), max_length=1)
     price = models.DecimalField(default=0, max_digits=6, decimal_places=2, verbose_name=_('Pizza|Price', 'Price'))
@@ -50,4 +50,4 @@ class Pizza(models.Model):
     def __str__(self):
         #    return "name = {}, size = {}".format(self.name, self.size)
         #    return "name = %s, size = %s" % (self.name, self.size)
-        return f"{self.pizza_id}"
+        return f"{self.name}"

@@ -33,7 +33,7 @@ class Order(models.Model):
     address = models.CharField(max_length=100, verbose_name=_('Order|Address', 'Address'))
     comment = models.TextField(max_length=100, verbose_name=_('Order|Comment', 'Comment'), blank=True, null=True)
     payment = models.SmallIntegerField(choices=PAYMENT_CHOICES, verbose_name=_('Order|Payment', 'Payment method'))
-    status = models.BooleanField(default=0, verbose_name=_('Order|Payment confirmed', 'Payment confirmed'))
+    status = models.BooleanField(default=0, verbose_name=_('Order|Confirmed', 'Confirmed'))
 
     def total_price(self):
         return sum([item.price for item in self.orderitem_set.all()])
@@ -51,12 +51,12 @@ class Order(models.Model):
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE, verbose_name=_('OrderItem|Order', 'Order'))
-    item_id = models.ForeignKey(Pizza, on_delete=models.DO_NOTHING, verbose_name=_('OrderItem|Item', 'Item'))
+    item_name = models.ForeignKey(Pizza, on_delete=models.CASCADE, verbose_name=_('OrderItem|Item', 'Item'))
     quantity = models.PositiveSmallIntegerField(verbose_name=_('OrderItem|Quantity', 'Quantity'))
 
     @property
     def price(self):
-        return self.item.get(type=self.size).price * self.quantity
+        return self.item_name.price * self.quantity
 
     "Property admin panel translation"
     def price_admin(self):
