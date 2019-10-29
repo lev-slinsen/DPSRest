@@ -23,9 +23,4 @@ class PizzaViewSet(viewsets.ModelViewSet):
     """
     queryset = Pizza.objects.all()
     serializer_class = PizzaSerializer
-    http_method_names = ['get']
-
-    # def list(self, request, *args, **kwargs):
-    #     response = super(PizzaViewSet, self).list(request, *args, **kwargs)  # call the original 'list'
-    #     response.data = {"data": {"pizzas": response.data}}  # customize the response data
-    #     return response  # return response with this custom representation
+    http_method_names = ['get', 'post']

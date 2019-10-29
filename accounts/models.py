@@ -6,9 +6,7 @@ import re
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.contrib.auth.signals import user_logged_in
-# from django.core.mail import send_mail
 from django.db import models
-# from django.db.models import signals
 from django.dispatch import receiver
 from django.utils.translation import pgettext_lazy as _
 
@@ -82,15 +80,3 @@ class User(AbstractUser):
 def lang(sender, **kwargs):
     lang_code = kwargs['user'].language
     kwargs['request'].session['django_language'] = lang_code
-
-
-# @receiver(signals.post_save, sender=User)
-# def email(sender, instance, **kwargs):
-#     if instance.email:
-#         send_mail(
-#             'Subject',
-#             'Message',
-#             'DjangoPizzaShop',
-#             [instance.email],
-#             fail_silently=False,
-#         )

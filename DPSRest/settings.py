@@ -35,14 +35,19 @@ ALLOWED_HOSTS = [os.environ.get('HOST_NAME', 'localhost'), os.environ.get('HOST_
 # Application definition
 
 INSTALLED_APPS = [
+    # django core apps
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'accounts',
-    'catalog',
+    # custom apps
+    'accounts.apps.AccountsConfig',
+    'catalog.apps.CatalogConfig',
+    'shop.apps.ShopConfig',
+    # plugins
+    'corsheaders',
     'rest_framework',
 ]
 
@@ -65,6 +70,14 @@ MIDDLEWARE = [
     'accounts.middleware.UserLanguageMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
+]
+
+CORS_ORIGIN_WHITELIST = [
+    'https://localhost:8000',
+    'http://localhost:3000',
+    'http://localhost:3001',
 ]
 
 ROOT_URLCONF = 'DPSRest.urls'
@@ -122,8 +135,8 @@ AUTHENTICATION_BACKENDS = [
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
 LANGUAGES = (
-    ('en', _('English|Language', 'English')),
-    ('ru', _('Russian|Language', 'Russian')),
+    ('en', _('Language|English', 'English')),
+    ('ru', _('Language|Russian', 'Russian')),
 )
 
 LANGUAGE_CODE = 'ru'
