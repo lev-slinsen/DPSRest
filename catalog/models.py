@@ -4,6 +4,9 @@ Catalogue models.
 from django.db import models
 from django.utils.translation import pgettext_lazy as _
 
+from imagekit.models import ImageSpecField
+from imagekit.processors import ResizeToFill
+
 
 class Filter(models.Model):
     """
@@ -37,6 +40,10 @@ class Pizza(models.Model):
     text_long = models.TextField(verbose_name=_('Pizza|Long text', 'Long text'))
     filter = models.ManyToManyField(Filter, verbose_name=_('Pizza|Filter', 'Filter'))
     photo = models.ImageField(upload_to='images/', verbose_name=_('Pizza|Image', 'Image'))
+    photo_thumbnail = ImageSpecField(source='photo',
+                                     processors=[ResizeToFill(100, 100)],
+                                     format='JPEG',
+                                     options={'quality': 90},)
     active = models.BooleanField(verbose_name=_('Pizza|Active', 'Active'))
 
     class Meta:

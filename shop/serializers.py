@@ -31,4 +31,4 @@ class OrderItemSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = OrderItem
-        fields = ('item_name', 'quantity', 'order')
+        fields = ('pizza_id', 'quantity', 'order')

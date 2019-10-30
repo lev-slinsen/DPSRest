@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     # plugins
     'corsheaders',
     'rest_framework',
+    'imagekit',
 ]
 
 REST_FRAMEWORK = {
