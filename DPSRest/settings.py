@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     # custom apps
     'accounts.apps.AccountsConfig',
     'catalog.apps.CatalogConfig',
+    'front.apps.FrontConfig',
     'shop.apps.ShopConfig',
     # plugins
     'corsheaders',

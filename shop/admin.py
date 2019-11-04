@@ -48,4 +48,3 @@ class OrderAdmin(admin.ModelAdmin):
     date_hierarchy = 'delivery_date'
     exclude = ('user',)
     inlines = (OrderItemInline,)
-

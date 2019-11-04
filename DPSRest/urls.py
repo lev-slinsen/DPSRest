@@ -26,14 +26,16 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 router = routers.DefaultRouter()
 router.register(r'pizza', catalog_views.PizzaViewSet)
 router.register(r'filter', catalog_views.FilterViewSet)
-router.register(r'order', shop_views.OrderViewSet)
-router.register(r'orderitem', shop_views.OrderItemViewSet)
+# router.register(r'order', shop_views.OrderViewSet)
+# router.register(r'orderitem', shop_views.OrderItemViewSet)
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
-    path('rest/', include('rest_framework.urls', namespace='rest_framework')),
+    # path('rest/', include('rest_framework.urls', namespace='rest_framework')),
+    path('', include('shop.urls')),
+    path('', include('front.urls')),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 urlpatterns += staticfiles_urlpatterns()
