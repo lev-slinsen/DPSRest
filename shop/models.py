@@ -67,7 +67,7 @@ class OrderItem(models.Model):
     price_admin.short_description = _('OrderItem|Price', 'Price')
 
     def __str__(self):
-        return f""
+        return f"{self.quantity}, {self.pizza_obj}"
 
     class Meta:
         verbose_name = _('OrderItem|Meta', 'Item')

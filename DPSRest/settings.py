@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     'imagekit',
+    'rest_framework_swagger',
 ]
 
 REST_FRAMEWORK = {
@@ -58,7 +59,8 @@ REST_FRAMEWORK = {
     # or allow read-only access for unauthenticated users.
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
-    ]
+    ],
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
 }
 
 AUTH_USER_MODEL = 'accounts.User'
