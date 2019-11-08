@@ -19,6 +19,7 @@ from rest_framework import routers
 from rest_framework_swagger.views import get_swagger_view
 
 from catalog import views as catalog_views
+from front import views as front_views
 from shop import views as shop_views
 from django.conf.urls.static import static
 from django.conf import settings
@@ -30,15 +31,14 @@ schema_view = get_swagger_view(title='Shop API')
 router = routers.DefaultRouter()
 router.register(r'pizza', catalog_views.PizzaViewSet)
 router.register(r'filter', catalog_views.FilterViewSet)
-router.register(r'order', shop_views.OrderListCreate)
+router.register(r'order', shop_views.OrderViewSet)
+router.register(r'page-text', front_views.PageViewSet)
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
     path('docs/', schema_view),
-    # path('rest/', include('rest_framework.urls', namespace='rest_framework')),
-    # path('', include('shop.urls')),
     path('', include('front.urls')),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
