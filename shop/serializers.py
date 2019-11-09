@@ -4,15 +4,15 @@ from .models import Order, OrderItem
 
 class OrderItemSerializer(serializers.Serializer):
     quantity = serializers.IntegerField()
-    pizza_obj = serializers.SerializerMethodField()
+    pizza_id = serializers.SerializerMethodField()
 
-    def get_pizza_obj(self, obj):
-        return obj.pizza_obj.id
+    def get_pizza_id(self, obj):
+        return obj.pizza_id.id
 
     class Meta:
         model = OrderItem
         fields = ('quantity',
-                  'pizza_obj',)
+                  'pizza_id',)
 
 
 class OrderSerializer(serializers.ModelSerializer):

@@ -89,7 +89,9 @@ ROOT_URLCONF = 'DPSRest.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            BASE_DIR + '/react/',
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
