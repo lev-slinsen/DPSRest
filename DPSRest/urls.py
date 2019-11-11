@@ -33,7 +33,8 @@ router = routers.DefaultRouter()
 router.register(r'pizza', catalog_views.PizzaViewSet)
 router.register(r'filter', catalog_views.FilterViewSet)
 router.register(r'order', shop_views.OrderViewSet)
-router.register(r'front-text', front_views.PageViewSet)
+router.register(r'front-page', front_views.FrontPageViewSet)
+router.register(r'front-text', front_views.FrontTextViewSet)
 
 
 urlpatterns = [
