@@ -45,10 +45,13 @@ INSTALLED_APPS = [
     # custom apps
     'accounts.apps.AccountsConfig',
     'catalog.apps.CatalogConfig',
+    'front.apps.FrontConfig',
     'shop.apps.ShopConfig',
     # plugins
     'corsheaders',
     'rest_framework',
+    'imagekit',
+    'rest_framework_swagger',
 ]
 
 REST_FRAMEWORK = {
@@ -56,7 +59,9 @@ REST_FRAMEWORK = {
     # or allow read-only access for unauthenticated users.
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
-    ]
+    ],
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
+    'EXCEPTION_HANDLER': 'rest_framework.views.exception_handler',
 }
 
 AUTH_USER_MODEL = 'accounts.User'
@@ -76,6 +81,7 @@ MIDDLEWARE = [
 
 CORS_ORIGIN_WHITELIST = [
     'https://localhost:8000',
+    'http://localhost:8000',
     'http://localhost:3000',
     'http://localhost:3001',
 ]
@@ -85,7 +91,9 @@ ROOT_URLCONF = 'DPSRest.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            BASE_DIR + '/react/',
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -164,6 +172,10 @@ LOCALE_PATHS = (
 STATIC_URL = '/static/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+STATICFILES_DIRS = [
+    'react/build/static/',
+]
 
 MEDIA_URL = '/media/'
 

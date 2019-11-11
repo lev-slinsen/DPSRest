@@ -23,4 +23,4 @@ class PizzaViewSet(viewsets.ModelViewSet):
     """
     queryset = Pizza.objects.all()
     serializer_class = PizzaSerializer
-    http_method_names = ['get', 'post']
+    http_method_names = ['get']

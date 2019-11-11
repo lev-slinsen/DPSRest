@@ -1,10 +1,6 @@
-import re
-
 from django.contrib import admin
 from django.contrib.admin.widgets import RelatedFieldWidgetWrapper
 from django.utils.translation import pgettext_lazy as _
-from django.forms import BaseInlineFormSet
-from django.core.exceptions import ValidationError
 
 from .models import OrderItem, Order
 
@@ -48,4 +44,3 @@ class OrderAdmin(admin.ModelAdmin):
     date_hierarchy = 'delivery_date'
     exclude = ('user',)
     inlines = (OrderItemInline,)
-

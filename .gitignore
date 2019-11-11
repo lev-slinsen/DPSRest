@@ -4,3 +4,5 @@ venv*
 db.sqlite3
 environment
 *.sock
+react/build*
+react/node_modules*

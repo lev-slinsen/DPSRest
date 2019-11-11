@@ -51,12 +51,15 @@ class Order(models.Model):
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE, verbose_name=_('OrderItem|Order', 'Order'))
-    item_name = models.ForeignKey(Pizza, on_delete=models.CASCADE, verbose_name=_('OrderItem|Item', 'Item'))
+    pizza_id = models.ForeignKey(Pizza, on_delete=models.CASCADE, verbose_name=_('OrderItem|Item', 'Item'))
     quantity = models.PositiveSmallIntegerField(verbose_name=_('OrderItem|Quantity', 'Quantity'))
+
+    def pizza_id(self):
+        return self.pizza_id.id
 
     @property
     def price(self):
-        return self.item_name.price * self.quantity
+        return self.pizza_id.price * self.quantity
 
     "Property admin panel translation"
     def price_admin(self):
@@ -64,7 +67,7 @@ class OrderItem(models.Model):
     price_admin.short_description = _('OrderItem|Price', 'Price')
 
     def __str__(self):
-        return f""
+        return f"{self.quantity}, {self.pizza_id}"
 
     class Meta:
         verbose_name = _('OrderItem|Meta', 'Item')
