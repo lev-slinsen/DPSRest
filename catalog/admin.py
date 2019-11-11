@@ -2,6 +2,7 @@ from django.contrib import admin
 
 from django.db import models
 from django.forms import CheckboxSelectMultiple
+from django.utils.safestring import mark_safe
 
 from .models import Pizza, Filter
 
@@ -10,7 +11,16 @@ from .models import Pizza, Filter
 class PizzaAdmin(admin.ModelAdmin):
     list_display = ('name', 'id', 'size')
     list_filter = ('filter__name', 'size')
-    fields = ('id', 'name', 'size', 'price', 'text_short', 'text_long', 'photo', 'filter', 'active')
+    fields = ('id', 'name', 'size', 'price', 'text_short', 'text_long', 'photo_preview', 'photo', 'filter', 'active')
+    readonly_fields = ('photo_preview',)
+
+    def photo_preview(self, obj):
+        return mark_safe('<img src="{url}" width="{width}" height={height} />'.format(
+            url=obj.photo_thumbnail.url,
+            width=obj.photo_thumbnail.width,
+            height=obj.photo_thumbnail.height,
+            )
+        )
 
     formfield_overrides = {
         models.ManyToManyField: {'widget': CheckboxSelectMultiple},

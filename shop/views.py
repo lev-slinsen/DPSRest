@@ -2,7 +2,7 @@ from rest_framework.permissions import AllowAny
 
 from .models import Order
 from .serializers import OrderSerializer
-from rest_framework import generics, viewsets
+from rest_framework import viewsets
 
 
 class OrderViewSet(viewsets.ModelViewSet):
