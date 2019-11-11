@@ -1,0 +1,40 @@
+.cartWrapper {
+    composes: container from './../../App.css';
+}
+.tableRow{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    max-height: 15rem;
+    padding: 5px;
+    color: #999;
+    font-size: 15px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    border: 1px solid #999999;
+}
+.tableRow > * span {
+    font-size: 14px;
+}
+.pizzasContainer {
+    min-height: 120vh;
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-items: center;
+}
+.mainImg > img{
+    width: 100px;
+}
+.button {
+    text-decoration: none;
+}
+
+.item {
+    color: white;
+}
+.item:hover {
+    color: red;
+}
