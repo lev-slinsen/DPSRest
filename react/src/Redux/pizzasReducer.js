@@ -224,7 +224,7 @@ export const fetchCatalog = () => async (dispatch) => {
 };
 
 export const submitOrder = (orderData) => async (dispatch, getState) => {
-    const order = getState().reducer.order.map( oi => ({quantity: oi.quantity, pizza_obj: oi.id}));
+    const order = getState().reducer.order.map( oi => ({quantity: oi.quantity, pizza_id: oi.id}));
     const res = await pizzasAPI.postOrder(orderData, order);
     if (res)
     dispatch(_orderSuccess(true));

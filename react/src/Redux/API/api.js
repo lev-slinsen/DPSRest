@@ -41,7 +41,7 @@ export const pizzasAPI = {
             })
     },
     getOrders () {
-        return instance.get('http://127.0.0.1:8000/api/order/?format=json')
+        return instance.get('order/?format=json')
             .then(res => {
                 if(res.status === 200) {
                     return res.data
