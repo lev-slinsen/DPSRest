@@ -16,6 +16,7 @@
     bottom: 0;
     z-index: 5;
     overflow-y: scroll;
+    background-color: rgba(0, 0, 0, 0.8);
 }
 .pizzaCardWrapper
 {
@@ -28,12 +29,12 @@
     align-content: center;
     align-items: center;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-evenly;
 
     width: 80%;
     height: 80%;
     margin: .4rem;
-    padding: 15px 8px 5px 8px;
+    padding: 15px 8px 20px 8px;
 
     text-align: center;
     word-wrap: break-word;
@@ -124,5 +125,17 @@
 {
     height: 310px;
 }
-
-
+.header {
+    composes: row;
+    width: 90%;
+    border-bottom: 1px solid #ffbc80;
+    position: relative;
+    margin-bottom: 1rem;
+}
+.btnClose {
+    position: absolute;
+    top: 0;
+    right: 0;
+    border: none;
+    color: black;
+}

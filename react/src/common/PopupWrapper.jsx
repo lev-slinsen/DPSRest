@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import style from './PopupWrapper.module.css'
 import Preloader from "./Preloader";
-import PizzaImage from "../Components/PizzaItem/PizzaImage";
 
 class PopupWrapper extends Component {
 
@@ -14,7 +13,7 @@ class PopupWrapper extends Component {
     }
 
     handleImageLoaded() {
-        this.setState({ image: 'loaded' });
+        this.setState({image: 'loaded'});
     }
 
     render() {
@@ -22,13 +21,15 @@ class PopupWrapper extends Component {
         const {pizza, title} = this.props;
         return (
             <div onClick={this.props.setPopupOpen} className={style.popupWrapper}>
-                <h4>{title}</h4>
-
-
                 <div className={style.pizzaCardWrapper}>
+                    <div className={style.header}>
+                        <h4>{pizza.name}</h4>
+                        <button className={style.btnClose}>X</button>
+                    </div>
+
                     <div className={style.mainImg}>
                         {!this.state.image &&
-                        <Preloader />
+                        <Preloader/>
                         }
                         <img src={pizza.photo} onLoad={this.handleImageLoaded.bind(this)}/>
                     </div>

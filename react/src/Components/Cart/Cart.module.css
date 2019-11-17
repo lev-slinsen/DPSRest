@@ -1,40 +1,98 @@
 .cartWrapper {
     composes: container from './../../App.css';
 }
-.tableRow{
+.container {
+    composes: container from './../../App.css';
+}
+.row {
     display: flex;
     flex-direction: row;
+    padding: 0;
+    flex-wrap: wrap;
+    height: 100%;
+}
+.rowCalc {
+    composes: row;
+    width: 2rem;
+    height: 100%;
+    flex-wrap: nowrap;
+}
+.col {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+.rowBetween {
+    composes: row;
+    justify-content: space-around;
+    padding: .5rem;
+}
+.tableRow{
+    composes: row;
+    width: 80%;
+    flex-wrap: nowrap;
+    position: relative;
     align-items: center;
+    justify-content: space-around;
     max-height: 15rem;
-    padding: 5px;
+    padding: .7rem 4rem .7rem .2rem;
     color: #999;
     font-size: 15px;
-    margin-top: 5px;
-    margin-bottom: 10px;
-    border: 1px solid #999999;
+    border-bottom: 1px solid #999999;
 }
 .tableRow > * span {
     font-size: 14px;
 }
-.pizzasContainer {
-    min-height: 120vh;
-    position: relative;
-    z-index: 1;
+.mainImg {
     display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    align-items: center;
 }
 .mainImg > img{
     width: 100px;
 }
-.button {
-    text-decoration: none;
+.buttonMain {
+    composes: mainBtn from './../../App.css';
 }
 
-.item {
-    color: white;
+.btnSmall
+{
+    font-weight: 600;
+
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    margin: 0;
+    border: none;
 }
-.item:hover {
-    color: red;
+.btnSmallMinus
+{
+    padding-bottom: 4px;
+
+    composes: btnSmall;
+}
+.btnSmallClose {
+    composes: btnSmall;
+    border: none;
+    position: absolute;
+    top: 40%;
+    right: 0;
+}
+.empty {
+    display: flex;
+    content: '';
+    min-width: .5rem;
+}
+.calculator {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 8rem;
+}
+.description {
+    composes: calculator;
+}
+.description > h6 {
+    margin: 2px;
+    font-size: 16px;
+    font-weight: bolder;
+    border-bottom: 1px solid #999999;
 }

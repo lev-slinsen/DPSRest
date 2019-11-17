@@ -79,6 +79,8 @@
 .mainBtn:hover
 {
     border-color: rgba(196, 67, 0, 0.99);
+    background-color: rgba(255, 85, 0, .99);
+    color: white;
     font-weight: 600;
 }
 .mainBtn:active
@@ -132,11 +134,13 @@
     }
 }
 
-@media (max-width: 576px) and (min-width: 360px)
+@media (max-width: 576px) and (min-width: 300px)
 {
-    .container
+    .container, .row
     {
         max-width: 350px;
+        padding-right: 5px;
+        padding-left: 5px;
     }
 }
 

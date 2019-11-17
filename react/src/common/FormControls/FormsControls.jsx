@@ -2,7 +2,7 @@ import React from 'react'
 import {Field, reduxForm} from 'redux-form'
 import style from './FormControl.module.css'
 import {aol, email, maxLength15, number, required, tooOld} from "../../utils/validators";
-import { createTextMask } from 'redux-form-input-masks';
+import {createTextMask} from 'redux-form-input-masks';
 import DateTimePicker from 'react-widgets/lib/DateTimePicker';
 // import moment from 'moment';
 // import momentLocaliser from 'react-widgets/lib/localizers/moment';
@@ -24,7 +24,7 @@ const renderField = ({input, label, type, meta: {touched, error, warning}}) => (
     </div>
 );
 
-const renderDateTimePicker = ({ input: { onChange, value }, showTime }) =>
+const renderDateTimePicker = ({input: {onChange, value}, showTime}) =>
     <DateTimePicker
         onChange={onChange}
         format="DD MMM YYYY"
@@ -39,7 +39,7 @@ class DropDownSelect extends React.Component {
     );
 
     render() {
-        const { meta: {touched, error, warning} } = this.props;
+        const {meta: {touched, error, warning}} = this.props;
         const {input, label} = this.props;
         return (
             <div>
@@ -70,20 +70,20 @@ const OrderReduxForm = (props) => {
                    component={renderField}
                    {...phoneMask}
                    label="Номер телефона *"
-            //       validate={[required, number]}
+                   validate={[required, number]}
             />
             <Field name="first_name"
                    type="text"
                    component={renderField}
                    label="Name"
-          //         validate={[required]}
-          //         warn={required}
+                   validate={[required]}
+                   warn={required}
             />
             <Field name="delivery_date"
                    type="date"
                    component={renderField}
                    label="date"
-       //            validate={[required]}
+                   validate={[required]}
                    warn={required}
             />
             <Field name="delivery_time"
@@ -98,8 +98,8 @@ const OrderReduxForm = (props) => {
                    type="text"
                    component={renderField}
                    label="address"
-           //        validate={[required]}
-           //        warn={required}
+                   validate={[required]}
+                   warn={required}
             />
             <div className={style.fieldWrapper}>
                 <label>comment</label>
