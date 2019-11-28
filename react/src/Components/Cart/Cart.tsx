@@ -1,7 +1,7 @@
 import React from 'react';
 import {compose} from "redux";
 import {connect} from "react-redux";
-import {calculateOrder, decreaseQuantity, increaseQuantity, removeFromOrder} from "../../Redux/pizzasReducer";
+import {calculateOrder, decreaseQuantity, increaseQuantity, removeFromOrder} from "../../Redux/productsReducer";
 import {NavLink} from "react-router-dom";
 import {IOrderItem} from "../../types/types";
 import {getOrder, getTotalPrice, getTotalQuantity} from "../../Redux/selectors";
@@ -14,22 +14,22 @@ interface IConnectProps {
     totalPrice: number
 }
 interface IDispatchProps {
-    decreaseQuantity: (id:number)=> void;
-    increaseQuantity: (id:number)=> void;
-    removeFromOrder: (id:number)=> void;
+    decreaseQuantity: (id:string)=> void;
+    increaseQuantity: (id:string)=> void;
+    removeFromOrder: (id:string)=> void;
     calculateOrder: ()=> void;
 }
 interface ICartItemProps {
-    pizza: IOrderItem,
-    decreaseQuantity: (id:number)=> void;
-    increaseQuantity: (id:number)=> void;
-    removeFromOrder: (id:number)=> void;
+    product: IOrderItem,
+    decreaseQuantity: (id:string)=> void;
+    increaseQuantity: (id:string)=> void;
+    removeFromOrder: (id:string)=> void;
 }
 const Cart = ({order, decreaseQuantity, increaseQuantity, removeFromOrder, calculateOrder}:IDispatchProps&IConnectProps) => {
 
     let orderItems = order.map(i => <CartItem
         key={i.id}
-        pizza={i}
+        product={i}
         decreaseQuantity={decreaseQuantity}
         increaseQuantity={increaseQuantity}
         removeFromOrder={removeFromOrder}
@@ -60,23 +60,23 @@ const Cart = ({order, decreaseQuantity, increaseQuantity, removeFromOrder, calcu
 };
 
 
-const CartItem = ({pizza, decreaseQuantity, increaseQuantity, removeFromOrder}:ICartItemProps) => {
+const CartItem = ({product, decreaseQuantity, increaseQuantity, removeFromOrder}:ICartItemProps) => {
     return (
 
         <div className={style.tableRow}>
             <div className={style.row}>
                 <div className={style.mainImg}>
-                    <img src={pizza.photo_thumbnail} alt={pizza.text_short}/>
+                    <img src={product.photo_thumbnail} alt={product.text_short}/>
                 </div>
 
             </div>
             <div className={style.row}>
                 <div className={style.description}>
-                    <h6>{pizza.name}</h6>
-                    <span>{pizza.size}</span>
+                    <h6>{product.name}</h6>
+                    <span>{product.size}</span>
                 </div>
                 <div className={style.description}>
-                    <span>{pizza.text_short}</span>
+                    <span>{product.text_short}</span>
                     <span>Вес 500гр</span>
                 </div>
             </div>
@@ -85,29 +85,29 @@ const CartItem = ({pizza, decreaseQuantity, increaseQuantity, removeFromOrder}:I
                 <div className={style.col}>
                     <button
                         onClick={() => {
-                            increaseQuantity(pizza.id)
+                            increaseQuantity(product.id)
                         }}
                         className={style.btnSmall}
                     >+
                     </button>
-                    <span><b>{pizza.quantity}</b></span>
+                    <span><b>{product.quantity}</b></span>
                     <button
                         onClick={() => {
-                            decreaseQuantity(pizza.id)
+                            decreaseQuantity(product.id)
                         }}
                         className={style.btnSmallMinus}
                     >-
                     </button>
                 </div>
                 <div className={style.calculator}>
-                    <span>{(pizza.price * pizza.quantity).toFixed(2)}</span>
+                    <span>{(product.price * product.quantity).toFixed(2)}</span>
                     <span><b>BYN</b></span>
 
                 </div>
             </div>
             <button
                 onClick={() => {
-                    removeFromOrder(pizza.id)
+                    removeFromOrder(product.id)
                 }}
                 className={style.btnSmallClose}
             >X

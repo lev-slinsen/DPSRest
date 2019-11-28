@@ -1,14 +1,14 @@
 import React, {useState} from 'react';
 import Preloader from "./Preloader";
-import {IPizzaItem} from "../types/types";
+import {IProductItem} from "../types/types";
 import style from './PopupWrapper.module.css';
 
 interface IProps {
-    pizza: IPizzaItem
+    product: IProductItem
     setPopupClose: () => void
 }
 
-const PopupWrapper = ({pizza, setPopupClose}:IProps) => {
+const PopupWrapper = ({product, setPopupClose}:IProps) => {
 
     let [imageLoaded, setImageLoaded] = useState(false);
 
@@ -18,9 +18,9 @@ const PopupWrapper = ({pizza, setPopupClose}:IProps) => {
 
     return (
         <div onClick={setPopupClose} className={style.popupWrapper}>
-            <div className={style.pizzaCardWrapper}>
+            <div className={style.productCardWrapper}>
                 <div className={style.header}>
-                    <h4>{pizza.name}</h4>
+                    <h4>{product.name}</h4>
                     <button className={style.btnClose}>X</button>
                 </div>
 
@@ -28,16 +28,16 @@ const PopupWrapper = ({pizza, setPopupClose}:IProps) => {
                     {!imageLoaded &&
                     <Preloader/>
                     }
-                    <img src={pizza.photo} onLoad={handleImageLoaded} alt={pizza.text_short}/>
+                    <img src={product.photo} onLoad={handleImageLoaded} alt={product.text_short}/>
                 </div>
                 <div className={style.container}>
-                    <h5>{pizza.name}</h5>
+                    <h5>{product.name}</h5>
                 </div>
                 <div className={style.rowDiscr}>
-                    <span>{pizza.text_short}</span>
+                    <span>{product.text_short}</span>
                 </div>
                 <div className={style.row}>
-                    <article>{pizza.text_long}</article>
+                    <article>{product.text_long}</article>
                 </div>
             </div>
         </div>

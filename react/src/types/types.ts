@@ -1,5 +1,5 @@
 export interface IOrderItem {
-    id: number,
+    id: string,
     name: string,
     photo_thumbnail: string,
     price: number,
@@ -8,9 +8,9 @@ export interface IOrderItem {
     quantity: number
 }
 
-export interface IPizzaItem {
+export interface IProductItem {
     filter: Array<IFilterItem>;
-    id: number,
+    id: string,
     name: string,
     photo: string,
     photo_thumbnail: string,
@@ -30,7 +30,7 @@ export interface IPostOrderItem {
 }
 
 export interface IAppState {
-    pizzas: Array<IPizzaItem>;
+    products: Array<IProductItem>;
     order: Array<IOrderItem>;
     totalPrice: number;
     totalQuantity: number;

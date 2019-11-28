@@ -4,7 +4,7 @@
 
     composes: container from './../../App.css';
 }
-.pizzaCardWrapper
+.productCardWrapper
 {
     composes: container;
     font-size: .8rem;
@@ -49,7 +49,7 @@
 
     border-top: 1px solid #e5d0a2;
 }
-.pizzaCardWrapper > * h5
+.productCardWrapper > * h5
 {
     font-size: 1.1rem;
     margin: .8rem;

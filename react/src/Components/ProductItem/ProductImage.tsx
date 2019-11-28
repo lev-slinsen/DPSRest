@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import style from './PizzaItem.module.css';
+import style from './ProductItem.module.css';
 
 interface IProps {
     imgThumbnail: string
@@ -8,7 +8,7 @@ interface IProps {
     altText: string
 }
 
-const PizzaImage = ({imgThumbnail, altText, imgUrl, openPopup}: IProps) => {
+const ProductImage = ({imgThumbnail, altText, imgUrl, openPopup}: IProps) => {
 
     let [imageLoaded, setImageLoaded] = useState(false);
 
@@ -26,4 +26,4 @@ const PizzaImage = ({imgThumbnail, altText, imgUrl, openPopup}: IProps) => {
     );
 };
 
-export default PizzaImage;
+export default ProductImage;

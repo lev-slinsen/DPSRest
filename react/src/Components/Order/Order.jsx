@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import {compose} from "redux";
 import {connect} from "react-redux";
 import {Redirect} from "react-router-dom";
-import {submitOrder, fetchOrders} from "../../Redux/pizzasReducer.ts";
+import {submitOrder, fetchOrders} from "../../Redux/productsReducer";
 import OrderForm from "./../../common/FormControls/FormsControls";
 import style from './Order.module.css';
 import {getTotalQuantity} from "../../Redux/selectors";

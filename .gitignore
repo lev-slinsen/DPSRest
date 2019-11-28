@@ -6,4 +6,4 @@ environment
 *.sock
 react/build*
 react/node_modules*
-media/images*
+media/CACHE/images*

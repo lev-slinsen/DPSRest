@@ -5,7 +5,7 @@ import {connect} from "react-redux";
 import Preloader from "../common/Preloader";
 import Header from "./Header/Header";
 import Footer from "./Footer/Footer";
-import {fetchCatalog} from "../Redux/pizzasReducer";
+import {fetchCatalog} from "../Redux/productsReducer";
 import {withSuspense} from "../hoc/withSuspense";
 import {AppStateType} from "../Redux/Store";
 import Catalog from "./Catalog/Catalog";
@@ -34,14 +34,18 @@ interface LinkDispatchProps {
 class Main extends Component<IProps & IConnectProps & LinkDispatchProps> {
     componentDidMount() {
         this.props.fetchCatalog();
+        //listning for errors
         window.addEventListener('unhandledrejection', this.catchAllUnhandledErrors());
     }
-    catchAllUnhandledErrors = (promiseRejectionEvent?:any):any => {
+
+    catchAllUnhandledErrors = (promiseRejectionEvent?: any): any => {
         console.log('some error occured');
     };
+
     componentWillUnmount() {
         window.removeEventListener('unhandledrejection', this.catchAllUnhandledErrors())
     }
+
     render() {
         return (
             <div>

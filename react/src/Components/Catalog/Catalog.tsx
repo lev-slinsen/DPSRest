@@ -1,23 +1,23 @@
 import React, {Component} from 'react';
 import style from './Catalog.module.css';
-import PizzaCard from "../PizzaItem/PizzaItem";
+import ProductCard from "../ProductItem/ProductItem";
 import {compose} from "redux";
 import {connect} from "react-redux";
-import {addPizzaToOrder, calculateOrder} from "../../Redux/pizzasReducer";
+import {addProductToOrder, calculateOrder} from "../../Redux/productsReducer";
 import bgPict from "./../../assets/images/slide1.png"
 import PopupWrapper from "../../common/PopupWrapper";
-import {IFilterItem, IPizzaItem} from "../../types/types";
+import {IFilterItem, IProductItem} from "../../types/types";
 import {AppStateType} from "../../Redux/Store";
-import {getFilters, getPizzas} from "../../Redux/selectors";
+import {getFilters, getProducts} from "../../Redux/selectors";
 
 
 interface IConnectProps {
-    pizzas: Array<IPizzaItem>,
+    products: Array<IProductItem>,
     filters: Array<IFilterItem>,
 }
 
 interface LinkDispatchProps {
-    addPizzaToOrder: (pizzaItem: IPizzaItem, quantity: number) => void;
+    addProductToOrder: (productItem: IProductItem, quantity: number) => void;
     calculateOrder: () => void;
 }
 
@@ -25,7 +25,7 @@ interface IState {
     selectedFilter: string
     bgPict: string
     isPopupOpen: boolean
-    popupPizza: IPizzaItem
+    popupProduct: IProductItem
 }
 
 class Catalog extends Component<IConnectProps & LinkDispatchProps> {
@@ -34,11 +34,11 @@ class Catalog extends Component<IConnectProps & LinkDispatchProps> {
         selectedFilter: 'All',
         bgPict: bgPict,
         isPopupOpen: false,
-        popupPizza: this.props.pizzas[0],
+        popupProduct: this.props.products[0],
     };
 
-    setPopupOpen = (pizza: IPizzaItem, option: boolean) => {
-        this.setState({popupPizza: pizza});
+    setPopupOpen = (product: IProductItem, option: boolean) => {
+        this.setState({popupProduct: product});
         this.setState({isPopupOpen: option});
     };
     changeFilter = (filterName: string) => {
@@ -47,7 +47,7 @@ class Catalog extends Component<IConnectProps & LinkDispatchProps> {
 
     render() {
 
-        let pizzas = this.props.pizzas
+        let products = this.props.products
             .filter(p => {
                 if (this.state.selectedFilter !== 'All') {
                     return p.filter.some(f => f.name === this.state.selectedFilter);
@@ -56,13 +56,13 @@ class Catalog extends Component<IConnectProps & LinkDispatchProps> {
                 }
             })
             .map(p => (
-                <PizzaCard pizza={p}
+                <ProductCard product={p}
                            openPopup={() => {
                                this.setPopupOpen(p, true)
                            }}
                            key={p.id}
                            calculateOrder={this.props.calculateOrder}
-                           addPizzaToOrder={this.props.addPizzaToOrder}
+                           addProductToOrder={this.props.addProductToOrder}
                 />
             ));
 
@@ -83,9 +83,9 @@ class Catalog extends Component<IConnectProps & LinkDispatchProps> {
             <div>
                 {this.state.isPopupOpen &&
                 <PopupWrapper
-                    pizza={this.state.popupPizza}
+                    product={this.state.popupProduct}
                     setPopupClose={() => {
-                        this.setPopupOpen(this.state.popupPizza, false)
+                        this.setPopupOpen(this.state.popupProduct, false)
                     }}
                 />}
 
@@ -106,8 +106,8 @@ class Catalog extends Component<IConnectProps & LinkDispatchProps> {
                         <div className={style.container}>{filters}</div>
                     </div>
                     <hr/>
-                    <div className={style.pizzasContainer}>
-                        {pizzas}
+                    <div className={style.productsContainer}>
+                        {products}
                     </div>
                 </div>
             </div>
@@ -117,10 +117,10 @@ class Catalog extends Component<IConnectProps & LinkDispatchProps> {
 
 const mapStateToProps = (state: AppStateType): IConnectProps => {
     return {
-        pizzas: getPizzas(state),
+        products: getProducts(state),
         filters: getFilters(state),
     }
 };
 export default compose(
-    connect(mapStateToProps, {addPizzaToOrder, calculateOrder})
+    connect(mapStateToProps, {addProductToOrder, calculateOrder})
 )(Catalog);

@@ -1,10 +1,10 @@
-import pizzasReducer, {
+import productsReducer, {
     addPizzaToOrder,
     _decreaseQuantity,
     _increaseQuantity,
     setFiltersSuccess,
     setPizzasSuccess
-} from "./pizzasReducer";
+} from "./productsReducer";
 
 let state = {
     pizzas: [
@@ -67,7 +67,7 @@ it('active pizzas should be added to state', () => {
     let action = setPizzasSuccess(pizzas);
 
     //action
-    let newState = pizzasReducer(emptyState,action);
+    let newState = productsReducer(emptyState,action);
 
     //expectation
     expect(newState.pizzas.length).toBe(1);
@@ -81,7 +81,7 @@ it('filters should be added to state', () => {
     let action = setFiltersSuccess(filters);
 
     //action
-    let newState = pizzasReducer(state,action);
+    let newState = productsReducer(state,action);
 
     //expectation
     expect(newState.filters.length).toBe(3);
@@ -94,7 +94,7 @@ it('pizza quantity in order should be increased', () => {
     let action = _increaseQuantity(123);
 
     //action
-    let newState = pizzasReducer(state,action);
+    let newState = productsReducer(state,action);
 
     //expectation
     expect(newState.order[0].quantity).toBe(3);
@@ -106,7 +106,7 @@ it('pizza quantity should be decreased', () => {
     let action = _decreaseQuantity(123);
 
     //action
-    let newState = pizzasReducer(state,action);
+    let newState = productsReducer(state,action);
 
     //expectation
     expect(newState.order[0].quantity).toBe(1);
@@ -131,7 +131,7 @@ it('pizza quantity should not be decreased if 1', () => {
     let action = _decreaseQuantity(123);
 
     //action
-    let newState = pizzasReducer(oldState, action);
+    let newState = productsReducer(oldState, action);
 
     //expectation
     expect(newState.order[0].quantity).toBe(1);
@@ -145,7 +145,7 @@ it('pizza should be added to order with id, name, photo url, quantity', () => {
     let action = addPizzaToOrder(state.pizzas[0], 4);
 
     //action
-    let newState = pizzasReducer(stateNoOrder,action);
+    let newState = productsReducer(stateNoOrder,action);
 
     //expectation
     expect(newState.order[0].quantity).toBe(4);

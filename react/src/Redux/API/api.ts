@@ -9,8 +9,8 @@ const instance = axios.create({
     baseURL: "http://127.0.0.1:8000/api/",
 });
 
-export const pizzasAPI = {
-    getPizzas () {
+export const productsAPI = {
+    getProducts () {
         return instance.get('pizza/?format=json')
             .then(res => {
                 if(res.status === 200) {

@@ -1,17 +1,17 @@
 import React, {Component, useRef, useState} from 'react';
 import slide from "./../../assets/images/slide1.png"
 import Preloader from "../../common/Preloader";
-import {fetchOrders} from "../../Redux/pizzasReducer";
+import {fetchOrders} from "../../Redux/productsReducer";
 import {connect} from "react-redux";
 import {compose} from "redux";
 import style from './About.module.css';
 import {AppStateType} from "../../Redux/Store";
 import axios from "axios";
-import {IFilterItem, IPizzaItem} from "../../types/types";
+import {IFilterItem, IProductItem} from "../../types/types";
 
 interface IProps {
     filters: Array<IFilterItem>,
-    pizzas: Array<IPizzaItem>
+    pizzas: Array<IProductItem>
 }
 interface IState {
     imageLoaded: boolean
@@ -106,7 +106,7 @@ class About extends Component<IProps> {
 const mapStateToProps = (state:AppStateType) => {
     return {
         filters: state.reducer.filters,
-        pizzas: state.reducer.pizzas
+        pizzas: state.reducer.products
     }
 };
 

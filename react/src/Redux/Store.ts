@@ -1,5 +1,5 @@
 import {applyMiddleware, combineReducers, createStore} from "redux";
-import pizzasReducer from "./pizzasReducer";
+import productsReducer from "./productsReducer";
 import { reducer as formReducer } from "redux-form";
 import thunkMiddleware from "redux-thunk";
 import { composeWithDevTools } from 'redux-devtools-extension';
@@ -7,7 +7,7 @@ import {IOrderLocalStorage} from "../types/types";
 
 
 const rootReducer = combineReducers({
-    reducer: pizzasReducer,
+    reducer: productsReducer,
     form: formReducer,
 });
 

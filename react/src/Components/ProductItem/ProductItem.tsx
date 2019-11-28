@@ -1,18 +1,18 @@
 import React, {useState} from 'react';
-import style from './PizzaItem.module.css';
-import PizzaImage from "./PizzaImage";
+import style from './ProductItem.module.css';
+import ProductImage from "./ProductImage";
 import classNames from 'classnames/bind';
-import {IPizzaItem} from "../../types/types";
+import {IProductItem} from "../../types/types";
 
 
 interface IProps {
-    pizza: IPizzaItem,
-    addPizzaToOrder: (pizza: IPizzaItem, quantity: number) => void
+    product: IProductItem,
+    addProductToOrder: (product: IProductItem, quantity: number) => void
     calculateOrder: () => void
     openPopup: () => void
 }
 
-const PizzaCard = ({pizza, addPizzaToOrder, calculateOrder, openPopup}: IProps) => {
+const ProductCard = ({product, addProductToOrder, calculateOrder, openPopup}: IProps) => {
 
     let [quantity, setQuantity] = useState(1);
     let [addSucces, setAddSucces] = useState(false);
@@ -24,7 +24,7 @@ const PizzaCard = ({pizza, addPizzaToOrder, calculateOrder, openPopup}: IProps) 
     };
 
     const onAddToCart = () => {
-        addPizzaToOrder(pizza, quantity);
+        addProductToOrder(product, quantity);
         calculateOrder();
         setQuantity(1);
         setAddSucces(true);
@@ -38,18 +38,18 @@ const PizzaCard = ({pizza, addPizzaToOrder, calculateOrder, openPopup}: IProps) 
         success: addSucces
     });
     return (
-        <div className={style.pizzaCardWrapper}>
-            <PizzaImage
-                imgUrl={pizza.photo}
-                altText={pizza.text_short}
+        <div className={style.productCardWrapper}>
+            <ProductImage
+                imgUrl={product.photo}
+                altText={product.text_short}
                 openPopup={openPopup}
-                imgThumbnail={pizza.photo_thumbnail}
+                imgThumbnail={product.photo_thumbnail}
             />
             <div className={style.container}>
-                <h5>{pizza.name}</h5>
+                <h5>{product.name}</h5>
             </div>
             <div className={style.rowDiscr}>
-                <span>{pizza.text_short}</span>
+                <span>{product.text_short}</span>
             </div>
             <div className={style.row}>
                 <div className={style.calculator}>
@@ -62,7 +62,7 @@ const PizzaCard = ({pizza, addPizzaToOrder, calculateOrder, openPopup}: IProps) 
                         </button>
                     </div>
                     <div>
-                        <span>{(pizza.price * quantity).toFixed(2)}</span>
+                        <span>{(product.price * quantity).toFixed(2)}</span>
                         <span style={{marginLeft: '5px'}}>BYN</span>
                     </div>
                 </div>
@@ -78,4 +78,4 @@ const PizzaCard = ({pizza, addPizzaToOrder, calculateOrder, openPopup}: IProps) 
     )
 };
 
-export default PizzaCard;
+export default ProductCard;

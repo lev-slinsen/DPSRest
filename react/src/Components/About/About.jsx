@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import slide from "./../../assets/images/slide1.png"
 import Preloader from "../../common/Preloader";
-import {fetchOrders} from "../../Redux/pizzasReducer.ts";
+import {fetchOrders} from "../../Redux/productsReducer.js";
 import {connect} from "react-redux";
 import {compose} from "redux";
 import style from './About.module.css';
