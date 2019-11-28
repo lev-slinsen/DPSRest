@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import style from './PizzaItem.module.css';
 import PizzaImage from "./PizzaImage";
 import classNames from 'classnames/bind';
@@ -39,7 +39,12 @@ const PizzaCard = ({pizza, addPizzaToOrder, calculateOrder, openPopup}: IProps) 
     });
     return (
         <div className={style.pizzaCardWrapper}>
-            <PizzaImage imgUrl={pizza.photo} openPopup={openPopup} imgThumbnail={pizza.photo_thumbnail}/>
+            <PizzaImage
+                imgUrl={pizza.photo}
+                altText={pizza.text_short}
+                openPopup={openPopup}
+                imgThumbnail={pizza.photo_thumbnail}
+            />
             <div className={style.container}>
                 <h5>{pizza.name}</h5>
             </div>

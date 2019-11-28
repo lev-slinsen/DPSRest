@@ -1,12 +1,12 @@
-import React from 'react'
-import {Field, reduxForm} from 'redux-form'
-import style from './FormControl.module.css'
-import {aol, email, maxLength15, number, required, tooOld} from "../../utils/validators";
+import React from 'react';
+import {Field, reduxForm} from 'redux-form';
+import { number, required} from "../../utils/validators";
 import {createTextMask} from 'redux-form-input-masks';
-import DateTimePicker from 'react-widgets/lib/DateTimePicker';
-// import moment from 'moment';
-// import momentLocaliser from 'react-widgets/lib/localizers/moment';
+import {renderDateTimePicker} from "./DatePicker";
+
 import 'react-widgets/dist/css/react-widgets.css';
+import style from './FormControl.module.css';
+
 
 const phoneMask = createTextMask({
     pattern: '8-(099) 999-9999',
@@ -24,13 +24,7 @@ const renderField = ({input, label, type, meta: {touched, error, warning}}) => (
     </div>
 );
 
-const renderDateTimePicker = ({input: {onChange, value}, showTime}) =>
-    <DateTimePicker
-        onChange={onChange}
-        format="DD MMM YYYY"
-        time={showTime}
-        value={!value ? null : new Date(value)}
-    />
+
 
 class DropDownSelect extends React.Component {
 
@@ -79,12 +73,13 @@ const OrderReduxForm = (props) => {
                    validate={[required]}
                    warn={required}
             />
-            <Field name="delivery_date"
-                   type="date"
-                   component={renderField}
-                   label="date"
-                   validate={[required]}
-                   warn={required}
+            <Field
+                name="delivery_date"
+                showTime={false}
+                component={renderDateTimePicker}
+                validate={[required]}
+                warn={required}
+                label="Дата Заказа"
             />
             <Field name="delivery_time"
                    type="select"

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Redirect, Route} from "react-router-dom";
+import {Redirect, Route, withRouter} from "react-router-dom";
 import {compose} from "redux";
 import {connect} from "react-redux";
 import Preloader from "../common/Preloader";
@@ -11,6 +11,7 @@ import {AppStateType} from "../Redux/Store";
 import Catalog from "./Catalog/Catalog";
 import '../App.css';
 import style from './Main.module.css';
+import {getIsFetching, getTotalPrice, getTotalQuantity} from "../Redux/selectors";
 
 const About = React.lazy(() => import('./About/About'));
 const Order = React.lazy(() => import('./Order/Order'));
@@ -33,8 +34,14 @@ interface LinkDispatchProps {
 class Main extends Component<IProps & IConnectProps & LinkDispatchProps> {
     componentDidMount() {
         this.props.fetchCatalog();
+        window.addEventListener('unhandledrejection', this.catchAllUnhandledErrors());
     }
-
+    catchAllUnhandledErrors = (promiseRejectionEvent?:any):any => {
+        console.log('some error occured');
+    };
+    componentWillUnmount() {
+        window.removeEventListener('unhandledrejection', this.catchAllUnhandledErrors())
+    }
     render() {
         return (
             <div>
@@ -61,11 +68,12 @@ class Main extends Component<IProps & IConnectProps & LinkDispatchProps> {
 
 const mapStateToProps = (state: AppStateType): IConnectProps => {
     return {
-        isFetching: state.reducer.isFetching,
-        totalQuantity: state.reducer.totalQuantity,
-        totalPrice: state.reducer.totalPrice,
+        isFetching: getIsFetching(state),
+        totalQuantity: getTotalQuantity(state),
+        totalPrice: getTotalPrice(state),
     }
 };
 export default compose(
+    withRouter,
     connect(mapStateToProps, {fetchCatalog})
 )(Main);

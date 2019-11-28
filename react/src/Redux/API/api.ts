@@ -1,5 +1,6 @@
 import axios from "axios";
 import {IPostOrderItem} from "../../types/types";
+import {testFilters, testPissas} from "./TestApi";
 
 axios.defaults.xsrfHeaderName = "X-CSRFToken";
 axios.defaults.xsrfCookieName = "csrftoken";
@@ -16,6 +17,9 @@ export const pizzasAPI = {
                     return res.data;
                 }
             })
+            .catch( ()=> {
+                return testPissas;
+            })
     },
     getFilters () {
         return instance.get(`filter/?format=json`)
@@ -23,6 +27,9 @@ export const pizzasAPI = {
                 if(res.status === 200) {
                     return res.data;
                 }
+            })
+            .catch( ()=> {
+                return testFilters;
             })
     },
     postOrder (formData:any, order: Array<IPostOrderItem>) {
@@ -37,7 +44,6 @@ export const pizzasAPI = {
             "order_items": order
         }, {withCredentials: true})
             .then(res => {
-                debugger;
                 return res
             })
     },
@@ -47,6 +53,9 @@ export const pizzasAPI = {
                 if(res.status === 200) {
                     return res.data
                 }
+            })
+            .catch(()=>{
+                return testFilters;
             })
     },
 };

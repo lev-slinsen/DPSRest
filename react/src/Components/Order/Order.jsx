@@ -3,11 +3,14 @@ import {compose} from "redux";
 import {connect} from "react-redux";
 import {Redirect} from "react-router-dom";
 import {submitOrder, fetchOrders} from "../../Redux/pizzasReducer.ts";
-import OrderForm from "./../../common/FormControls/FormsControls"
+import OrderForm from "./../../common/FormControls/FormsControls";
 import style from './Order.module.css';
+import {getTotalQuantity} from "../../Redux/selectors";
 
 const Order = ({totalQuantity, submitOrder, fetchOrders}) => {
+
     useEffect(fetchOrders, []);
+
     const onSubmit = (formData) => {
         submitOrder(formData);
     };
@@ -31,7 +34,7 @@ const Order = ({totalQuantity, submitOrder, fetchOrders}) => {
 
 const mapStateToProps = (state) => {
     return {
-        totalQuantity: state.reducer.totalQuantity
+        totalQuantity: getTotalQuantity(state)
     }
 };
 

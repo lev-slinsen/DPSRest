@@ -8,6 +8,7 @@ import bgPict from "./../../assets/images/slide1.png"
 import PopupWrapper from "../../common/PopupWrapper";
 import {IFilterItem, IPizzaItem} from "../../types/types";
 import {AppStateType} from "../../Redux/Store";
+import {getFilters, getPizzas} from "../../Redux/selectors";
 
 
 interface IConnectProps {
@@ -33,17 +34,7 @@ class Catalog extends Component<IConnectProps & LinkDispatchProps> {
         selectedFilter: 'All',
         bgPict: bgPict,
         isPopupOpen: false,
-        popupPizza: {
-            filter: [{name: 'big'}],
-            id: 123,
-            name: "123",
-            photo: "http://93.85.88.35/media/images/%D1%80%D1%8B%D0%B1%D0%BD%D1%8B%D0%B9.jpg",
-            photo_thumbnail: "http://93.85.88.35/media/images/%D1%80%D1%8B%D0%B1%D0%BD%D1%8B%D0%B9.jpg",
-            price: 22.00,
-            size: 2,
-            text_long: "ng",
-            text_short: "da",
-        },
+        popupPizza: this.props.pizzas[0],
     };
 
     setPopupOpen = (pizza: IPizzaItem, option: boolean) => {
@@ -90,9 +81,14 @@ class Catalog extends Component<IConnectProps & LinkDispatchProps> {
 
         return (
             <div>
-                {this.state.isPopupOpen && <PopupWrapper pizza={this.state.popupPizza}
-                                                         setPopupOpen={this.setPopupOpen}
+                {this.state.isPopupOpen &&
+                <PopupWrapper
+                    pizza={this.state.popupPizza}
+                    setPopupClose={() => {
+                        this.setPopupOpen(this.state.popupPizza, false)
+                    }}
                 />}
+
                 <div>
                     <div>
                         <div style={{
@@ -121,8 +117,8 @@ class Catalog extends Component<IConnectProps & LinkDispatchProps> {
 
 const mapStateToProps = (state: AppStateType): IConnectProps => {
     return {
-        pizzas: state.reducer.pizzas,
-        filters: state.reducer.filters,
+        pizzas: getPizzas(state),
+        filters: getFilters(state),
     }
 };
 export default compose(

@@ -1,4 +1,3 @@
-
 export interface IOrderItem {
     id: number,
     name: string,
@@ -10,7 +9,6 @@ export interface IOrderItem {
 }
 
 export interface IPizzaItem {
-
     filter: Array<IFilterItem>;
     id: number,
     name: string,
@@ -40,7 +38,7 @@ export interface IAppState {
     filters: Array<IFilterItem>
     orderSuccess: boolean;
 }
-export interface IFormDataToPost {
+export interface IOrderToPost {
     phone: string,
     first_name: string,
     "delivery_date": string,

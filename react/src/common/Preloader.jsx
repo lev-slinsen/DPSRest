@@ -2,7 +2,7 @@ import React from 'react';
 import './../App.css'
 import preloader from "../assets/images/Spinner.svg";
 
-let Preloader = (props) => {
+let Preloader = () => {
     return (
         <div style={{
             justifyContent: 'center',
@@ -11,7 +11,7 @@ let Preloader = (props) => {
             height: '100%',
             width: '100%'
         }}>
-            <img src={preloader}/>
+            <img src={preloader} alt={"Preloader Spinner"}/>
         </div>
     );
 };
