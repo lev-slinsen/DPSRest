@@ -8,20 +8,19 @@ import MomentLocaleUtils from 'react-day-picker/moment';
 import 'moment/locale/ru';
 
 export class DatepickerRU extends React.Component {
-    constructor(props) {
+    constructor(props:any) {
         super(props);
         this.handleDayChange = this.handleDayChange.bind(this);
         this.state = {
             selectedDay: undefined,
         };
     }
-    handleDayChange(day) {
+    handleDayChange(day:any) {
         this.setState({ selectedDay: day });
     }
 
     render() {
-     //   const { meta: { touched, error } } = this.props.field;
-        const { selectedDay } = this.state;
+        const { selectedDay }:any = this.state;
         const past = {
             before: new Date(),
         }
@@ -30,12 +29,10 @@ export class DatepickerRU extends React.Component {
         };
 
 
-        function isFirstOfMonth(day) {
+        function isFirstOfMonth(day:any) {
             return day.getDate() === 25;
         }
         return (
-            <div>
-            <div>
                 <DayPickerInput
                     inputProps={{...this.props}}
                     onDayChange={this.handleDayChange}
@@ -47,13 +44,16 @@ export class DatepickerRU extends React.Component {
                         }
                     }}
                 />
-            </div>
-            </div>
         );
     }
 }
 
-export const renderDateTimePicker = ({ label, meta: {touched, error, warning}, ...props}) => (
+interface IDatePickerProps {
+    label:string
+    meta: any
+}
+
+export const renderDateTimePicker = ({ label, meta: {touched, error, warning}, ...props}:any) => (
     <div>
         <label>{label}</label>
         <div className={style.fieldWrapper + ' ' + (error && touched ? style.error : '')}>

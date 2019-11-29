@@ -3,15 +3,22 @@ import {compose} from "redux";
 import {connect} from "react-redux";
 import {Redirect} from "react-router-dom";
 import {submitOrder, fetchOrders} from "../../Redux/productsReducer";
-import OrderForm from "./../../common/FormControls/FormsControls";
+import OrderForm from "../../common/FormControls/FormsControls";
 import style from './Order.module.css';
 import {getTotalQuantity} from "../../Redux/selectors";
+import {AppStateType} from "../../Redux/Store";
 
-const Order = ({totalQuantity, submitOrder, fetchOrders}) => {
+interface IProps {
+    totalQuantity: number
+    submitOrder: (formData: any) => void
+    fetchOrders: () => void
+}
+
+const Order = ({totalQuantity, submitOrder, fetchOrders}: IProps) => {
 
     useEffect(fetchOrders, []);
 
-    const onSubmit = (formData) => {
+    const onSubmit = (formData: any) => {
         submitOrder(formData);
     };
     if (totalQuantity <= 0) {
@@ -32,7 +39,7 @@ const Order = ({totalQuantity, submitOrder, fetchOrders}) => {
         );
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state: AppStateType) => {
     return {
         totalQuantity: getTotalQuantity(state)
     }

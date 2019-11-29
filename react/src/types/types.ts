@@ -30,13 +30,14 @@ export interface IPostOrderItem {
 }
 
 export interface IAppState {
-    products: Array<IProductItem>;
-    order: Array<IOrderItem>;
-    totalPrice: number;
-    totalQuantity: number;
-    isFetching: boolean;
-    filters: Array<IFilterItem>
-    orderSuccess: boolean;
+    products: Array<IProductItem>,
+    order: Array<IOrderItem>,
+    totalPrice: number,
+    totalQuantity: number,
+    isFetching: boolean,
+    filters: Array<IFilterItem>,
+    selectedFilter: string,
+    orderSuccess: boolean,
 }
 export interface IOrderToPost {
     phone: string,

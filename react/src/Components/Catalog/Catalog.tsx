@@ -3,26 +3,27 @@ import style from './Catalog.module.css';
 import ProductCard from "../ProductItem/ProductItem";
 import {compose} from "redux";
 import {connect} from "react-redux";
-import {addProductToOrder, calculateOrder} from "../../Redux/productsReducer";
+import {addProductToOrder, calculateOrder, setSortFilter} from "../../Redux/productsReducer";
 import bgPict from "./../../assets/images/slide1.png"
 import PopupWrapper from "../../common/PopupWrapper";
 import {IFilterItem, IProductItem} from "../../types/types";
 import {AppStateType} from "../../Redux/Store";
-import {getFilters, getProducts} from "../../Redux/selectors";
+import {getFilters, getProducts, getSelectedFilter} from "../../Redux/selectors";
 
 
 interface IConnectProps {
     products: Array<IProductItem>,
     filters: Array<IFilterItem>,
+    selectedFilter: string
 }
 
 interface LinkDispatchProps {
     addProductToOrder: (productItem: IProductItem, quantity: number) => void;
     calculateOrder: () => void;
+    setSortFilter: (filter:string) => void;
 }
 
 interface IState {
-    selectedFilter: string
     bgPict: string
     isPopupOpen: boolean
     popupProduct: IProductItem
@@ -31,7 +32,6 @@ interface IState {
 class Catalog extends Component<IConnectProps & LinkDispatchProps> {
 
     state: IState = {
-        selectedFilter: 'All',
         bgPict: bgPict,
         isPopupOpen: false,
         popupProduct: this.props.products[0],
@@ -42,19 +42,11 @@ class Catalog extends Component<IConnectProps & LinkDispatchProps> {
         this.setState({isPopupOpen: option});
     };
     changeFilter = (filterName: string) => {
-        this.setState({selectedFilter: filterName})
+        this.props.setSortFilter(filterName)
     };
 
     render() {
-
         let products = this.props.products
-            .filter(p => {
-                if (this.state.selectedFilter !== 'All') {
-                    return p.filter.some(f => f.name === this.state.selectedFilter);
-                } else {
-                    return true;
-                }
-            })
             .map(p => (
                 <ProductCard product={p}
                            openPopup={() => {
@@ -119,8 +111,9 @@ const mapStateToProps = (state: AppStateType): IConnectProps => {
     return {
         products: getProducts(state),
         filters: getFilters(state),
+        selectedFilter: getSelectedFilter(state),
     }
 };
 export default compose(
-    connect(mapStateToProps, {addProductToOrder, calculateOrder})
+    connect(mapStateToProps, {addProductToOrder, calculateOrder, setSortFilter})
 )(Catalog);

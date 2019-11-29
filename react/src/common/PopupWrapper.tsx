@@ -11,17 +11,18 @@ interface IProps {
 const PopupWrapper = ({product, setPopupClose}:IProps) => {
 
     let [imageLoaded, setImageLoaded] = useState(false);
+    let [isAdmin, setAdmin] = useState(true);
 
     const handleImageLoaded = () => {
         setImageLoaded(true);
     };
 
     return (
-        <div onClick={setPopupClose} className={style.popupWrapper}>
+        <div  className={style.popupWrapper}>
             <div className={style.productCardWrapper}>
                 <div className={style.header}>
                     <h4>{product.name}</h4>
-                    <button className={style.btnClose}>X</button>
+                    <button onClick={setPopupClose} className={style.btnClose}>X</button>
                 </div>
 
                 <div className={style.mainImg}>
@@ -37,7 +38,7 @@ const PopupWrapper = ({product, setPopupClose}:IProps) => {
                     <span>{product.text_short}</span>
                 </div>
                 <div className={style.row}>
-                    <article>{product.text_long}</article>
+                    <article contentEditable={isAdmin}>{product.text_long}</article>
                 </div>
             </div>
         </div>

@@ -20,6 +20,9 @@
 .errorMessage {
     color: red;
 }
+.success textarea, .success input{
+    border: solid #0acc00 1px;
+}
 .row
 {
     display: flex;

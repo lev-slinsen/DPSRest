@@ -16,9 +16,9 @@
     bottom: 0;
     z-index: 5;
     overflow-y: scroll;
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: rgba(6, 6, 6, 0.8);
 }
-.pizzaCardWrapper
+.productCardWrapper
 {
     composes: container;
     font-size: .8rem;
@@ -65,7 +65,7 @@
 
     border-top: 1px solid #e5d0a2;
 }
-.pizzaCardWrapper > * h5
+.productCardWrapper > * h5
 {
     font-size: 1.1rem;
     margin: .8rem;
