@@ -7,6 +7,7 @@ import {IOrderItem} from "../../types/types";
 import {getOrder, getTotalPrice, getTotalQuantity} from "../../Redux/selectors";
 import {AppStateType} from "../../Redux/Store";
 import style from './Cart.module.css';
+import ButtonMain from "../../common/Buttons/ButtonMain";
 
 interface IConnectProps {
     order: Array<IOrderItem>,
@@ -45,14 +46,10 @@ const Cart = ({order, decreaseQuantity, increaseQuantity, removeFromOrder, calcu
             </div>
             <div className={style.rowBetween}>
                 <NavLink to="/catalog">
-                    <button className={style.buttonMain}>
-                        To Menu
-                    </button>
+                    <ButtonMain buttonText={"To Menu"}/>
                 </NavLink>
                 <NavLink to="/order">
-                    <button className={style.buttonMain}>
-                        Order
-                    </button>
+                    <ButtonMain buttonText={"Order"}/>
                 </NavLink>
             </div>
         </div>

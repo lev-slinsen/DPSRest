@@ -1,9 +1,8 @@
 import React, {useState} from 'react';
 import style from './ProductItem.module.css';
 import ProductImage from "./ProductImage";
-import classNames from 'classnames/bind';
 import {IProductItem} from "../../types/types";
-
+import ButtonMain from "../../common/Buttons/ButtonMain";
 
 interface IProps {
     product: IProductItem,
@@ -15,7 +14,6 @@ interface IProps {
 const ProductCard = ({product, addProductToOrder, calculateOrder, openPopup}: IProps) => {
 
     let [quantity, setQuantity] = useState(1);
-    let [addSucces, setAddSucces] = useState(false);
 
     const decreaseQuantity = () => {
         if (quantity !== 1) {
@@ -27,16 +25,10 @@ const ProductCard = ({product, addProductToOrder, calculateOrder, openPopup}: IP
         addProductToOrder(product, quantity);
         calculateOrder();
         setQuantity(1);
-        setAddSucces(true);
-        setTimeout(() => {
-            setAddSucces(false);
-        }, 500)
+
     };
 
-    let cx = classNames.bind(style);
-    let classNameForbtnAdd = cx(style.btnAdd, {
-        success: addSucces
-    });
+
     return (
         <div className={style.productCardWrapper}>
             <ProductImage
@@ -67,11 +59,7 @@ const ProductCard = ({product, addProductToOrder, calculateOrder, openPopup}: IP
                     </div>
                 </div>
                 <div>
-                    <button className={classNameForbtnAdd}
-                            disabled={addSucces}
-                            onClick={onAddToCart}
-                    >Добавить в корзину
-                    </button>
+                    <ButtonMain onClickCallback={onAddToCart} buttonText={"Добавить в корзину"}/>
                 </div>
             </div>
         </div>

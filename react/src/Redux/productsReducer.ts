@@ -5,6 +5,7 @@ import {Dispatch} from "redux";
 const SET_PRODUCTS = 'MAIN_PAGE/ADD_LIST';
 const SET_FILTERS = 'MAIN_PAGE/SET_FILTERS';
 const CALCULATE_TOTAL = 'MAIN_PAGE/CALCULATE_TOTAL';
+const SET_SORT_FILTER = 'MAIN_PAGE/SET_SORT_FILTER';
 const INCREASE_QUANTITY = 'PRODUCTS/INCREASE_QUANTITY';
 const DECREASE_QUANTITY = 'PRODUCTS/DECREASE_QUANTITY';
 const ADD_PRODUCT_TO_ORDER = 'ORDER/ADD_PRODUCT_TO_ORDER';
@@ -41,6 +42,7 @@ const initialState:IAppState = {
     totalQuantity: persistedState.totalQuantity ? persistedState.totalQuantity : 0,
     isFetching: false,
     filters: [{name: 'one'}],
+    selectedFilter: 'All',
     orderSuccess: false,
 };
 
@@ -69,7 +71,12 @@ const productsReducer = (state:IAppState = initialState, action:any) => {
                 ...state,
                 filters: [...action.filters, {name: 'All'}]
             };
-        //increase quantity of single pizza in state
+        case SET_SORT_FILTER:
+            return {
+                ...state,
+                selectedFilter: action.filter
+            };
+        //increase quantity of single product in state
         case INCREASE_QUANTITY:
             return {
                 ...state,
@@ -81,7 +88,7 @@ const productsReducer = (state:IAppState = initialState, action:any) => {
                     }
                 }),
             };
-        //decrease quantity of single pizza in state
+        //decrease quantity of single product in state
         case DECREASE_QUANTITY:
             return {
                 ...state,
@@ -93,13 +100,13 @@ const productsReducer = (state:IAppState = initialState, action:any) => {
                     }
                 }),
             };
-            //adding pizza item to order
+            //adding product item to order
         case ADD_PRODUCT_TO_ORDER:
-            if (state.order.some( (oi:IOrderItem) => oi.id === action.pizzaItem.id)) {
+            if (state.order.some( (oi:IOrderItem) => oi.id === action.productItem.id)) {
                 return {
                     ...state,
                     order: state.order.map( (oi:IOrderItem) => {
-                        if (oi.id === action.pizzaItem.id) {
+                        if (oi.id === action.productItem.id) {
                             return {
                                 ...oi,
                                 quantity: oi.quantity + action.quantity
@@ -186,7 +193,10 @@ interface I_orderSuccess {
     type: typeof SET_ORDER_SUCCESS,
     status: boolean
 }
-
+interface I_setSortFilter {
+    type: typeof SET_SORT_FILTER,
+    filter: string
+}
 //LOCAL ACTIONS
 export const setProductsSuccess = (products:Array<IProductItem>): InterfaceSetProductsSuccess => {
     return {
@@ -201,6 +211,11 @@ export const setOrdersSuccess = (orders:any):IsetOrdersSuccess => {
 export const setFiltersSuccess = (filters:Array<IFilterItem>):IsetFiltersSuccess => {
     return {
         type: SET_FILTERS, filters
+    }
+};
+export const setSortFilter = (filter:string):I_setSortFilter => {
+    return {
+        type: SET_SORT_FILTER, filter
     }
 };
 export const calculateOrder = ():IcalculateOrder => {
@@ -227,7 +242,7 @@ export const _orderSuccess = (status:boolean):I_orderSuccess => {
     return{
         type: SET_ORDER_SUCCESS, status
     }
-}
+};
 
 //EXTERNAL ACTIONS
 export const increaseQuantity = (id:string) => (dispatch: Dispatch) => {
@@ -274,7 +289,7 @@ export const fetchCatalog = () => async (dispatch: any) => {
 };
 
 export const submitOrder = (orderData: any) => async (dispatch : any, getState: any) => {
-    const order:Array<IPostOrderItem> = getState().reducer.order.map( (oi:IOrderItem) => ({quantity: oi.quantity, pizza_id: oi.id}));
+    const order:Array<IPostOrderItem> = getState().reducer.order.map( (oi:IOrderItem) => ({quantity: oi.quantity, product_id: oi.id}));
         const res = await productsAPI.postOrder(orderData, order);
         if (res)
             //setting status to block buttons or redirect to payment page
