@@ -29,7 +29,7 @@ const renderField = ({input, label, type, meta: {touched, error, warning}}:Irend
     <div>
         <label>{label}</label>
         <div className={classForField()}>
-            <input {...input} placeholder={label} type={type}/>
+            <input {...input} type={type}/>
             {touched &&
             ((error && <span className={style.errorMessage}>{error}</span>)
                 || (warning && <span className={style.errorMessage}>{warning}</span>))}
@@ -37,34 +37,27 @@ const renderField = ({input, label, type, meta: {touched, error, warning}}:Irend
     </div>
 )};
 
+const DropDownSelect = ({input, label, times, meta: {touched, error, warning}}: any) => {
 
-
-class DropDownSelect extends React.Component {
-
-    renderSelectOptions = (option: string, index: number) => (
+    const renderSelectOptions = (option: string, index: number) => (
         <option key={option} value={index}>{option}</option>
     );
 
-    render() {
-        const {meta: {touched, error, warning}}:any = this.props;
-        const {input, label, times}:any = this.props;
-        return (
-            <div>
-                <label>{label}</label>
-                <div className={style.fieldWrapper}>
-                    <select {...input}>
-                        <option value="">Select</option>
-                        {times.map(this.renderSelectOptions)}
-                    </select>
-                    {touched &&
-                    ((error && <span className={style.errorMessage}>{error}</span>)
-                        || (warning && <span className={style.errorMessage}>{warning}</span>))}
-                </div>
+    return (
+        <div>
+            <label>{label}</label>
+            <div className={style.fieldWrapper}>
+                <select {...input}>
+                    <option value="">Select</option>
+                    {times.map(renderSelectOptions)}
+                </select>
+                {touched &&
+                ((error && <span className={style.errorMessage}>{error}</span>)
+                    || (warning && <span className={style.errorMessage}>{warning}</span>))}
             </div>
-        );
-    }
-}
-
+        </div>
+    );
+};
 
 const OrderReduxForm = (props:any) => {
     const {handleSubmit, pristine, reset, submitting} = props;
@@ -133,7 +126,7 @@ const OrderReduxForm = (props:any) => {
                 <span className={style.error}>{props.error}</span>
             </div>}
             <div>
-                <button type="submit" disabled={submitting}>Order</button>
+                <button type="submit" disabled={pristine || submitting}>Order</button>
                 <button type="button" disabled={pristine || submitting} onClick={reset}>Clear Values</button>
             </div>
         </form>
