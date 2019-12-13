@@ -7,3 +7,4 @@ environment
 react/build*
 react/node_modules*
 media/CACHE/images*
+*media

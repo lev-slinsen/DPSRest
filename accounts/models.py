@@ -4,11 +4,12 @@ Accounts models.
 import re
 
 from django.conf import settings
-from django.contrib.auth.models import AbstractUser, BaseUserManager
+from django.contrib.auth.base_user import AbstractBaseUser
+from django.contrib.auth.models import BaseUserManager, PermissionsMixin
 from django.contrib.auth.signals import user_logged_in
 from django.db import models
 from django.dispatch import receiver
-from django.utils.translation import pgettext_lazy as _
+from django.utils.translation import gettext_lazy as _, pgettext_lazy as _p
 
 
 class UserManager(BaseUserManager):
@@ -47,17 +48,33 @@ class UserManager(BaseUserManager):
         return self._create_user(phone, password, **extra_fields)
 
 
-class User(AbstractUser):
+class User(AbstractBaseUser, PermissionsMixin):
     """
     Custom user model.
     """
-    phone = models.CharField(max_length=100, unique=True, verbose_name=_('User|Phone', 'Phone'))
+    phone = models.CharField(max_length=100, unique=True, verbose_name=_p('User|Phone', 'Phone'))
     username = models.CharField(max_length=150, unique=False, blank=True, null=True)
-    first_name = models.CharField(max_length=30, verbose_name=_('User|Name', 'Name'))
+    first_name = models.CharField(max_length=30, verbose_name=_p('User|Name', 'Name'))
     language = models.CharField(max_length=20,
                                 choices=settings.LANGUAGES,
                                 default='ru',
-                                verbose_name=_('User|Language', 'Language'))
+                                verbose_name=_p('User|Language', 'Language'))
+    email = models.EmailField(max_length=100,
+                              blank=True,
+                              verbose_name=_p('User|Email', 'Email'))
+    is_staff = models.BooleanField(
+        _('staff status'),
+        default=False,
+        help_text=_('Designates whether the user can log into this admin site.'),
+    )
+    is_active = models.BooleanField(
+        _('active'),
+        default=True,
+        help_text=_(
+            'Designates whether this user should be treated as active. '
+            'Unselect this instead of deleting accounts.'
+        ),
+    )
 
     USERNAME_FIELD = 'phone'
     REQUIRED_FIELDS = ['first_name']
