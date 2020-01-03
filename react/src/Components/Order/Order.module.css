@@ -1,0 +1,21 @@
+.item {
+
+}
+
+.container {
+    composes: container from './../../App.css';
+    justify-content: center;
+    flex-direction: column;
+}
+.orderWrapper
+{
+    composes: container;
+    border-top: 1px solid #e5d0a2;
+    flex-direction: column;
+    justify-content: left;
+}
+.pageWrapper
+{
+    composes: container;
+    margin-top: 3rem;
+}

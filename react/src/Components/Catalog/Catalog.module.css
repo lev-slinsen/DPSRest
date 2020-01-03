@@ -1,0 +1,47 @@
+
+.container {
+    composes: container from './../../App.css';
+    justify-content: center;
+}
+.productsContainer {
+    composes: container;
+}
+.caruselContent{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin: 0;
+    color: #FFFFFF;
+    font-size: 1.5rem;
+}
+.filterBtn {
+    position: relative;
+    color: #ff5500;
+    padding: 8px 30px;
+    border: none;
+    font-size: 20px;
+    font-weight: bolder;
+    display: flex;
+    justify-content: center;
+    min-width: 66px;
+}
+.filterBtn:before{
+    content: "";
+    position: absolute;
+    width: 70%;
+    bottom: 0;
+    height: 5px;
+    z-index: -1;
+    background-color: #ff5500;
+    box-shadow: 0px 0px 5px 0px #ff5500;
+    -webkit-transition: width 0.5s, height 0.5s, background-color 0.5s, -webkit-transform 0.5s;
+    transition: width 0.5s, height 0.5s, background-color 0.5s, transform 0.5s;
+}
+.filterBtn:hover {
+    color: #FFFFFF;
+}
+.filterBtn:hover:before {
+    height: 100%;
+    width: 100%;
+}

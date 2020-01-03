@@ -1,0 +1,28 @@
+.aboutWrapper {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+}
+
+
+.navContainer {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+
+.active {
+    color: #e6e6e6;
+}
+.item {
+    text-decoration: none;
+}
+.iconWrapper {
+    overflow: hidden;
+    height: 900px;
+}
+.iconWrapper > img {
+    border: 0;
+}
