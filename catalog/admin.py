@@ -11,7 +11,7 @@ from .models import Pizza, Filter
 class PizzaAdmin(admin.ModelAdmin):
     list_display = ('name', 'id', 'size')
     list_filter = ('filter__name', 'size')
-    fields = ('id', 'name', 'size', 'price', 'text_short', 'text_long', 'photo_preview', 'photo', 'filter', 'active')
+    fields = ('id', 'name', 'size', 'price', 'text_short', 'text_long', 'photo', 'filter', 'active')
     readonly_fields = ('photo_preview',)
 
     def photo_preview(self, obj):

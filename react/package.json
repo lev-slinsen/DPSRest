@@ -1,8 +1,7 @@
 {
-  "name": "react-pizza-shop",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://benedikt89.github.io/react-pizza-shop",
+  "homepage": "https://benedikt89.github.io/",
   "dependencies": {
     "@types/classnames": "^2.2.9",
     "@types/jest": "24.0.22",
