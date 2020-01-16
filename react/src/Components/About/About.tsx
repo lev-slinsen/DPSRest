@@ -27,7 +27,7 @@ class About extends Component<IProps&I_dispatchProps&IState> {
         order: {
             phone: 'string',
             first_name: 'string',
-            delivery_date: 'string',
+            delivery_date: '2000-10-21',
             delivery_time: 2,
             address: 'string',
             comment: 'string',
