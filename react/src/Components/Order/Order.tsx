@@ -16,26 +16,22 @@ interface IProps {
 
 const Order = ({totalQuantity, submitOrder, fetchOrders}: IProps) => {
 
-    useEffect(fetchOrders, []);
+    useEffect(() => { fetchOrders() });
 
     const onSubmit = (formData: any) => {
         submitOrder(formData);
     };
     if (totalQuantity <= 0) {
-        return <Redirect to={`/`}/>
+        return <Redirect to={`/catalog`}/>
     } else
         return (
             <div className={style.pageWrapper}>
                 <h3>Подтвердить заказ</h3>
-
-
                 <div className={style.container}>
                     <span>Поля отмеченные * обязательны для заполнения</span>
                     <OrderForm onSubmit={onSubmit}/>
-
                 </div>
             </div>
-
         );
 };
 

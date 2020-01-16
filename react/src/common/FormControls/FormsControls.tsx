@@ -81,12 +81,20 @@ const OrderReduxForm = (props:any) => {
                    validate={[required]}
                    warn={required}
             />
+            {/*<Field*/}
+            {/*    name="delivery_date"*/}
+            {/*    showTime={false}*/}
+            {/*    component={renderDateTimePicker}*/}
+            {/*    validate={[]}*/}
+            {/*    warn={[]}*/}
+            {/*    label="Дата Заказа"*/}
+            {/*/>*/}
             <Field
                 name="delivery_date"
-                showTime={false}
-                component={renderDateTimePicker}
-                validate={[required]}
-                warn={required}
+                type="date"
+                component={renderField}
+                validate={[]}
+                warn={[]}
                 label="Дата Заказа"
             />
             <Field name="delivery_time"

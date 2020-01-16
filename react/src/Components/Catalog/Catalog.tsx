@@ -6,19 +6,19 @@ import {connect} from "react-redux";
 import {addProductToOrder, calculateOrder, setSortFilter} from "../../Redux/productsReducer";
 import bgPict from "./../../assets/images/slide1.png"
 import PopupWrapper from "../../common/PopupWrapper";
-import {IFilterItem, IProductItem} from "../../types/types";
+import {I_filterItem, I_productItem} from "../../types/types";
 import {AppStateType} from "../../Redux/Store";
 import {getFilters, getProducts, getSelectedFilter} from "../../Redux/selectors";
 
 
 interface IConnectProps {
-    products: Array<IProductItem>,
-    filters: Array<IFilterItem>,
+    products: Array<I_productItem>,
+    filters: Array<I_filterItem>,
     selectedFilter: string
 }
 
 interface LinkDispatchProps {
-    addProductToOrder: (productItem: IProductItem, quantity: number) => void;
+    addProductToOrder: (productItem: I_productItem, quantity: number) => void;
     calculateOrder: () => void;
     setSortFilter: (filter:string) => void;
 }
@@ -26,7 +26,7 @@ interface LinkDispatchProps {
 interface IState {
     bgPict: string
     isPopupOpen: boolean
-    popupProduct: IProductItem
+    popupProduct: I_productItem
 }
 
 class Catalog extends Component<IConnectProps & LinkDispatchProps> {
@@ -37,7 +37,7 @@ class Catalog extends Component<IConnectProps & LinkDispatchProps> {
         popupProduct: this.props.products[0],
     };
 
-    setPopupOpen = (product: IProductItem, option: boolean) => {
+    setPopupOpen = (product: I_productItem, option: boolean) => {
         this.setState({popupProduct: product});
         this.setState({isPopupOpen: option});
     };

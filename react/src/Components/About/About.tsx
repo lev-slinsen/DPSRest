@@ -7,11 +7,11 @@ import {compose} from "redux";
 import style from './About.module.css';
 import {AppStateType} from "../../Redux/Store";
 import axios from "axios";
-import {IFilterItem, IProductItem} from "../../types/types";
+import {I_filterItem, I_productItem} from "../../types/types";
 
 interface IProps {
-    filters: Array<IFilterItem>,
-    pizzas: Array<IProductItem>
+    filters: Array<I_filterItem>,
+    pizzas: Array<I_productItem>
 }
 interface IState {
     imageLoaded: boolean

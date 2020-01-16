@@ -1,5 +1,5 @@
 import axios from "axios";
-import {IPostOrderItem} from "../../types/types";
+import {I_postOrderItem} from "../../types/types";
 import {testFilters, testPissas} from "./TestApi";
 
 axios.defaults.xsrfHeaderName = "X-CSRFToken";
@@ -32,19 +32,27 @@ export const productsAPI = {
                 return testFilters;
             })
     },
-    postOrder (formData:any, order: Array<IPostOrderItem>) {
-        return instance.post(`order/`, {
-            "phone": formData.phone,
-            "first_name": formData.first_name,
-            "delivery_date": formData.delivery_date,
-            "delivery_time": formData.delivery_time,
-            "address": formData.address,
-            "comment": !formData.comment? '': formData.comment,
-            "payment": formData.payment,
-            "order_items": order
-        }, {withCredentials: true})
+    postOrder: function (formData: any, order: Array<I_postOrderItem>) {
+        let postData = new FormData();
+        Object.entries(formData).forEach(([key, value]) => {
+            // @ts-ignore
+            postData.set(key, value);
+        });
+
+        postData.append("order_items", JSON.stringify(order));
+        // @ts-ignore
+        for (var value of postData.values()) {
+            console.log(value);
+        }
+
+        return instance.post(`order/`, {postData}, {withCredentials: true})
             .then(res => {
+                debugger;
                 return res
+            })
+            .catch(err => {
+                debugger;
+                console.log(err)
             })
     },
     getOrders () {

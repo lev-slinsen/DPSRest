@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
 import Preloader from "./Preloader";
-import {IProductItem} from "../types/types";
+import {I_productItem} from "../types/types";
 import style from './PopupWrapper.module.css';
 
 interface IProps {
-    product: IProductItem
+    product: I_productItem
     setPopupClose: () => void
 }
 
