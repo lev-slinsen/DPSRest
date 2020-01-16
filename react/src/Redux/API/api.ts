@@ -45,7 +45,7 @@ export const productsAPI = {
             console.log(value);
         }
 
-        return instance.post(`order/`, {postData}, {withCredentials: true})
+        return instance.post(`order/`, postData, {withCredentials: true})
             .then(res => {
                 debugger;
                 return res
