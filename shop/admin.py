@@ -7,6 +7,7 @@ from .models import OrderItem, Order
 
 class OrderItemInline(admin.TabularInline):
     model = OrderItem
+    fields = ('pizza', 'quantity', 'price_admin')
     readonly_fields = ('price_admin',)
     extra = 0
 
