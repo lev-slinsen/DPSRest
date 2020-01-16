@@ -1,17 +1,17 @@
 import React, {useState} from 'react';
 import style from './ProductItem.module.css';
 import ProductImage from "./ProductImage";
-import {IProductItem} from "../../types/types";
+import {I_productItem} from "../../types/types";
 import ButtonMain from "../../common/Buttons/ButtonMain";
 
-interface IProps {
-    product: IProductItem,
-    addProductToOrder: (product: IProductItem, quantity: number) => void
+interface I_props {
+    product: I_productItem,
+    addProductToOrder: (product: I_productItem, quantity: number) => void
     calculateOrder: () => void
     openPopup: () => void
 }
 
-const ProductCard = ({product, addProductToOrder, calculateOrder, openPopup}: IProps) => {
+const ProductCard = ({product, addProductToOrder, calculateOrder, openPopup}: I_props) => {
 
     let [quantity, setQuantity] = useState(1);
 

@@ -1,4 +1,4 @@
-import React, {Component, useRef, useState} from 'react';
+import React, {Component} from 'react';
 import slide from "./../../assets/images/slide1.png"
 import Preloader from "../../common/Preloader";
 import {fetchOrders} from "../../Redux/productsReducer";
@@ -7,85 +7,73 @@ import {compose} from "redux";
 import style from './About.module.css';
 import {AppStateType} from "../../Redux/Store";
 import axios from "axios";
-import {IFilterItem, IProductItem} from "../../types/types";
+import {I_filterItem, I_productItem} from "../../types/types";
 
 interface IProps {
-    filters: Array<IFilterItem>,
-    pizzas: Array<IProductItem>
+    filters: Array<I_filterItem>,
+    pizzas: Array<I_productItem>
 }
 interface IState {
     imageLoaded: boolean
-    pizzas: any
+    order: any
+}
+interface I_dispatchProps {
+    fetchOrders: () => void
 }
 
-const PizzaForm:any = ({onSubmit}:any) => {
-    const userNameRef = useRef(null);
-    let [image, setImage] = useState(null);
-    // @ts-ignore
-    const addNewPizza = async (obj) => {
-        let formData = new FormData();
-        // @ts-ignore
-        formData.append('image', image);
-        formData.append("name", obj.name);
-        await axios.post("http://127.0.0.1:8000/pizzas", formData, {
-            headers: {
-                'Content-type': 'multipart/form-data'
-            }
-        });
-    };
-    const createPizza = () => {
-        // @ts-ignore
-        let obj = {name: userNameRef.current.value};
-        addNewPizza(obj);
-    };
-    let mainPhotoSelected = (e:any) => {
-        if (e.target.files.length) {
-            setImage(e.target.files[0]);
+class About extends Component<IProps&I_dispatchProps&IState> {
+    state:IState = {
+        imageLoaded: false,
+        order: {
+            phone: 'string',
+            first_name: 'string',
+            delivery_date: '2000-10-21',
+            delivery_time: 2,
+            address: 'string',
+            comment: 'string',
+            payment: 2,
+            order_items: [{
+                pizza_id: 2,
+                quantity: 3,
+            }, {
+                pizza_id: 1,
+                quantity: 4,
+            }]
         }
     };
 
-    return (
-        <div>
-            <div>
-                <input onChange={mainPhotoSelected} type={"file"}/>
-                <input ref={userNameRef}/>
-                <button onClick={createPizza}>newUser</button>
-            </div>
-        </div>
-    )
-}
+    componentDidMount(): void {
+        this.props.fetchOrders();
+    }
 
-class About extends Component<IProps> {
-    state:any = {
-        imageLoaded: false,
-        pizzas: [{id: 'asd', name: 'ssww'}],
+    postOrder = () => {
+        console.log(this.state.order);
+        axios.post("http://127.0.0.1:8000/api/order/", this.state.order, {withCredentials:true})
+            .then( res => {
+                alert(res.request)
+            })
+            .catch( err => {
+                debugger
+                alert(err)
+            })
+
     };
 
-    fetchPizzas = async() => {
-        let asd = await axios.get("http://127.0.0.1:8000/pizzas");
-        this.setState({pizzas: asd.data.pizzas});
-    };
 
-    onSubmit = (formData:any) => {
-        axios.post("http://127.0.0.1:8000/pizzas", {formData});
-    };
     handleImageLoaded() {
         this.setState({imageLoaded: true});
     }
-    deletePizza = (id:number) => {
-        axios.delete(`http://127.0.0.1:8000/pizzas/${id}`);
-    };
+
     render() {
-        let pizzas = this.state.pizzas;
-        let displayPizzas = pizzas.map((p:any) =>
-            <div key={p.id}>
-                {p.name}
-                <button onClick={() => {
-                    this.deletePizza(p.id)
-                }}>X
-                </button>
-            </div>
-        );
+        let displayed = Object.entries(this.state.order).map(([key, value]) => {
+
+            if (key !== 'order_items') {
+                // @ts-ignore
+                return <p>{key} : <b>{value}</b></p>
+            } else {
+                return <p>order_items: [<p>{'{pizza_id: 2,quantity: 3},'}</p><p>{'{pizza_id: 1,quantity: 4}'}</p>]</p>
+            }
+        });
         return (
             <div className={style.aboutWrapper}>
                 <div>
@@ -94,10 +82,9 @@ class About extends Component<IProps> {
                 </div>
 
                 <div>
-                    <PizzaForm onSubmit={this.onSubmit}/>
+                    {displayed}
                 </div>
-                <button onClick={this.fetchPizzas}>fetch-pizzas</button>
-                {displayPizzas}
+                <button onClick={this.postOrder}>post test order</button>
             </div>
         );
     }

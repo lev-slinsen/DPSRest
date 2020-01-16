@@ -1,6 +1,6 @@
 import {createSelector} from "reselect";
 import {AppStateType} from "./Store";
-import {IProductItem} from "../types/types";
+import {I_productItem} from "../types/types";
 
 export const _getProducts = (state:AppStateType) => state.reducer.products;
 export const getFilters = (state:AppStateType) => state.reducer.filters;
@@ -11,7 +11,7 @@ export const getTotalQuantity = (state:AppStateType) => state.reducer.totalQuant
 export const getOrder = (state:AppStateType) => state.reducer.order;
 
 export const getProducts = createSelector(_getProducts, getSelectedFilter, (products, selectedFilter) => {
-    return products.filter((p:IProductItem) => {
+    return products.filter((p:I_productItem) => {
         if (selectedFilter !== 'All') {
             return p.filter.some(f => f.name === selectedFilter);
         } else {

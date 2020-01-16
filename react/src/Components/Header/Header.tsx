@@ -1,6 +1,6 @@
 import React from 'react';
 import style from './Header.module.css';
-import {NavLink} from "react-router-dom";
+import {Link, NavLink} from "react-router-dom";
 import CartBtn from "./CartBtn";
 import logoImg from "./../../assets/icons/logo.svg"
 
@@ -12,11 +12,11 @@ function Header(props:IProps) {
     return (
 
         <header className={style.headerWrapper}>
-            <NavLink to="/">
+            <Link  to="/catalog">
                 <div className={style.label}>
                     <img src={logoImg} alt={"Pekarnya Pechorin"}/>
                 </div>
-            </NavLink>
+            </Link >
             <div className={style.navContainer}>
                 <NavLink to="/about" activeClassName={style.active}>
                     <div className={style.item}>

@@ -3,14 +3,14 @@ import {compose} from "redux";
 import {connect} from "react-redux";
 import {calculateOrder, decreaseQuantity, increaseQuantity, removeFromOrder} from "../../Redux/productsReducer";
 import {NavLink} from "react-router-dom";
-import {IOrderItem} from "../../types/types";
+import {I_orderItem} from "../../types/types";
 import {getOrder, getTotalPrice, getTotalQuantity} from "../../Redux/selectors";
 import {AppStateType} from "../../Redux/Store";
 import style from './Cart.module.css';
 import ButtonMain from "../../common/Buttons/ButtonMain";
 
 interface IConnectProps {
-    order: Array<IOrderItem>,
+    order: Array<I_orderItem>,
     totalQuantity: number,
     totalPrice: number
 }
@@ -21,7 +21,7 @@ interface IDispatchProps {
     calculateOrder: ()=> void;
 }
 interface ICartItemProps {
-    product: IOrderItem,
+    product: I_orderItem,
     decreaseQuantity: (id:string)=> void;
     increaseQuantity: (id:string)=> void;
     removeFromOrder: (id:string)=> void;
