@@ -34,6 +34,7 @@ class Order(models.Model):
     comment = models.TextField(max_length=100, verbose_name=_('Order|Comment', 'Comment'), blank=True, null=True)
     payment = models.SmallIntegerField(choices=PAYMENT_CHOICES, verbose_name=_('Order|Payment', 'Payment method'))
     status = models.BooleanField(default=0, verbose_name=_('Order|Confirmed', 'Confirmed'))
+    order_items = models.CharField(max_length=100)
 
     def total_price(self):
         return sum([item.price for item in self.orderitem_set.all()])
