@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import slide from "./../../assets/images/slide1.png"
 import Preloader from "../../common/Preloader";
+import Map from "../Map/Map";
 import {fetchOrders} from "../../Redux/productsReducer";
 import {connect} from "react-redux";
 import {compose} from "redux";
@@ -33,10 +34,10 @@ class About extends Component<IProps&I_dispatchProps&IState> {
             comment: 'string',
             payment: 2,
             order_items: [{
-                pizza_id: 2,
+                pizza: 2,
                 quantity: 3,
             }, {
-                pizza_id: 1,
+                pizza: 1,
                 quantity: 4,
             }]
         }
@@ -85,6 +86,9 @@ class About extends Component<IProps&I_dispatchProps&IState> {
                     {displayed}
                 </div>
                 <button onClick={this.postOrder}>post test order</button>
+                <div>
+                    <Map />
+                </div>
             </div>
         );
     }
