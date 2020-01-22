@@ -290,15 +290,18 @@ export const fetchCatalog = () => async (dispatch: any) => {
 
 export const submitOrder = (orderData: any) => async (dispatch : any, getState: any) => {
     const order:Array<I_postOrderItem> = getState().reducer.order.map( (oi:I_orderItem) =>
-        ({quantity: oi.quantity, product_id: oi.id}));
+        ({quantity: oi.quantity, pizza: oi.id}));
         const res = await productsAPI.postOrder(orderData, order);
-        if (res)
+        if (res && res.toLowerCase() === 'created') {
             //setting status to block buttons or redirect to payment page
             dispatch(_orderSuccess(true));
-        setTimeout(dispatch(_orderSuccess(false)), 1000);
+        }
+        setTimeout(dispatch(_orderSuccess(false)), 3000);
 };
+
 export const fetchOrders = () => async (dispatch: any) => {
     const orders = await productsAPI.getOrders();
     dispatch(setOrdersSuccess(orders));
 };
+
 export default productsReducer;

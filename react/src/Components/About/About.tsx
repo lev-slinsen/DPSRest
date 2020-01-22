@@ -25,7 +25,7 @@ class About extends Component<IProps&I_dispatchProps&IState> {
     state:IState = {
         imageLoaded: false,
         order: {
-            phone: 'string',
+            phone: '222333111',
             first_name: 'string',
             delivery_date: '2000-10-21',
             delivery_time: 2,
@@ -50,7 +50,7 @@ class About extends Component<IProps&I_dispatchProps&IState> {
 
     postOrder = () => {
         console.log(this.state.order);
-        axios.post("http://127.0.0.1:8000/api/order/", this.state.order, {withCredentials:true})
+        axios.post("http://127.0.0.1:8000/api/order/", this.state.order)
             .then( res => {
                 alert(res.request)
             })
