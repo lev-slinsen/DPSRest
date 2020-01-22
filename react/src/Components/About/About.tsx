@@ -31,14 +31,16 @@ class About extends Component<IProps&I_dispatchProps&IState> {
             delivery_time: 2,
             address: 'string',
             comment: 'string',
-            payment: 2,
-            order_items: [{
-                pizza_id: 2,
+            payment: 0,
+            order_items: [
+                {
                 quantity: 3,
-            }, {
-                pizza_id: 1,
-                quantity: 4,
-            }]
+                pizza: 1,
+                },{
+                quantity: 2,
+                pizza: 2,
+                }
+            ]
         }
     };
 
