@@ -35,6 +35,7 @@ router.register(r'filter', catalog_views.FilterViewSet)
 router.register(r'order', shop_views.OrderViewSet)
 router.register(r'front-page', front_views.FrontPageViewSet)
 router.register(r'front-text', front_views.FrontTextViewSet)
+router.register(r'work-month', front_views.WorkMonthViewSet)
 
 
 urlpatterns = [
