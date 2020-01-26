@@ -42,8 +42,11 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
     path('docs/', schema_view),
-    re_path(r"^/*", views.index, name="index")
-
+    path(r"", views.index, name="index"),
+    path(r"about/", views.index, name="about"),
+    path(r"cart/", views.index, name="cart"),
+    path(r"order/", views.index, name="order"),
+    path(r"catalog/", views.index, name="catalog"),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 urlpatterns += staticfiles_urlpatterns()
