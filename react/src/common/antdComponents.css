@@ -1,19 +1,30 @@
-.ant-carousel .slick-slide {
+.ant-carousel .slick-slide
+{
+    width: 100%;
+    margin: 0;
+
     text-align: center;
-    line-height: 400px;
-    width: 100%;
-    margin: 0;
+    word-wrap: normal;
 }
-.ant-carousel .slick-slide h3 {
-    color: white;
+
+.ant-carousel .slick-slide h3
+{
     z-index: 22;
+    word-wrap: normal;
+
+    color: white;
 }
-.caruselContent{
+
+.caruselContent
+{
+    font-size: 1.5rem;
+
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
+
     width: 100%;
     margin: 0;
-    color: #FFFFFF;
-    font-size: 1.5rem;
+
+    color: #fff;
 }

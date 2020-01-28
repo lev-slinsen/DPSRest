@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, useEffect, useState} from 'react';
 import style from './StickyBar.module.css';
 // @ts-ignore
 import {Fade} from "react-reveal";
@@ -6,63 +6,54 @@ import menuBtn from './../../assets/icons/menu-button.png'
 import {NavLink} from "react-router-dom";
 import CartBtn from "../Header/CartBtn";
 
-class StickyBar extends Component {
 
-    state = {
-        opened: false,
-        prevScrollpos: window.pageYOffset,
-        visible: true
+
+const StickyBar: React.FC = () => {
+    let [opened, setOpened] = useState(false);
+    let [visible, setVisible] = useState(false);
+
+    useEffect(() => {
+        window.addEventListener("scroll", handleScroll);
+    },[]);
+
+    const hideMenu = () => {
+        setOpened(false)
     };
 
-    componentDidMount() {
-        window.addEventListener("scroll", this.handleScroll);
-    }
-
-    componentWillUnmount() {
-        window.removeEventListener("scroll", this.handleScroll);
-    }
-
-    hideMenu = () => {
-        this.setState({opened: !this.state.opened})
-    };
-
-    handleScroll = () => {
+    const handleScroll = () => {
         const currentScrollPos = window.pageYOffset;
         const visible = 400 < currentScrollPos;
 
-        this.setState({
-            prevScrollpos: currentScrollPos,
-            visible
-        });
+        setVisible(visible);
     };
 
-    render() {
-        let classNameForNavBlock = this.state.opened ? style.navButtonsBlockDisplay : style.navButtonsBlock;
-        return (
+    let classNameForNavBlock = opened ? style.navButtonsBlockDisplay : style.navButtonsBlock;
+
+    return (
 
             <div className={style.navButton}>
                 <div>
-                    <Fade right big when={this.state.visible}>
-                        <NavLink to="home" onClick={this.hideMenu}>
-                            <CartBtn totalQuantity={2} totalPrice={2}/>
-                        </NavLink>
-                        <button className={style.btnMenu} onClick={this.hideMenu}>
+                    <Fade right big when={visible}>
+                        <div onClick={hideMenu} >
+                        <CartBtn totalQuantity={2} totalPrice={2}/>
+                        </div>
+                        <button className={style.btnMenu} onClick={() => { setOpened(!opened) }}>
                             <img alt="menu" src={menuBtn}/>
                         </button>
                     </Fade>
                     <div>
-                        <Fade right big cascade when={this.state.opened}>
+                        <Fade right big cascade when={opened}>
                             <div className={classNameForNavBlock}>
-                                <NavLink to="home"
-                                         onClick={this.hideMenu}
+                                <NavLink to="catalog"
+                                         onClick={hideMenu}
                                          className={style.btn}>HOME
                                 </NavLink>
                                 <NavLink to="about"
-                                         onClick={this.hideMenu}
+                                         onClick={hideMenu}
                                          className={style.btn}>ABOUT
                                 </NavLink>
                                 <NavLink to="contacts"
-                                         onClick={this.hideMenu}
+                                         onClick={hideMenu}
                                          className={style.btn}>CONTACTS
                                 </NavLink>
                             </div>
@@ -73,7 +64,7 @@ class StickyBar extends Component {
 
         )
 
-    }
+
 }
 
 export default StickyBar;

@@ -10,8 +10,6 @@ interface IProps {
 function CartBtn({totalQuantity, totalPrice}:IProps) {
 
     return (
-
-        <div>
             <NavLink to="/cart" className={style.cartBtnWrapper}>
                 <div className={style.cartName}>
                     <span>Корзина</span>
@@ -20,7 +18,6 @@ function CartBtn({totalQuantity, totalPrice}:IProps) {
                     <span>{totalQuantity}</span>
                 </div>
             </NavLink>
-        </div>
     );
 }
 

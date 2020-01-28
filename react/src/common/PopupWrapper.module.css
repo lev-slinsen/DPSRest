@@ -1,34 +1,35 @@
-.container
-{
+.container {
     justify-content: center;
 
     composes: container from './../App.css';
 }
-.popupWrapper
-{
+
+.popupWrapper {
     position: fixed;
+    z-index: 5;
+    bottom: 0;
+    left: 0;
+
     display: flex;
-    justify-content: center;
+    overflow-y: scroll;
     align-items: center;
+    justify-content: center;
+
     width: 100%;
     height: 100%;
-    left: 0;
-    bottom: 0;
-    z-index: 5;
-    overflow-y: scroll;
-    background-color: rgba(6, 6, 6, 0.8);
+
+    background-color: rgba(6, 6, 6, .8);
 }
-.productCardWrapper
-{
-    composes: container;
+
+.productCardWrapper {
     font-size: .8rem;
 
-    flex-wrap: nowrap;
     position: relative;
 
     align-content: center;
     align-items: center;
     flex-direction: column;
+    flex-wrap: nowrap;
     justify-content: space-evenly;
 
     width: 80%;
@@ -39,39 +40,41 @@
     text-align: center;
     word-wrap: break-word;
 
-    color: #000000;
-    background-color: #adb5bd;
+    color: #000;
     border: 1px solid #999;
     border-radius: .25rem;
+    background-color: #adb5bd;
     box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15);
+
+    composes: container;
 }
 
-.row
-{
+.row {
     align-items: center;
     justify-content: space-around;
 
     composes: row from './../App.css';
 }
-.rowDiscr
-{
+
+.rowDiscr {
     composes: row;
 }
-.rowDiscr > span
-{
+
+.rowDiscr > span {
     width: 80%;
     height: 2.5rem;
     margin: 4px;
 
     border-top: 1px solid #e5d0a2;
 }
-.productCardWrapper > * h5
-{
+
+.productCardWrapper > * h5 {
     font-size: 1.1rem;
+
     margin: .8rem;
 }
-.btnSmall
-{
+
+.btnSmall {
     font-weight: 600;
 
     width: 30px;
@@ -80,32 +83,30 @@
 
     border: 1px solid #ffbc80;
 }
-.btnSmallMinus
-{
+
+.btnSmallMinus {
     padding-bottom: 4px;
 
     composes: btnSmall;
 }
 
-.btnAdd
-{
+.btnAdd {
     width: 6rem;
 
     composes: mainBtn from './../App.css';
 }
-.calculator
-{
+
+.calculator {
     font-weight: bold;
 
     color: #000;
 }
-.calculator > * span
-{
+
+.calculator > * span {
     min-width: 2.5rem;
 }
 
-.mainImg
-{
+.mainImg {
     display: flex;
     overflow: hidden;
     align-content: center;
@@ -117,25 +118,30 @@
 
     border: 1px solid #adb5bd;
     border-radius: 4px;
-    outline: 2px solid rgba(255,255,255, .5);
+    outline: 2px solid rgba(255, 255, 255, .5);
     outline-offset: -2px;
 }
 
-.mainImg > img
-{
+.mainImg > img {
     height: 310px;
 }
+
 .header {
-    composes: row;
-    width: 90%;
-    border-bottom: 1px solid #ffbc80;
     position: relative;
+
+    width: 90%;
     margin-bottom: 1rem;
+
+    border-bottom: 1px solid #ffbc80;
+
+    composes: row;
 }
+
 .btnClose {
     position: absolute;
     top: 0;
     right: 0;
-    border: none;
+
     color: black;
+    border: none;
 }
