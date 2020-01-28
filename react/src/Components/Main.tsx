@@ -13,6 +13,7 @@ import style from './Main.module.css';
 import {getIsFetching, getTotalPrice, getTotalQuantity} from "../Redux/selectors";
 import Order from "./Order/Order";
 import Cart from "./Cart/Cart";
+import StickyBar from "./StickyBar/StickyBar";
 
 const About = React.lazy(() => import('./About/About'));
 
@@ -56,6 +57,7 @@ class Main extends Component<I_MainProps> {
                 <div className={style.mainWrapper}>
                     {this.props.isFetching ? <Preloader/> :
                         <main>
+                            <StickyBar />
                             <Switch>
                                 <Route exact path="/"
                                        render={() => <Redirect to={"/catalog"}/>}/>

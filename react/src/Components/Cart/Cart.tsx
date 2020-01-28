@@ -14,19 +14,22 @@ interface IConnectProps {
     totalQuantity: number,
     totalPrice: number
 }
+
 interface IDispatchProps {
-    decreaseQuantity: (id:string)=> void;
-    increaseQuantity: (id:string)=> void;
-    removeFromOrder: (id:string)=> void;
-    calculateOrder: ()=> void;
+    decreaseQuantity: (id: string) => void;
+    increaseQuantity: (id: string) => void;
+    removeFromOrder: (id: string) => void;
+    calculateOrder: () => void;
 }
+
 interface ICartItemProps {
     product: I_orderItem,
-    decreaseQuantity: (id:string)=> void;
-    increaseQuantity: (id:string)=> void;
-    removeFromOrder: (id:string)=> void;
+    decreaseQuantity: (id: string) => void;
+    increaseQuantity: (id: string) => void;
+    removeFromOrder: (id: string) => void;
 }
-const Cart = ({order, decreaseQuantity, increaseQuantity, removeFromOrder, calculateOrder}:IDispatchProps&IConnectProps) => {
+
+const Cart = ({order, decreaseQuantity, increaseQuantity, removeFromOrder, calculateOrder}: IDispatchProps & IConnectProps) => {
 
     let orderItems = order.map(i => <CartItem
         key={i.id}
@@ -37,19 +40,25 @@ const Cart = ({order, decreaseQuantity, increaseQuantity, removeFromOrder, calcu
     />);
 
     return (
-        <div>
-            <div className={style.tableRow}>
-                <h3>Items in your CART</h3>
-            </div>
-            <div className={style.cartWrapper}>
+        <div className={style.cartWrapper}>
+            <h2>Items in your CART</h2>
+
+            <div className={style.container}>
+                <div className={style.tableRow}>
+                    <span> </span>
+                    <span className={style.description}>Товар</span>
+                    <span className={style.description}>Описание</span>
+                    <span>шт.</span>
+                    <span>Цена</span>
+                </div>
                 {orderItems}
             </div>
             <div className={style.rowBetween}>
                 <NavLink to="/catalog">
-                    <ButtonMain buttonText={"To Menu"}/>
+                    <ButtonMain buttonText={"В Меню"}/>
                 </NavLink>
                 <NavLink to="/order">
-                    <ButtonMain buttonText={"Order"}/>
+                    <ButtonMain buttonText={"Заказать"}/>
                 </NavLink>
             </div>
         </div>
@@ -57,51 +66,49 @@ const Cart = ({order, decreaseQuantity, increaseQuantity, removeFromOrder, calcu
 };
 
 
-const CartItem = ({product, decreaseQuantity, increaseQuantity, removeFromOrder}:ICartItemProps) => {
+const CartItem = ({product, decreaseQuantity, increaseQuantity, removeFromOrder}: ICartItemProps) => {
     return (
-
         <div className={style.tableRow}>
+
             <div className={style.row}>
                 <div className={style.mainImg}>
                     <img src={product.photo_thumbnail} alt={product.text_short}/>
                 </div>
-
-            </div>
-            <div className={style.row}>
-                <div className={style.description}>
-                    <h6>{product.name}</h6>
-                    <span>{product.size}</span>
-                </div>
-                <div className={style.description}>
-                    <span>{product.text_short}</span>
-                    <span>Вес 500гр</span>
-                </div>
             </div>
 
-            <div className={style.rowCalc}>
-                <div className={style.col}>
-                    <button
-                        onClick={() => {
-                            increaseQuantity(product.id)
-                        }}
-                        className={style.btnSmall}
-                    >+
-                    </button>
-                    <span><b>{product.quantity}</b></span>
-                    <button
-                        onClick={() => {
-                            decreaseQuantity(product.id)
-                        }}
-                        className={style.btnSmallMinus}
-                    >-
-                    </button>
-                </div>
-                <div className={style.calculator}>
-                    <span>{(product.price * product.quantity).toFixed(2)}</span>
-                    <span><b>BYN</b></span>
-
-                </div>
+            <div className={style.description}>
+                <h6>{product.name}</h6>
+                <span>{product.size}</span>
             </div>
+
+            <div className={style.description}>
+                <span>{product.text_short}</span>
+                <span>Вес 500гр</span>
+            </div>
+
+            <div className={style.col}>
+                <button
+                    onClick={() => {
+                        increaseQuantity(product.id)
+                    }}
+                    className={style.btnSmall}
+                >+
+                </button>
+                <span><b>{product.quantity}</b></span>
+                <button
+                    onClick={() => {
+                        decreaseQuantity(product.id)
+                    }}
+                    className={style.btnSmallMinus}
+                >-
+                </button>
+            </div>
+
+            <div className={style.col}>
+                <span>{(product.price * product.quantity).toFixed(2)}</span>
+                <span><b>BYN</b></span>
+            </div>
+
             <button
                 onClick={() => {
                     removeFromOrder(product.id)

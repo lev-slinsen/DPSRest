@@ -12,6 +12,7 @@
     "@types/react-router-dom": "^5.1.2",
     "@types/recompose": "^0.30.7",
     "@types/redux-form": "^8.2.0",
+    "@types/reveal": "^3.3.33",
     "antd": "^3.25.3",
     "axios": "^0.19.0",
     "classnames": "^2.2.6",

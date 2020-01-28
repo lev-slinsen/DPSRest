@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import classNames from "classnames/bind";
-import style from "../../Components/ProductItem/ProductItem.module.css";
+import style from "./Buttons.module.css";
 
 interface IProps {
     onClickCallback?: () => void

@@ -21,6 +21,7 @@
     box-sizing: content-box;
     border-radius: 50%;
     overflow: visible;
+    z-index: 50;
 }
 
 .navContainer {
@@ -72,6 +73,7 @@
     background-color: #fd7e14;
     border: 1px solid #FFFFFF;
     border-radius: 0.8rem;
+    z-index: 50;
 }
 .cartName {
     border-right: 1px solid #FFFFFF;
