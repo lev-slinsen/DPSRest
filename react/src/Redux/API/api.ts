@@ -61,3 +61,15 @@ export const productsAPI = {
             })
     },
 };
+export const languageDataAPI = {
+    async getLanguageData () {
+        try {
+            let res = await instance.get('front-page/');
+            return res.data
+        } catch (err) {
+            APIerrorLogger(err);
+            console.log(err);
+            throw err
+        }
+    },
+};

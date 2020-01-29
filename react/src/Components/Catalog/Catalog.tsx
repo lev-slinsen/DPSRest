@@ -6,9 +6,9 @@ import {connect} from "react-redux";
 import {addProductToOrder, calculateOrder, setSortFilter} from "../../Redux/productsReducer";
 import bgPict from "./../../assets/images/slide1.png"
 import PopupWrapper from "../../common/PopupWrapper";
-import {I_filterItem, I_productItem} from "../../types/types";
+import {I_filterItem, I_LanguageData, I_productItem} from "../../types/types";
 import {AppStateType} from "../../Redux/Store";
-import {getFilters, getProducts, getSelectedFilter} from "../../Redux/selectors";
+import {getFilters, getLanguageData, getProducts, getSelectedFilter} from "../../Redux/selectors";
 import Slider from "../../common/Slider";
 
 let commonCarusel = {"front_image": [
@@ -29,7 +29,8 @@ let commonCarusel = {"front_image": [
 interface IConnectProps {
     products: Array<I_productItem>,
     filters: Array<I_filterItem>,
-    selectedFilter: string
+    selectedFilter: string,
+    languageData: I_LanguageData
 }
 
 interface LinkDispatchProps {
@@ -61,6 +62,7 @@ class Catalog extends Component<IConnectProps & LinkDispatchProps> {
     };
 
     render() {
+        let {languageData} = this.props;
         let products = this.props.products
             .map(p => (
                 <ProductCard product={p}
@@ -98,7 +100,10 @@ class Catalog extends Component<IConnectProps & LinkDispatchProps> {
 
                 <div>
                     <div>
-                        <Slider commonImages={commonCarusel.front_image} />
+                        <Slider
+                            commonImages={languageData.index.front_image}
+                            commonTexts={languageData.index.front_text}
+                        />
                         <div className={style.container}>{filters}</div>
                     </div>
                     <hr/>
@@ -116,6 +121,7 @@ const mapStateToProps = (state: AppStateType): IConnectProps => {
         products: getProducts(state),
         filters: getFilters(state),
         selectedFilter: getSelectedFilter(state),
+        languageData: getLanguageData(state)
     }
 };
 export default compose(

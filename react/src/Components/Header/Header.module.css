@@ -39,7 +39,13 @@
 }
 .inform {
     display: flex;
+    flex-direction: column;
     flex-wrap: wrap;
+}
+@media (max-width: 600px) {
+    .inform {
+        display: none;
+    }
 }
 .inform > span{
     margin: 0 15px;

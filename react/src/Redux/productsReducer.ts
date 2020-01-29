@@ -46,7 +46,8 @@ const initialState:I_appState = {
     orderSuccess: false,
 };
 
-const productsReducer = (state:I_appState = initialState, action:any) => {
+
+const productsReducer = (state:I_appState = initialState, action: I_appActions) => {
     switch (action.type) {
         //setting fetching status
         case SET_IS_FETCHING:
@@ -162,19 +163,19 @@ const productsReducer = (state:I_appState = initialState, action:any) => {
 };
 
 //interfaces
-interface InterfaceSetProductsSuccess {
+interface I_setProductsSuccess {
     type: typeof SET_PRODUCTS,
     products: Array<I_productItem>
 }
-interface IsetOrdersSuccess {
+interface I_setOrdersSuccess {
     type: typeof SET_ORDERS,
     orders: any
 }
-interface IsetFiltersSuccess {
+interface I_setFiltersSuccess {
     type: typeof SET_FILTERS,
     filters: Array<I_filterItem>
 }
-interface IcalculateOrder {
+interface I_calculateOrder {
     type: typeof CALCULATE_TOTAL,
 }
 interface I_increaseQuantity {
@@ -197,18 +198,35 @@ interface I_setSortFilter {
     type: typeof SET_SORT_FILTER,
     filter: string
 }
+interface I_setIsFetching {
+    type: typeof SET_IS_FETCHING,
+    status: boolean
+}
+interface I_addProductToOrder {
+    type: typeof ADD_PRODUCT_TO_ORDER,
+    productItem: I_productItem,
+    quantity: number
+}
+
+
+export type I_appActions = I_setProductsSuccess |
+    I_setOrdersSuccess | I_setFiltersSuccess | I_calculateOrder |
+    I_increaseQuantity | I_decreaseQuantity | I_removeFromOrder |
+    I_orderSuccess | I_setSortFilter | I_setIsFetching |
+    I_addProductToOrder
+
 //LOCAL ACTIONS
-export const setProductsSuccess = (products:Array<I_productItem>): InterfaceSetProductsSuccess => {
+export const setProductsSuccess = (products:Array<I_productItem>): I_setProductsSuccess => {
     return {
         type: SET_PRODUCTS, products
     }
 };
-export const setOrdersSuccess = (orders:any):IsetOrdersSuccess => {
+export const setOrdersSuccess = (orders:any):I_setOrdersSuccess => {
     return {
         type: SET_ORDERS, orders
     }
 };
-export const setFiltersSuccess = (filters:Array<I_filterItem>):IsetFiltersSuccess => {
+export const setFiltersSuccess = (filters:Array<I_filterItem>):I_setFiltersSuccess => {
     return {
         type: SET_FILTERS, filters
     }
@@ -218,7 +236,7 @@ export const setSortFilter = (filter:string):I_setSortFilter => {
         type: SET_SORT_FILTER, filter
     }
 };
-export const calculateOrder = ():IcalculateOrder => {
+export const calculateOrder = ():I_calculateOrder => {
     return {
         type: CALCULATE_TOTAL
     }
@@ -258,12 +276,12 @@ export const removeFromOrder = (id:string) => (dispatch: Dispatch) => {
     dispatch(calculateOrder());
 };
 
-const toggleIsFetching = (status:boolean) => {
+const toggleIsFetching = (status:boolean) : I_setIsFetching => {
     return {
         type: SET_IS_FETCHING, status
     }
 };
-export const addProductToOrder = (productItem: I_productItem, quantity: number) => {
+export const addProductToOrder = (productItem: I_productItem, quantity: number): I_addProductToOrder => {
     return {
         type: ADD_PRODUCT_TO_ORDER, productItem, quantity
     }

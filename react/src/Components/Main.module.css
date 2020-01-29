@@ -33,4 +33,5 @@
 .mainWrapper
 {
     min-height: 120vh;
+    padding-bottom: 70px;
 }
