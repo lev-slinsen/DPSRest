@@ -6,9 +6,7 @@ import {
     Marker,
     withScriptjs,
 } from "react-google-maps";
-
-const MAPURL = "https://maps.googleapis.com/maps/api/geocode/json?address=";
-export const GOOGLE_API_KEY = "AIzaSyDdg7ToSLq8ZdJmpkx1b2SqC6wH8orEEQQ";
+import {GOOGLE_API_KEY} from "../../Variables";
 
 export interface I_state {
     coord: {lat: number,
@@ -33,7 +31,7 @@ class Map extends Component {
             </div>
         );
     }
-};
+}
 
 
 const MapComponent = compose(

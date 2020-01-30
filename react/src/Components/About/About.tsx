@@ -70,7 +70,6 @@ class About extends Component<IProps & I_dispatchProps & IState> {
                 alert(res.request)
             })
             .catch(err => {
-                debugger
                 alert(err)
             })
 
