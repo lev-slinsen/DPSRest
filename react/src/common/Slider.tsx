@@ -3,8 +3,6 @@ import {Carousel} from "antd";
 import 'antd/dist/antd.css'
 import './antdComponents.css'
 import Preloader from "./Preloader";
-import slide from "../assets/images/slide1.png";
-
 
 interface I_props {
     commonImages: Array<{ image_name?: string, image: string }>
@@ -16,7 +14,7 @@ let Slider = ({commonImages, commonTexts}: I_props) => {
 
     let items = commonImages.map((item, index) => {
         return (
-            <div>
+            <div key={item.image_name ? item.image_name : 'catousel'+index }>
                 {/*{!imageLoaded && <Preloader/>}*/}
                 {/*<img src={slide} onLoad={() => {handleImageLoaded(true)}} alt={"Pechorin Bulki"}/>*/}
                 <div style={{
@@ -25,7 +23,7 @@ let Slider = ({commonImages, commonTexts}: I_props) => {
                     backgroundRepeat: 'no-repeat',
                     height: `35rem`,
                     backgroundSize: 'cover',
-                }} className="caruselContent">
+                }}className="caruselContent">
                         <h3>
                             {commonTexts[index].text}
                         </h3>

@@ -21,7 +21,7 @@ const Footer = (props) => {
     ].map(p => {
         return (
             <NavLink className={style.payment} key={p.title} to="/payment">
-                <img src={p.logo}/>
+                <img src={p.logo} alt={p.title}/>
             </NavLink>
         )
     });
@@ -45,7 +45,7 @@ const Footer = (props) => {
                         </h4>
                         <p>Телефон: +375 33 6580220</p>
                         <p>E-mail: info@pechorin.by</p>
-                        <p>Сайт: <a>pechorin.by</a></p>
+                        <p>Сайт: <a href={'pechorin.by'}>pechorin.by</a></p>
                     </div>
                 </div>
                 <hr/>
@@ -54,7 +54,7 @@ const Footer = (props) => {
                 </div>
                 <hr/>
                 <div className={style.container}>
-                    <span>© 2019 Copyright: <a>pechorin.by</a></span>
+                    <span>© 2019 Copyright: <a href={'pechorin.by'}>pechorin.by</a></span>
                 </div>
 
             </div>
