@@ -66,8 +66,6 @@ const StickyBar: React.FC<I_Props> = ({totalQuantity, totalPrice}:I_Props) => {
             </div>
 
         )
-
-
-}
+};
 
 export default StickyBar;
