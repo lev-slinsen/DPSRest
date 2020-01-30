@@ -5,13 +5,14 @@ import {compose} from "redux";
 import {connect} from "react-redux";
 import {addProductToOrder, calculateOrder, setSortFilter} from "../../Redux/productsReducer";
 import bgPict from "./../../assets/images/slide1.png"
-import PopupWrapper from "../../common/PopupWrapper";
 import {I_filterItem, I_LanguageData, I_productItem} from "../../types/types";
 import {AppStateType} from "../../Redux/Store";
 import {getFilters, getLanguageData, getProducts, getSelectedFilter} from "../../Redux/selectors";
 import Slider from "../../common/Slider";
+import {ProductsModal} from "../../common/PopupWrapper";
 
-let commonCarusel = {"front_image": [
+let commonCarusel = {
+    "front_image": [
         {
             "image_name": "carousel asdasdasd image 1",
             "image": bgPict
@@ -24,7 +25,8 @@ let commonCarusel = {"front_image": [
             "image_name": "Общество с ограниченной ответственностью «Печь Орин» image 2",
             "image": bgPict
         }
-    ]};
+    ]
+};
 
 interface IConnectProps {
     products: Array<I_productItem>,
@@ -36,7 +38,7 @@ interface IConnectProps {
 interface LinkDispatchProps {
     addProductToOrder: (productItem: I_productItem, quantity: number) => void;
     calculateOrder: () => void;
-    setSortFilter: (filter:string) => void;
+    setSortFilter: (filter: string) => void;
 }
 
 interface IState {
@@ -66,12 +68,12 @@ class Catalog extends Component<IConnectProps & LinkDispatchProps> {
         let products = this.props.products
             .map(p => (
                 <ProductCard product={p}
-                           openPopup={() => {
-                               this.setPopupOpen(p, true)
-                           }}
-                           key={p.id}
-                           calculateOrder={this.props.calculateOrder}
-                           addProductToOrder={this.props.addProductToOrder}
+                             openPopup={() => {
+                                 this.setPopupOpen(p, true)
+                             }}
+                             key={p.id}
+                             calculateOrder={this.props.calculateOrder}
+                             addProductToOrder={this.props.addProductToOrder}
                 />
             ));
 
@@ -91,7 +93,7 @@ class Catalog extends Component<IConnectProps & LinkDispatchProps> {
         return (
             <div>
                 {this.state.isPopupOpen &&
-                <PopupWrapper
+                <ProductsModal
                     product={this.state.popupProduct}
                     setPopupClose={() => {
                         this.setPopupOpen(this.state.popupProduct, false)
@@ -99,13 +101,11 @@ class Catalog extends Component<IConnectProps & LinkDispatchProps> {
                 />}
 
                 <div>
-                    <div>
-                        <Slider
-                            commonImages={languageData.index.front_image}
-                            commonTexts={languageData.index.front_text}
-                        />
-                        <div className={style.container}>{filters}</div>
-                    </div>
+                    <Slider
+                        commonImages={languageData.index.front_image}
+                        commonTexts={languageData.index.front_text}
+                    />
+                    <div className={style.container}>{filters}</div>
                     <hr/>
                     <div className={style.productsContainer}>
                         {products}

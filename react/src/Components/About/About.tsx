@@ -1,6 +1,4 @@
 import React, {Component} from 'react';
-import slide from "./../../assets/images/slide1.png"
-import Preloader from "../../common/Preloader";
 import {fetchOrders} from "../../Redux/productsReducer";
 import {connect} from "react-redux";
 import {compose} from "redux";
@@ -8,6 +6,8 @@ import style from './About.module.css';
 import {AppStateType} from "../../Redux/Store";
 import axios from "axios";
 import {I_filterItem, I_productItem} from "../../types/types";
+import Slider from "../../common/Slider";
+import bgPict from "../../assets/images/slide1.png";
 
 interface IProps {
     filters: Array<I_filterItem>,
@@ -20,6 +20,21 @@ interface IState {
 interface I_dispatchProps {
     fetchOrders: () => void
 }
+
+let commonCarusel = {
+    index: {
+        "front_image": [
+            {"image": bgPict},
+            {"image": bgPict},
+            {"image": bgPict}
+        ],
+        front_text: [
+            {text:"carousel asdasdasd image 1"},
+            {text:"Общество с ограниченной ответственностью «Печь Орин» image 2"},
+            {text:"Общество с ограниченной ответственностью «Печь Орин» image 3"}
+        ]
+    }
+};
 
 class About extends Component<IProps&I_dispatchProps&IState> {
     state:IState = {
@@ -44,10 +59,6 @@ class About extends Component<IProps&I_dispatchProps&IState> {
         }
     };
 
-    componentDidMount(): void {
-        this.props.fetchOrders();
-    }
-
     postOrder = () => {
         console.log(this.state.order);
         axios.post("http://127.0.0.1:8000/api/order/", this.state.order)
@@ -61,30 +72,20 @@ class About extends Component<IProps&I_dispatchProps&IState> {
 
     };
 
-
     handleImageLoaded() {
         this.setState({imageLoaded: true});
     }
 
     render() {
-        let displayed = Object.entries(this.state.order).map(([key, value]) => {
 
-            if (key !== 'order_items') {
-                // @ts-ignore
-                return <p>{key} : <b>{value}</b></p>
-            } else {
-                return <p>order_items: [<p>{'{pizza_id: 2,quantity: 3},'}</p><p>{'{pizza_id: 1,quantity: 4}'}</p>]</p>
-            }
-        });
         return (
-            <div className={style.aboutWrapper}>
+            <div>
+                <Slider
+                    commonImages={commonCarusel.index.front_image}
+                    commonTexts={commonCarusel.index.front_text}
+                />
                 <div>
-                    {!this.state.imageLoaded && <Preloader/>}
-                    <img src={slide} onLoad={this.handleImageLoaded.bind(this)} alt={"Pechorin Bulki"}/>
-                </div>
-
-                <div>
-                    {displayed}
+                    OMG
                 </div>
                 <button onClick={this.postOrder}>post test order</button>
             </div>

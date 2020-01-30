@@ -5,6 +5,7 @@
 }
 .productsContainer {
     composes: container;
+    justify-content: center;
 }
 .filterBtn {
     position: relative;

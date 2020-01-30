@@ -2,47 +2,77 @@ import React, {useState} from 'react';
 import Preloader from "./Preloader";
 import {I_productItem} from "../types/types";
 import style from './PopupWrapper.module.css';
+import {Button, Modal} from "antd";
 
-interface IProps {
+interface I_Props {
     product: I_productItem
     setPopupClose: () => void
 }
 
-const PopupWrapper = ({product, setPopupClose}:IProps) => {
+export const ProductsModal = ({product, setPopupClose}: I_Props) => {
 
     let [imageLoaded, setImageLoaded] = useState(false);
-    let [isAdmin, setAdmin] = useState(true);
-
     const handleImageLoaded = () => {
         setImageLoaded(true);
     };
 
     return (
-        <div  className={style.popupWrapper}>
-            <div className={style.productCardWrapper}>
-                <div className={style.header}>
-                    <h4>{product.name}</h4>
-                    <button onClick={setPopupClose} className={style.btnClose}>X</button>
-                </div>
-
-                <div className={style.mainImg}>
-                    {!imageLoaded &&
-                    <Preloader/>
-                    }
-                    <img src={product.photo} onLoad={handleImageLoaded} alt={product.text_short}/>
-                </div>
-                <div className={style.container}>
-                    <h5>{product.name}</h5>
-                </div>
-                <div className={style.rowDiscr}>
-                    <span>{product.text_short}</span>
-                </div>
-                <div className={style.row}>
-                    <article contentEditable={isAdmin}>{product.text_long}</article>
-                </div>
+        <Modal
+            title={product.name}
+            visible={true}
+            onOk={setPopupClose}
+            onCancel={setPopupClose}
+            footer={[]}
+        >
+            <div className={style.mainImg}>
+                {!imageLoaded &&
+                <Preloader/>
+                }
+                <img src={product.photo} onLoad={handleImageLoaded} alt={product.text_short}/>
             </div>
-        </div>
-    );
+            <div className={style.row}>
+                <h5>{product.name}</h5>
+            </div>
+            <hr/>
+            <div className={style.row}>
+                <span>{product.text_short}</span>
+            </div>
+            <hr/>
+            <div className={style.row}>
+                <article>{product.text_long}</article>
+            </div>
+        </Modal>
+    )
 };
 
-export default PopupWrapper
+
+export const OrderModal = ({handleOk, handleCancel, loading}:any) => {
+
+    let [visible, setVisible] = useState(false);
+    const handleImageLoaded = () => {
+        setVisible(true);
+    };
+
+    return (
+        <Modal
+            visible={visible}
+            title="Title"
+            onOk={handleOk}
+            onCancel={handleCancel}
+            footer={[
+                <Button key="back" onClick={handleCancel}>
+                    Return
+                </Button>,
+                <Button key="submit" type="primary" loading={loading} onClick={handleOk}>
+                    Submit
+                </Button>,
+            ]}
+        >
+            <p>Some contents...</p>
+            <p>Some contents...</p>
+            <p>Some contents...</p>
+            <p>Some contents...</p>
+            <p>Some contents...</p>
+        </Modal>
+    )
+};
