@@ -1,6 +1,13 @@
+import copy
+
 from rest_framework import serializers
 from .models import Order, OrderItem
-import copy
+from django.utils.translation import pgettext_lazy as _
+
+
+def phone_validator(value):
+    if len(value) != 9:
+        raise serializers.ValidationError(_('Validator|Phone', 'Phone must be 9 digits long'))
 
 
 class OrderItemSerializer(serializers.ModelSerializer):
@@ -23,6 +30,7 @@ class OrderSerializer(serializers.ModelSerializer):
                   'comment',
                   'payment',
                   'order_items')
+        validators = [phone_validator]
 
     def create(self, validated_data, **kwargs):
         for_items = copy.deepcopy(validated_data)
