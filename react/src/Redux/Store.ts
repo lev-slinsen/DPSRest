@@ -4,10 +4,12 @@ import { reducer as formReducer } from "redux-form";
 import thunkMiddleware from "redux-thunk";
 import { composeWithDevTools } from 'redux-devtools-extension';
 import {I_orderLocalStorage} from "../types/types";
+import languageReducer from "./languageDataReducer";
 
 
 const rootReducer = combineReducers({
     reducer: productsReducer,
+    language: languageReducer,
     form: formReducer,
 });
 

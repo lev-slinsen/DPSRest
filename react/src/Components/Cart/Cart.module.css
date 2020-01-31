@@ -1,6 +1,3 @@
-.cartWrapper {
-    composes: container from './../../App.css';
-}
 .container {
     composes: container from './../../App.css';
 }
@@ -22,6 +19,10 @@
     flex-direction: column;
     flex-wrap: wrap;
 }
+.cartWrapper {
+    margin-top: 4rem;
+    composes: col;
+}
 .rowBetween {
     composes: row;
     justify-content: space-around;
@@ -35,16 +36,50 @@
     align-items: center;
     justify-content: space-around;
     max-height: 15rem;
-    padding: .7rem 4rem .7rem .2rem;
-    color: #999;
+    padding: .7rem .3rem;
     font-size: 15px;
-    border-bottom: 1px solid #999999;
+    border-bottom: 1px solid #994d00;
 }
+@media (max-width: 991px)
+{
+    .tableRow
+    {
+        width: 100%;
+    }
+}
+@media (max-width: 760px)
+{
+    .tableRow
+    {
+        width: 100%;
+        padding: 0.3rem 1.5rem 0.3rem 0.3rem;
+    }
+}
+@media (max-width: 576px) {
+    .container {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        align-self: center;
+    }
+    .tableRow
+    {
+        width: 100%;
+        padding: 0.3rem 1.5rem 0.3rem 0.3rem;
+        flex-wrap: wrap;
+        max-height: min-content;
+    }
+    .btnSmallClose {
+        top: 7%;
+    }
+}
+
 .tableRow > * span {
     font-size: 14px;
 }
 .mainImg {
     display: flex;
+    height: 7rem;
 }
 .mainImg > img{
     width: 100px;
@@ -55,13 +90,14 @@
 
 .btnSmall
 {
-    font-weight: 600;
-
     width: 30px;
     height: 30px;
     padding: 0;
     margin: 0;
     border: none;
+    color: #ff5500;
+    font-size: 1.2rem;
+    font-weight: 700;
 }
 .btnSmallMinus
 {
@@ -75,23 +111,24 @@
     position: absolute;
     top: 40%;
     right: 0;
+    color: inherit;
+    font-size: 1rem;
 }
 .empty {
     display: flex;
     content: '';
     min-width: .5rem;
 }
-.calculator {
+.description {
     display: flex;
     flex-direction: column;
     justify-content: center;
     width: 8rem;
 }
-.description {
-    composes: calculator;
+.description > * {
+    margin: .2rem;
 }
 .description > h6 {
-    margin: 2px;
     font-size: 16px;
     font-weight: bolder;
     border-bottom: 1px solid #999999;

@@ -21,45 +21,40 @@ const Footer = (props) => {
     ].map(p => {
         return (
             <NavLink className={style.payment} key={p.title} to="/payment">
-                <img src={p.logo}/>
+                <img src={p.logo} alt={p.title}/>
             </NavLink>
         )
     });
 
     return (
-        <footer>
-            <div className={style.footerWrapper}>
+        <footer className={style.footerWrapper}>
+            <div className={style.container}>
+                <div className={style.containerRow}>
+                    <div className={style.containerCol}>
+                        <h4>
+                            РЕКВИЗИТЫ КОМПАНИИ
+                        </h4>
+                        <p>Общество с ограниченной ответственностью «Печь Орин»</p>
+                        <p>220035, г. Минск, ул. Бачило, д. 18</p>
+                        <p>УНП 192810299</p>
+                        <p>Регистрационный номер в ТР РБ: 402852</p>
+                    </div>
+                    <div className={style.containerCol}>
+                        <h4>
+                            КОНТАКТЫ
+                        </h4>
+                        <p>Телефон: +375 33 6580220</p>
+                        <p>E-mail: info@pechorin.by</p>
+                        <p>Сайт: <a href={'pechorin.by'}>pechorin.by</a></p>
+                    </div>
+                </div>
+                <hr/>
+                <div className={style.containerRow}>
+                    {payments}
+                </div>
+                <hr/>
                 <div className={style.container}>
-                    <div className={style.containerRow}>
-                        <div className={style.containerCol}>
-                                <h4>
-                                    РЕКВИЗИТЫ КОМПАНИИ
-                                </h4>
-                                <p>Общество с ограниченной ответственностью «Печь Орин»</p>
-                                <p>220035, г. Минск, ул. Бачило, д. 18</p>
-                                <p>УНП 192810299</p>
-                                <p>Регистрационный номер в ТР РБ: 402852</p>
-                        </div>
-                        <div className={style.containerCol}>
-
-                                <h4>
-                                    КОНТАКТЫ
-                                </h4>
-                                <p>Телефон: +375 33 6580220</p>
-                                <p>E-mail: info@pechorin.by</p>
-                                <p>Сайт: pechorin.by</p>
-
-                        </div>
-                    </div>
-                    <hr/>
-                    <div className={style.containerRow}>
-                        {payments}
-                    </div>
-                    <hr/>
-                    <div className={style.container}>
-                        <span>© 2019 Copyright: pechorin.by</span>
-                    </div>
-
+                    <span>© 2019 Copyright: <a href={'pechorin.by'}>pechorin.by</a></span>
                 </div>
 
             </div>

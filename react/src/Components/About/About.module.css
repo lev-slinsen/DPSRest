@@ -1,28 +1,39 @@
 .aboutWrapper {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    align-items: center;
+    margin-top: 5rem;
+    padding-top: 1.5rem;
+}
+.aboutWrapper .row:nth-child(2n) {
+    flex-direction: row-reverse;
 }
 
-
-.navContainer {
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: row;
+.container {
+    padding: .5rem;
+    composes: container from './../../App.css';
 }
 
-.active {
-    color: #e6e6e6;
+.row {
+    justify-content: space-between;
+    max-width: 90%;
+
+    composes: row from './../../App.css';
 }
-.item {
-    text-decoration: none;
+
+.col {
+    flex-direction: column;
+    width: initial;
+    text-align: left;
+
+    composes: container;
 }
-.iconWrapper {
-    overflow: hidden;
-    height: 900px;
+.col > img {
+    width: 450px;
 }
-.iconWrapper > img {
-    border: 0;
+.col5{
+    composes: col;
+    max-width: 41.666667%;
+}
+.col7
+{
+    composes: col;
+    max-width: 58.333333%;
 }

@@ -5,15 +5,7 @@
 }
 .productsContainer {
     composes: container;
-}
-.caruselContent{
-    display: flex;
     justify-content: center;
-    align-items: center;
-    width: 100%;
-    margin: 0;
-    color: #FFFFFF;
-    font-size: 1.5rem;
 }
 .filterBtn {
     position: relative;

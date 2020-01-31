@@ -1,6 +1,7 @@
 import axios from "axios";
 import {I_postOrderItem} from "../../types/types";
 import {testFilters, testPissas} from "./TestApi";
+import {APIerrorLogger} from "../../utils/errorLogger";
 
 axios.defaults.xsrfHeaderName = "X-CSRFToken";
 axios.defaults.xsrfCookieName = "csrftoken";
@@ -32,29 +33,22 @@ export const productsAPI = {
                 return testFilters;
             })
     },
-    postOrder: function (formData: any, order: Array<I_postOrderItem>) {
-        let postData = new FormData();
-        Object.entries(formData).forEach(([key, value]) => {
-            // @ts-ignore
-            postData.set(key, value);
-        });
-
-        postData.append("order_items", JSON.stringify(order));
-        // @ts-ignore
-        for (var value of postData.values()) {
-            console.log(value);
+    async postOrder (formData: any, order: Array<I_postOrderItem>) {
+        let payload = {...formData, order_items: order};
+        console.log(payload);
+        try{
+            let res = await instance.post(`order/`, payload);
+            if (res.status >200 && res.status < 300) {
+                return res.statusText
+            } else {
+                throw new Error('Some Error Occurred')
+            }
+        } catch (err) {
+            APIerrorLogger(err);
+            console.log(err)
         }
-
-        return instance.post(`order/`, postData, {withCredentials: true})
-            .then(res => {
-                debugger;
-                return res
-            })
-            .catch(err => {
-                debugger;
-                console.log(err)
-            })
     },
+
     getOrders () {
         return instance.get('order/?format=json')
             .then(res => {
@@ -65,5 +59,17 @@ export const productsAPI = {
             .catch(()=>{
                 return testFilters;
             })
+    },
+};
+export const languageDataAPI = {
+    async getLanguageData () {
+        try {
+            let res = await instance.get('front-page/');
+            return res.data
+        } catch (err) {
+            APIerrorLogger(err);
+            console.log(err);
+            throw err
+        }
     },
 };

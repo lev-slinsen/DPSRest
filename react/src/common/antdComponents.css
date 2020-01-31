@@ -1,0 +1,30 @@
+.ant-carousel .slick-slide
+{
+    width: 100%;
+    margin: 0;
+
+    text-align: center;
+    word-wrap: normal;
+}
+
+.ant-carousel .slick-slide h3
+{
+    z-index: 22;
+    word-wrap: normal;
+
+    color: white;
+}
+
+.caruselContent
+{
+    font-size: 1.5rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    margin: 0;
+
+    color: #fff;
+}
