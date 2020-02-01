@@ -2,9 +2,8 @@ import React from 'react';
 import {Field, reduxForm} from 'redux-form';
 import { number, required} from "../../utils/validators";
 import {createTextMask} from 'redux-form-input-masks';
-import {renderDateTimePicker} from "./DatePicker";
+import {DatePickerFieldRU, renderDateTimePicker} from "./DatePicker";
 
-import 'react-widgets/dist/css/react-widgets.css';
 import style from './FormControl.module.css';
 
 const phoneMask = createTextMask({
@@ -81,25 +80,25 @@ const OrderReduxForm = (props:any) => {
                    validate={[required]}
                    warn={required}
             />
-            {/*<Field*/}
-            {/*    name="delivery_date"*/}
-            {/*    showTime={false}*/}
-            {/*    component={renderDateTimePicker}*/}
-            {/*    validate={[]}*/}
-            {/*    warn={[]}*/}
-            {/*    label="Дата Заказа"*/}
-            {/*/>*/}
             <Field
                 name="delivery_date"
                 type="date"
-                component={renderField}
-                validate={[]}
+                component={renderDateTimePicker}
+                validate={[required]}
                 warn={[]}
                 label="Дата Заказа"
             />
             <Field name="delivery_time"
                    type="select"
                    component={DropDownSelect}
+                   label="time"
+                   times={times}
+                   validate={[number]}
+                   warn={required}
+            />
+            <Field name="delivery_time"
+                   type="select"
+                   component={DatePickerFieldRU}
                    label="time"
                    times={times}
                    validate={[number]}
