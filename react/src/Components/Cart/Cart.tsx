@@ -1,7 +1,7 @@
 import React from 'react';
 import {compose} from "redux";
 import {connect} from "react-redux";
-import {calculateOrder, decreaseQuantity, increaseQuantity, removeFromOrder} from "../../Redux/productsReducer";
+import {decreaseQuantity, increaseQuantity, removeFromOrder} from "../../Redux/productsReducer";
 import {NavLink} from "react-router-dom";
 import {I_orderItem} from "../../types/types";
 import {getOrder, getTotalPrice, getTotalQuantity} from "../../Redux/selectors";
@@ -19,7 +19,6 @@ interface IDispatchProps {
     decreaseQuantity: (id: string) => void;
     increaseQuantity: (id: string) => void;
     removeFromOrder: (id: string) => void;
-    calculateOrder: () => void;
 }
 
 interface ICartItemProps {
@@ -29,7 +28,7 @@ interface ICartItemProps {
     removeFromOrder: (id: string) => void;
 }
 
-const Cart = ({order, decreaseQuantity, increaseQuantity, removeFromOrder, calculateOrder}: IDispatchProps & IConnectProps) => {
+const Cart = ({order, decreaseQuantity, increaseQuantity, removeFromOrder, totalPrice, totalQuantity}: IDispatchProps & IConnectProps) => {
 
     let orderItems = order.map(i => <CartItem
         key={i.id}
@@ -41,7 +40,7 @@ const Cart = ({order, decreaseQuantity, increaseQuantity, removeFromOrder, calcu
 
     return (
         <div className={style.cartWrapper}>
-            <h2>Items in your CART</h2>
+            <h2>В корзине товаров: {totalQuantity}</h2>
 
             <div className={style.container}>
                 <div className={style.tableRow}>
@@ -53,13 +52,24 @@ const Cart = ({order, decreaseQuantity, increaseQuantity, removeFromOrder, calcu
                 </div>
                 {orderItems}
             </div>
+
+            <div className={style.rowBetween}>
+                <div> </div>
+                <div className={style.col}>
+                    <span>Доставка бесплатная!</span>
+                    <span>К оплате: {totalPrice} BYN</span>
+                </div>
+            </div>
+
             <div className={style.rowBetween}>
                 <NavLink to="/catalog">
                     <ButtonMain buttonText={"В Меню"}/>
                 </NavLink>
+
                 <NavLink to="/order">
                     <ButtonMain buttonText={"Заказать"}/>
                 </NavLink>
+
             </div>
         </div>
     )
@@ -130,5 +140,5 @@ const mapStateToProps = (state: AppStateType) => {
 };
 
 export default compose(
-    connect(mapStateToProps, {increaseQuantity, decreaseQuantity, removeFromOrder, calculateOrder})
+    connect(mapStateToProps, {increaseQuantity, decreaseQuantity, removeFromOrder})
 )(Cart);

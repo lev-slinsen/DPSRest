@@ -1,5 +1,6 @@
 .container {
     composes: container from './../../App.css';
+    overflow: initial;
 }
 .row {
     display: flex;

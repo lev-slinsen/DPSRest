@@ -79,7 +79,7 @@
 
 .mainBtn:hover
 {
-    font-weight: 600;
+    text-shadow: 0 0 5px rgba(196, 67, 0, .99);
 
     color: white;
     border-color: rgba(196, 67, 0, .99);
@@ -172,7 +172,7 @@ button
 
 button:hover
 {
-    font-weight: bolder;
+    text-shadow: 0 0 5px rgba(196, 67, 0, .99);
 }
 
 link
@@ -210,22 +210,32 @@ input,
 select,
 textarea
 {
-    font-size: 1rem;
-    font-weight: 400;
-    line-height: 1.5;
-
-    display: block;
-
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0 .725rem;
+    font-variant: tabular-nums;
+    list-style: none;
+    -webkit-font-feature-settings: 'tnum';
+    font-feature-settings: 'tnum', "tnum";
+    position: relative;
+    display: inline-block;
     width: 100%;
+    height: 32px;
+    color: rgba(0, 0, 0, 0.65);
+    font-size: 14px;
+    line-height: 1.5;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+    -webkit-transition: all 0.3s;
+    transition: all 0.3s;
+
     max-width: 90%;
     margin-top: .5rem;
-    padding: .375rem .75rem;
-
-    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 
     color: #495057;
-    border: 1px solid #ced4da;
-    border-radius: .25rem;
     background-clip: padding-box;
 }
 

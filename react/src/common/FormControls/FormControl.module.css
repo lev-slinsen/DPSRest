@@ -8,10 +8,10 @@
 
 .fieldWrapper {
     display: flex;
-    align-items: center;
-    align-self: baseline;
+    align-items: flex-start;
     flex-direction: column;
     justify-content: left;
+    min-width: 8rem;
 }
 
 .error textarea,

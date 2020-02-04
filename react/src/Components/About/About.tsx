@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {fetchOrders} from "../../Redux/productsReducer";
+import {fetchOrderInfo} from "../../Redux/productsReducer";
 import {connect} from "react-redux";
 import {compose} from "redux";
 import style from './About.module.css';
@@ -23,7 +23,7 @@ interface IState {
 }
 
 interface I_dispatchProps {
-    fetchOrders: () => void
+    fetchOrderInfo: () => void
 }
 
 let commonCarusel = {
@@ -141,4 +141,4 @@ const mapStateToProps = (state: AppStateType) => {
     }
 };
 
-export default compose(connect(mapStateToProps, {fetchOrders}))(About);
+export default compose(connect(mapStateToProps, {fetchOrderInfo}))(About);

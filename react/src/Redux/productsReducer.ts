@@ -5,10 +5,12 @@ import {
     I_orderItem,
     I_orderLocalStorage,
     I_productItem,
-    I_postOrderItem
+    I_postOrderItem, I_orderDates, I_orderFormData
 } from "../types/types";
 import {Dispatch} from "redux";
 import {stopSubmit} from "redux-form";
+import { ThunkDispatch } from "redux-thunk";
+import {AppStateType} from "./Store";
 
 const SET_PRODUCTS = 'MAIN_PAGE/ADD_LIST';
 const SET_FILTERS = 'MAIN_PAGE/SET_FILTERS';
@@ -18,9 +20,9 @@ const INCREASE_QUANTITY = 'PRODUCTS/INCREASE_QUANTITY';
 const DECREASE_QUANTITY = 'PRODUCTS/DECREASE_QUANTITY';
 const ADD_PRODUCT_TO_ORDER = 'ORDER/ADD_PRODUCT_TO_ORDER';
 const DELETE_ORDER_ITEM = 'ORDER/DELETE_ORDER_ITEM';
-const SET_ORDER_SUCCESS = 'ORDER/SET_ORDER_SUCCESS';
-const SET_IS_FETCHING = 'COMMON/SET_IS_FETCHING';
-const SET_ORDERS = 'COMMON/SET_ORDERS';
+const SET_ORDER_SUCCESS = 'ORDER/boolean/SET_ORDER_SUCCESS';
+const SET_IS_FETCHING = 'COMMON/boolean/SET_IS_FETCHING';
+const SET_COMMON_ORDER_SUCCESS = 'COMMON/SET_COMMON_ORDER_SUCCESS';
 
 const persistedState: I_orderLocalStorage =
     localStorage.getItem('order') !== null && localStorage.getItem('order') !== undefined ?
@@ -52,6 +54,7 @@ const initialState: I_appState = {
     filters: [{name: 'one'}],
     selectedFilter: 'All',
     orderSuccess: false,
+    orderData: []
 };
 
 
@@ -63,17 +66,17 @@ const productsReducer = (state: I_appState = initialState, action: I_appActions)
                 ...state,
                 isFetching: action.status,
             };
-        //adding feched products to state
+        //adding fetched products to state
         case SET_PRODUCTS:
             return {
                 ...state,
                 products: action.products
             };
-        //adding feched filters to state
-        case SET_ORDERS:
+        //adding fetched disabled dates and times to state
+        case SET_COMMON_ORDER_SUCCESS:
             return {
                 ...state,
-                orders: action.orders
+                orderData: action.orderData
             };
         case SET_FILTERS:
             return {
@@ -152,14 +155,15 @@ const productsReducer = (state: I_appState = initialState, action: I_appActions)
             let price = 0;
             let quantity = 0;
             state.order.forEach((oi: I_orderItem) => {
-                price += oi.quantity * oi.price;
-                quantity += oi.quantity;
+                price = price + oi.quantity * oi.price;
+                quantity = quantity + oi.quantity;
             });
             return {
                 ...state,
-                totalPrice: price,
+                totalPrice: +price.toFixed(2),
                 totalQuantity: quantity,
             };
+        //adding status of Posting Order
         case SET_ORDER_SUCCESS:
             return {
                 ...state,
@@ -171,114 +175,55 @@ const productsReducer = (state: I_appState = initialState, action: I_appActions)
 };
 
 //interfaces
-interface I_setProductsSuccess {
-    type: typeof SET_PRODUCTS,
-    products: Array<I_productItem>
-}
+interface I_setProductsSuccess { type: typeof SET_PRODUCTS, products: Array<I_productItem> }
 
-interface I_setOrdersSuccess {
-    type: typeof SET_ORDERS,
-    orders: any
-}
+interface I_setOrderSuccess { type: typeof SET_ORDER_SUCCESS, status: boolean }
 
-interface I_setFiltersSuccess {
-    type: typeof SET_FILTERS,
-    filters: Array<I_filterItem>
-}
+interface I_setOrderDataFetchSuccess { type: typeof SET_COMMON_ORDER_SUCCESS, orderData: I_orderDates[] }
 
-interface I_calculateOrder {
-    type: typeof CALCULATE_TOTAL,
-}
+interface I_setFiltersSuccess { type: typeof SET_FILTERS, filters: Array<I_filterItem> }
 
-interface I_increaseQuantity {
-    type: typeof INCREASE_QUANTITY,
-    id: string
-}
+interface I_calculateOrder { type: typeof CALCULATE_TOTAL }
 
-interface I_decreaseQuantity {
-    type: typeof DECREASE_QUANTITY,
-    id: string
-}
+interface I_increaseQuantity { type: typeof INCREASE_QUANTITY, id: string }
 
-interface I_removeFromOrder {
-    type: typeof DELETE_ORDER_ITEM,
-    id: string
-}
+interface I_decreaseQuantity { type: typeof DECREASE_QUANTITY, id: string }
 
-interface I_orderSuccess {
-    type: typeof SET_ORDER_SUCCESS,
-    status: boolean
-}
+interface I_removeFromOrder { type: typeof DELETE_ORDER_ITEM, id: string }
 
-interface I_setSortFilter {
-    type: typeof SET_SORT_FILTER,
-    filter: string
-}
+interface I_setSortFilter { type: typeof SET_SORT_FILTER, filter: string }
 
-interface I_setIsFetching {
-    type: typeof SET_IS_FETCHING,
-    status: boolean
-}
+interface I_setIsFetching { type: typeof SET_IS_FETCHING, status: boolean }
 
-interface I_addProductToOrder {
-    type: typeof ADD_PRODUCT_TO_ORDER,
-    productItem: I_productItem,
-    quantity: number
-}
+interface I_addProductToOrder { type: typeof ADD_PRODUCT_TO_ORDER, productItem: I_productItem, quantity: number }
 
 
 export type I_appActions = I_setProductsSuccess |
-    I_setOrdersSuccess | I_setFiltersSuccess | I_calculateOrder |
+    I_setOrderDataFetchSuccess | I_setFiltersSuccess | I_calculateOrder |
     I_increaseQuantity | I_decreaseQuantity | I_removeFromOrder |
-    I_orderSuccess | I_setSortFilter | I_setIsFetching |
+    I_setOrderSuccess | I_setSortFilter | I_setIsFetching |
     I_addProductToOrder
+type GetStateType = () => AppStateType
 
 //LOCAL ACTIONS
-export const setProductsSuccess = (products: Array<I_productItem>): I_setProductsSuccess => {
-    return {
-        type: SET_PRODUCTS, products
-    }
-};
-export const setOrdersSuccess = (orders: any): I_setOrdersSuccess => {
-    return {
-        type: SET_ORDERS, orders
-    }
-};
-export const setFiltersSuccess = (filters: Array<I_filterItem>): I_setFiltersSuccess => {
-    return {
-        type: SET_FILTERS, filters
-    }
-};
-export const setSortFilter = (filter: string): I_setSortFilter => {
-    return {
-        type: SET_SORT_FILTER, filter
-    }
-};
-export const calculateOrder = (): I_calculateOrder => {
-    return {
-        type: CALCULATE_TOTAL
-    }
-};
-export const _increaseQuantity = (id: string): I_increaseQuantity => {
-    return {
-        type: INCREASE_QUANTITY, id
-    }
-};
-export const _decreaseQuantity = (id: string): I_decreaseQuantity => {
-    return {
-        type: DECREASE_QUANTITY, id
-    }
-};
-export const _removeFromOrder = (id: string): I_removeFromOrder => {
-    return {
-        type: DELETE_ORDER_ITEM, id
-    }
-};
-export const _orderSuccess = (status: boolean): I_orderSuccess => {
-    return {
-        type: SET_ORDER_SUCCESS, status
-    }
-};
+export const setProductsSuccess = (products: Array<I_productItem>): I_setProductsSuccess =>
+    ({ type: SET_PRODUCTS, products });
+export const setOrderDataFetchSuccess = (orderData: Array<I_orderDates>): I_setOrderDataFetchSuccess =>
+    ({ type: SET_COMMON_ORDER_SUCCESS, orderData });
+export const setFiltersSuccess = (filters: Array<I_filterItem>): I_setFiltersSuccess =>
+    ({ type: SET_FILTERS, filters });
+export const setSortFilter = (filter: string): I_setSortFilter =>
+    ({ type: SET_SORT_FILTER, filter });
+export const calculateOrder = (): I_calculateOrder =>
+    ({ type: CALCULATE_TOTAL });
+export const _increaseQuantity = (id: string): I_increaseQuantity =>
+    ({ type: INCREASE_QUANTITY, id });
+export const _decreaseQuantity = (id: string): I_decreaseQuantity =>
+    ({ type: DECREASE_QUANTITY, id });
+export const _removeFromOrder = (id: string): I_removeFromOrder =>
+    ({ type: DELETE_ORDER_ITEM, id });
+export const _setOrderSuccess = (status: boolean): I_setOrderSuccess =>
+    ({ type: SET_ORDER_SUCCESS, status });
 
 //EXTERNAL ACTIONS
 export const increaseQuantity = (id: string) => (dispatch: Dispatch) => {
@@ -324,25 +269,29 @@ export const fetchCatalog = () => async (dispatch: any) => {
     dispatch(toggleIsFetching(false));
 };
 
-export const submitOrder = (orderData: any) => async (dispatch: any, getState: any) => {
+export const submitOrder = (orderData: I_orderFormData) => async (dispatch: ThunkDispatch<{}, {}, I_appActions>, getState: GetStateType) => {
     try {
-        const order: Array<I_postOrderItem> = getState().reducer.order.map((oi: I_orderItem) =>
+        const orderItems:Array<I_postOrderItem> = getState().reducer.order.map((oi: I_orderItem) =>
             ({quantity: oi.quantity, pizza: oi.id}));
-        const res = await productsAPI.postOrder(orderData, order);
+        const res = await productsAPI.postOrder(orderData, orderItems);
         if (res && res.toLowerCase() === 'created') {
             //setting status to block buttons or redirect to payment page
-            dispatch(_orderSuccess(true));
+            dispatch(_setOrderSuccess(true));
         }
     } catch (err) {
         dispatch(stopSubmit('order', {_error: err.message ? err.message : 'some Error'}))
     }
-
-    setTimeout(dispatch(_orderSuccess(false)), 3000);
+    setTimeout(() => dispatch(_setOrderSuccess(false)), 4000);
 };
 
-export const fetchOrders = () => async (dispatch: any) => {
-    const orders = await productsAPI.getOrders();
-    dispatch(setOrdersSuccess(orders));
+export const fetchOrderInfo = () => async (dispatch: any) => {
+    try {
+        const orderData = await productsAPI.getOrderData();
+        dispatch(setOrderDataFetchSuccess(orderData));
+    } catch (err) {
+        console.log(err);
+    }
+
 };
 
 export default productsReducer;

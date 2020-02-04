@@ -7,7 +7,10 @@ export interface I_orderItem {
     text_short: string,
     quantity: number
 }
-
+export interface I_orderDates {
+    "month": number,
+    "work_dates": {"date": string}[]
+}
 export interface I_productItem {
     filter: Array<I_filterItem>;
     id: string,
@@ -18,14 +21,12 @@ export interface I_productItem {
     size: number,
     text_long: string,
     text_short: string,
-
 }
 export interface I_filterItem {
     name: string
 }
-
 export interface I_postOrderItem {
-    pizza_id: number,
+    pizza: string,
     quantity: number,
 }
 
@@ -38,15 +39,18 @@ export interface I_appState {
     filters: Array<I_filterItem>,
     selectedFilter: string,
     orderSuccess: boolean,
+    orderData: I_orderDates[]
 }
-export interface I_orderToPost {
+export interface I_orderFormData {
     phone: string,
     first_name: string,
     "delivery_date": string,
-    "delivery_time": number,
+    "delivery_time": string,
     "address": string,
     "comment": string,
-    "payment": number,
+    "payment": string,
+}
+export interface I_orderToPost extends I_orderFormData{
     "order_items": Array<I_postOrderItem>
 }
 export interface I_orderLocalStorage {
@@ -61,7 +65,9 @@ export interface I_languagePage {
     "front_image": Array<{image_name: string, image: string}>
 }
 type Pages = "cross" | "index" ;
+
 type PagesMap<P> = { [page in Pages]: P };
+
 export type I_LanguageData = PagesMap<I_languagePage>;
 
 export interface I_appLanguageState {

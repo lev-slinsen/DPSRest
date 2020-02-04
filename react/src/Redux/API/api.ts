@@ -1,5 +1,5 @@
 import axios from "axios";
-import {I_postOrderItem} from "../../types/types";
+import {I_orderDates, I_orderFormData, I_orderToPost, I_postOrderItem} from "../../types/types";
 import {testFilters, testPissas} from "./TestApi";
 import {APIerrorLogger} from "../../utils/errorLogger";
 
@@ -33,10 +33,9 @@ export const productsAPI = {
                 return testFilters;
             })
     },
-    async postOrder(formData: any, order: Array<I_postOrderItem>) {
+    async postOrder(formData: I_orderFormData, order: Array<I_postOrderItem>) {
         let payload = {
             ...formData,
-            phone: +formData.phone,
             delivery_time: +formData.delivery_time,
             payment: +formData.payment,
             order_items: order
@@ -55,15 +54,15 @@ export const productsAPI = {
         }
     },
 
-    getOrders() {
-        return instance.get('order/?format=json')
+    getOrderData():Promise<Array<I_orderDates>> {
+        return instance.get(`work-month/`)
             .then(res => {
                 if (res.status === 200) {
                     return res.data
                 }
             })
-            .catch(() => {
-                return testFilters;
+            .catch((err) => {
+                throw err;
             })
     },
 };
