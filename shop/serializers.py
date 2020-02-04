@@ -6,7 +6,7 @@ from django.utils.translation import pgettext_lazy as _
 
 
 def phone_validator(value):
-    if len(value) != 9:
+    if len(value) == 9:
         raise serializers.ValidationError(_('Validator|Phone', 'Phone must be 9 digits long'))
 
 
