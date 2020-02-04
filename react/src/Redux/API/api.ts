@@ -11,58 +11,64 @@ const instance = axios.create({
 });
 
 export const productsAPI = {
-    getProducts () {
+    getProducts() {
         return instance.get('pizza/?format=json')
             .then(res => {
-                if(res.status === 200) {
+                if (res.status === 200) {
                     return res.data;
                 }
             })
-            .catch( ()=> {
+            .catch(() => {
                 return testPissas;
             })
     },
-    getFilters () {
+    getFilters() {
         return instance.get(`filter/?format=json`)
             .then(res => {
-                if(res.status === 200) {
+                if (res.status === 200) {
                     return res.data;
                 }
             })
-            .catch( ()=> {
+            .catch(() => {
                 return testFilters;
             })
     },
-    async postOrder (formData: any, order: Array<I_postOrderItem>) {
-        let payload = {...formData, order_items: order};
+    async postOrder(formData: any, order: Array<I_postOrderItem>) {
+        let payload = {
+            ...formData,
+            phone: +formData.phone,
+            delivery_time: +formData.delivery_time,
+            payment: +formData.payment,
+            order_items: order
+        };
         console.log(payload);
-        try{
+        try {
             let res = await instance.post(`order/`, payload);
-            if (res.status >200 && res.status < 300) {
-                return res.statusText
-            } else {
-                throw new Error('Some Error Occurred')
-            }
+            return res.statusText
         } catch (err) {
+            if (err.response.status === 400) {
+                throw new Error(err.response.data.non_field_errors[0])
+            }
             APIerrorLogger(err);
-            console.log(err)
+            console.log( JSON.parse(JSON.stringify(err)) );
+
         }
     },
 
-    getOrders () {
+    getOrders() {
         return instance.get('order/?format=json')
             .then(res => {
-                if(res.status === 200) {
+                if (res.status === 200) {
                     return res.data
                 }
             })
-            .catch(()=>{
+            .catch(() => {
                 return testFilters;
             })
     },
 };
 export const languageDataAPI = {
-    async getLanguageData () {
+    async getLanguageData() {
         try {
             let res = await instance.get('front-page/');
             return res.data

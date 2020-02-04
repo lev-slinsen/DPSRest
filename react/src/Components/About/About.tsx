@@ -10,7 +10,7 @@ import Slider from "../../common/Slider";
 import bgPict from "../../assets/images/slide1.png";
 // @ts-ignore
 import {Fade} from "react-reveal";
-import {DatepickerRU} from "../../common/FormControls/DatePicker";
+
 
 interface IProps {
     filters: Array<I_filterItem>,
@@ -125,7 +125,7 @@ class About extends Component<IProps & I_dispatchProps & IState> {
                         </div>
                     </Fade>
                     <div>
-                        <DatepickerRU />
+
                     </div>
                 </div>
                 <button onClick={this.postOrder}>post test order</button>
