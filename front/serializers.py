@@ -34,7 +34,7 @@ class FrontPageSerializer(serializers.ModelSerializer):
 class WorkDateSerializer(serializers.ModelSerializer):
     class Meta:
         model = WorkDate
-        fields = '__all__'
+        fields = ('date',)
 
 
 class WorkMonthSerializer(serializers.ModelSerializer):
