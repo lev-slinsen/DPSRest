@@ -5,9 +5,9 @@ import {
 
 import {ThunkDispatch} from "redux-thunk";
 import {AppStateType} from "./Store";
-import {I_appActions} from "./productsReducer";
 import {FormAction} from "redux-form";
 import {convertArrayToObject} from "../utils/object-helpers";
+import {I_appActions} from "./actions";
 
 const SET_LANGUAGE_DATA_SUCCESS = 'LANGUAGE_DATA/SET_LANGUAGE_DATA_SUCCESS';
 const SET_LANGUAGE_DATA_ERROR = 'LANGUAGE_DATA/SET_LANGUAGE_DATA_ERROR';

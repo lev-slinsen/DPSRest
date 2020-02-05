@@ -1,39 +1,76 @@
-.aboutWrapper {
+.aboutWrapper
+{
     margin-top: 5rem;
     padding-top: 1.5rem;
 }
-.aboutWrapper .row:nth-child(2n) {
+
+.aboutWrapper .row:nth-child(2n)
+{
     flex-direction: row-reverse;
 }
 
-.container {
+.container
+{
     padding: .5rem;
+
     composes: container from './../../App.css';
 }
 
-.row {
+.row
+{
     justify-content: space-between;
-    max-width: 90%;
+    background-color: white;
+    flex-wrap: wrap;
+    min-height: min-content;
+    width: 100%;
+    padding: 1rem;
 
-    composes: row from './../../App.css';
+    display: flex;
+    flex-direction: row;
 }
-
-.col {
+.rowPrax {
+    composes: row;
+    justify-content: space-around;
+    background-color: initial;
+    color: white;
+}
+.col
+{
     flex-direction: column;
+
     width: initial;
+    padding: 1rem;
+
     text-align: left;
 
     composes: container;
 }
-.col > img {
+
+.col > img
+{
     width: 450px;
 }
-.col5{
-    composes: col;
+
+.col5
+{
     max-width: 41.666667%;
+    min-width: fit-content;
+    composes: col;
 }
+
 .col7
 {
-    composes: col;
     max-width: 58.333333%;
+
+    composes: col;
+}
+
+.parallaxImg
+{
+    height: 100%;
+
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    background-size: cover;
 }

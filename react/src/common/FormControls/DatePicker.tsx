@@ -54,14 +54,14 @@ export const RenderDateTimePicker: React.FC<I_datePickerProps> = ({
     };
 
     let classForField = cx(style.fieldWrapper, {
-        success: valid,
+        success: !error && valid,
         error: error && isTouched,
     });
 
     return (
         <Popover
             content={<Alert message={error} type="error"/>}
-            visible={isTouched && error ? true : false}
+            visible={isTouched && error? true : false}
             placement="rightTop">
             <FormItem
                 label={label}

@@ -172,7 +172,7 @@ button
 
 button:hover
 {
-    text-shadow: 0 0 5px rgba(196, 67, 0, .99);
+    border-color: rgba(196, 67, 0, .99);
 }
 
 link

@@ -4,7 +4,6 @@ import {connect} from "react-redux";
 import Preloader from "../common/Preloader";
 import Header from "./Header/Header";
 import Footer from "./Footer/Footer";
-import {fetchCatalog} from "../Redux/productsReducer";
 import {withSuspense} from "../hoc/withSuspense";
 import {AppStateType} from "../Redux/Store";
 import Catalog from "./Catalog/Catalog";
@@ -15,6 +14,7 @@ import Order from "./Order/Order";
 import Cart from "./Cart/Cart";
 import StickyBar from "./StickyBar/StickyBar";
 import {fetchLanguageData} from "../Redux/languageDataReducer";
+import {fetchCatalog} from "../Redux/actions";
 
 const About = React.lazy(() => import('./About/About'));
 

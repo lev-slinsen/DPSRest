@@ -1,10 +1,8 @@
 import productsReducer, {
     addPizzaToOrder,
-    _decreaseQuantity,
-    _increaseQuantity,
-    setFiltersSuccess,
     setPizzasSuccess
 } from "./productsReducer";
+import {_decreaseQuantity, _increaseQuantity, setFiltersSuccess} from "./actions";
 
 let state = {
     pizzas: [

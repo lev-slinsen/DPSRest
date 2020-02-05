@@ -78,3 +78,23 @@ export const languageDataAPI = {
         }
     },
 };
+
+export const paymentAPI = {
+    getToken() {
+        return axios.get('https://checkout.bepaid.by/ctp/api/checkouts',
+            {withCredentials: true,
+                headers: [
+                {'Content-Type': 'application/json'},
+                {'Accept': 'application/json'},
+                ]
+            })
+            .then( res => {
+                debugger;
+                console.log(res)
+            })
+            .catch( err => {
+                debugger;
+                console.log(err)
+            })
+    },
+}

@@ -3,33 +3,17 @@ import classNames from "classnames/bind";
 import style from "./Buttons.module.css";
 
 interface IProps {
+    type?: "button" | "submit" | "reset"
+    disabled?: boolean
     onClickCallback?: () => void
     buttonText: string
 }
 
-function useTimeout(callback: any, delay: number) {
-    const timeoutRef: any = React.useRef();
-    const callbackRef = React.useRef(callback);
-
-    useEffect(() => {
-        callbackRef.current = callback;
-    }, [callback]);
-
-    useEffect(() => {
-        if (typeof delay === 'number') {
-            timeoutRef.current = window.setTimeout(() => callbackRef.current(), delay);
-
-            // Clear timeout if the components is unmounted or the delay changes:
-            return () => window.clearTimeout(timeoutRef.current);
-        }
-    }, [delay]);
-
-    return timeoutRef;
-}
-
 const ButtonMain = ({
-                        onClickCallback = () => {
-                        }, buttonText
+                        onClickCallback = () => {},
+                        buttonText,
+                        disabled,
+                        type
                     }: IProps) => {
     let [addSucces, setAddSucces] = useState(false);
     let timer: any = useRef(); //now you can pass timer to another component
@@ -40,8 +24,8 @@ const ButtonMain = ({
         timer.current = window.setTimeout(() => {
             setAddSucces(false);
         }, 500)
-
     };
+
     useEffect(() => {
         return () => { // Return callback to run on unmount.
             window.clearTimeout(timer);
@@ -54,8 +38,9 @@ const ButtonMain = ({
     });
     return (
         <button className={classNameForbtnAdd}
-                disabled={addSucces}
+                disabled={addSucces || disabled}
                 onClick={onButtonClick}
+                type={type}
         >{buttonText}
         </button>
     )

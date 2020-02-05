@@ -1,13 +1,13 @@
 import React from 'react';
 import {compose} from "redux";
 import {connect} from "react-redux";
-import {decreaseQuantity, increaseQuantity, removeFromOrder} from "../../Redux/productsReducer";
 import {NavLink} from "react-router-dom";
 import {I_orderItem} from "../../types/types";
 import {getOrder, getTotalPrice, getTotalQuantity} from "../../Redux/selectors";
 import {AppStateType} from "../../Redux/Store";
 import style from './Cart.module.css';
 import ButtonMain from "../../common/Buttons/ButtonMain";
+import {decreaseQuantity, increaseQuantity, removeFromOrder} from "../../Redux/actions";
 
 interface IConnectProps {
     order: Array<I_orderItem>,

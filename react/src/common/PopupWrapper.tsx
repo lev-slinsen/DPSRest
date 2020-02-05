@@ -3,6 +3,7 @@ import Preloader from "./Preloader";
 import {I_productItem} from "../types/types";
 import style from './PopupWrapper.module.css';
 import {Button, Modal} from "antd";
+import {LazyLoadImage} from "react-lazy-load-image-component";
 
 interface I_Props {
     product: I_productItem
@@ -25,10 +26,14 @@ export const ProductsModal = ({product, setPopupClose}: I_Props) => {
             footer={[]}
         >
             <div className={style.mainImg}>
-                {!imageLoaded &&
-                <Preloader/>
-                }
-                <img src={product.photo} onLoad={handleImageLoaded} alt={product.text_short}/>
+                <LazyLoadImage
+                    alt={product.name}
+                    src={product.photo} // use normal <img> attributes as props
+                    effect="blur"
+                    placeholder={<span>afterLoad</span>}
+                    placeholderSrc={product.photo_thumbnail}
+                    wrapperClassName={style.mainImg}
+                />
             </div>
             <div className={style.row}>
                 <h5>{product.name}</h5>

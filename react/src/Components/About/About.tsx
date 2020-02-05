@@ -1,29 +1,18 @@
-import React, {Component} from 'react';
-import {fetchOrderInfo} from "../../Redux/productsReducer";
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {connect} from "react-redux";
 import {compose} from "redux";
 import style from './About.module.css';
 import {AppStateType} from "../../Redux/Store";
-import axios from "axios";
-import {I_filterItem, I_productItem} from "../../types/types";
 import Slider from "../../common/Slider";
 import bgPict from "../../assets/images/slide1.png";
 // @ts-ignore
 import {Fade} from "react-reveal";
+import {Progress} from "antd";
+import useRecursiveTimeout from "../../utils/useRecursiveTimeout";
 
-
-interface IProps {
-    filters: Array<I_filterItem>,
-    pizzas: Array<I_productItem>
-}
-
-interface IState {
-    imageLoaded: boolean
-    order: any
-}
-
-interface I_dispatchProps {
-    fetchOrderInfo: () => void
+interface I_Props {
+    imageLoaded?: any
+    order?: any
 }
 
 let commonCarusel = {
@@ -41,54 +30,44 @@ let commonCarusel = {
     }
 };
 
-class About extends Component<IProps & I_dispatchProps & IState> {
-    state: IState = {
-        imageLoaded: false,
-        order: {
-            phone: '222333111',
-            first_name: 'string',
-            delivery_date: '2000-10-21',
-            delivery_time: 2,
-            address: 'string',
-            comment: 'string',
-            payment: 0,
-            order_items: [
-                {
-                    quantity: 3,
-                    pizza: 1,
-                }, {
-                    quantity: 2,
-                    pizza: 2,
-                }
-            ]
-        }
-    };
 
-    postOrder = () => {
-        console.log(this.state.order);
-        axios.post("http://127.0.0.1:8000/api/order/", this.state.order)
-            .then(res => {
-                alert(res.request)
-            })
-            .catch(err => {
-                alert(err)
-            })
+const About: React.FC<I_Props> = (props:any) => {
+    let [progress, setProgress] = useState(0);
+    let [progress2, setProgress2] = useState(0);
+    let [progress3, setProgress3] = useState(0);
 
-    };
+    useRecursiveTimeout(
+        () =>
+            new Promise(r => {
+                setProgress(progress + 1);
+                r();
+            }), 50);
+    useRecursiveTimeout(
+        () =>
+            new Promise(r => {
+                setProgress2(progress2 + 1);
+                r();
+            }), 70);
+    useRecursiveTimeout(
+        () =>
+            new Promise(r => {
+                setProgress3(progress3 + 1);
+                r();
+            }), 90);
 
-    handleImageLoaded() {
-        this.setState({imageLoaded: true});
-    }
+    return (
+        <div>
+            <Slider
+                commonImages={commonCarusel.index.front_image}
+                commonTexts={commonCarusel.index.front_text}
+            />
 
-    render() {
+            <div className={style.aboutWrapper}>
+                <h2>About</h2>
+                <div style={{
+                    backgroundImage: `url(${bgPict})`,
+                }} className={style.parallaxImg}>
 
-        return (
-            <div>
-                <Slider
-                    commonImages={commonCarusel.index.front_image}
-                    commonTexts={commonCarusel.index.front_text}
-                />
-                <div className={style.aboutWrapper}>
                     <Fade cascade>
                         <div className={style.row}>
                             <div className={style.col5}>
@@ -97,11 +76,27 @@ class About extends Component<IProps & I_dispatchProps & IState> {
                             <div className={style.col7}>
                                 <h3>О сервисе</h3>
                                 <article>Мы работаем с понедельника по пятницу, по рабочим дням. Заказы сегодня на
-                                    сегодня принимаются только по телефону до 12-30. Время для приготовления и доставки
+                                    сегодня принимаются только по телефону до 12-30. Время для приготовления и
+                                    доставки
                                     занимает от 1,5 часов, и зависит от величины заказа и района доставки. Если Вам
-                                    нужно приготовить большой заказ или важно время доставки, пожалуйста, сделайте заказ
+                                    нужно приготовить большой заказ или важно время доставки, пожалуйста, сделайте
+                                    заказ
                                     заранее.
                                 </article>
+                            </div>
+                        </div>
+                        <div className={style.rowPrax}>
+                            <div>
+                                <h1>Baked Pies</h1>
+                                <Progress type="circle" percent={progress} />
+                            </div>
+                            <div>
+                                <h1>Raped Pies</h1>
+                                <Progress type="circle" percent={progress2} />
+                            </div>
+                            <div>
+                                <h1>Killed Hopes</h1>
+                                <Progress type="circle" percent={progress3} />
                             </div>
                         </div>
                         <div className={style.row}>
@@ -112,11 +107,14 @@ class About extends Component<IProps & I_dispatchProps & IState> {
                                 <div className={style.container}>
                                     <h3>О сервисе</h3>
 
-                                    <article>Мы работаем с понедельника по пятницу, по рабочим дням. Заказы сегодня на
+                                    <article>Мы работаем с понедельника по пятницу, по рабочим дням. Заказы сегодня
+                                        на
                                         сегодня принимаются только по телефону до 12-30. Время для приготовления и
                                         доставки
-                                        занимает от 1,5 часов, и зависит от величины заказа и района доставки. Если Вам
-                                        нужно приготовить большой заказ или важно время доставки, пожалуйста, сделайте
+                                        занимает от 1,5 часов, и зависит от величины заказа и района доставки. Если
+                                        Вам
+                                        нужно приготовить большой заказ или важно время доставки, пожалуйста,
+                                        сделайте
                                         заказ
                                         заранее.
                                     </article>
@@ -124,15 +122,12 @@ class About extends Component<IProps & I_dispatchProps & IState> {
                             </div>
                         </div>
                     </Fade>
-                    <div>
-
-                    </div>
                 </div>
-                <button onClick={this.postOrder}>post test order</button>
             </div>
-        );
-    }
-}
+        </div>
+    );
+};
+
 
 const mapStateToProps = (state: AppStateType) => {
     return {
@@ -141,4 +136,4 @@ const mapStateToProps = (state: AppStateType) => {
     }
 };
 
-export default compose(connect(mapStateToProps, {fetchOrderInfo}))(About);
+export default compose(connect(mapStateToProps, {}))(About);

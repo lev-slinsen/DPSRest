@@ -7,6 +7,7 @@ export const maxLength15 = maxLength(15);
 export const maxLength100 = maxLength(100);
 
 export const number = (value: any) => value && isNaN(Number(value)) ? 'Must be a number' : undefined;
+export const phoneLength9 = (value: any) => value && value.length !== 9 ? 'Должно быть 9 знаков' : undefined;
 
 export const minLength = (min: number) => (value: any) =>
     value && value.length < min ? `Должно быть минимум ${min} знаков!` : undefined;

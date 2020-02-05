@@ -3,13 +3,13 @@ import style from './Catalog.module.css';
 import ProductCard from "../ProductItem/ProductItem";
 import {compose} from "redux";
 import {connect} from "react-redux";
-import {addProductToOrder, calculateOrder, setSortFilter} from "../../Redux/productsReducer";
 import bgPict from "./../../assets/images/slide1.png"
 import {I_filterItem, I_LanguageData, I_productItem} from "../../types/types";
 import {AppStateType} from "../../Redux/Store";
 import {getFilters, getLanguageData, getProducts, getSelectedFilter} from "../../Redux/selectors";
 import Slider from "../../common/Slider";
 import {ProductsModal} from "../../common/PopupWrapper";
+import {addProductToOrder, calculateOrder, setSortFilter} from "../../Redux/actions";
 
 let commonCarusel = {
     "front_image": [
