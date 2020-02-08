@@ -1,3 +1,4 @@
+requests
 django==2.2.9
 pillow==6.2.1
 dj-database-url==0.5.0
