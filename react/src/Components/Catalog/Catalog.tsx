@@ -11,22 +11,7 @@ import Slider from "../../common/Slider";
 import {ProductsModal} from "../../common/PopupWrapper";
 import {addProductToOrder, calculateOrder, setSortFilter} from "../../Redux/actions";
 
-let commonCarusel = {
-    "front_image": [
-        {
-            "image_name": "carousel asdasdasd image 1",
-            "image": bgPict
-        },
-        {
-            "image_name": "Общество с ограниченной ответственностью «Печь Орин» image 2",
-            "image": bgPict
-        },
-        {
-            "image_name": "Общество с ограниченной ответственностью «Печь Орин» image 2",
-            "image": bgPict
-        }
-    ]
-};
+
 
 interface IConnectProps {
     products: Array<I_productItem>,

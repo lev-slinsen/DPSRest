@@ -1,13 +1,13 @@
 import axios from "axios";
-import {I_orderDates, I_orderFormData, I_orderToPost, I_postOrderItem} from "../../types/types";
-import {testFilters, testPissas} from "./TestApi";
+import {I_orderDates, I_orderFormData, I_postOrderItem} from "../../types/types";
+import {testFilters, testLanguageData, testPissas} from "./TestApi";
 import {APIerrorLogger} from "../../utils/errorLogger";
 
 axios.defaults.xsrfHeaderName = "X-CSRFToken";
 axios.defaults.xsrfCookieName = "csrftoken";
 
 const instance = axios.create({
-    baseURL: "http://127.0.0.1:8000/api/",
+    baseURL: `http://127.0.0.1:8000/api/`,
 });
 
 export const productsAPI = {
@@ -74,7 +74,7 @@ export const languageDataAPI = {
         } catch (err) {
             APIerrorLogger(err);
             console.log(err);
-            throw err
+            return testLanguageData
         }
     },
 };

@@ -10,6 +10,7 @@ export const getIsFetching = (state:AppStateType) => state.reducer.isFetching;
 export const getTotalQuantity = (state:AppStateType) => state.reducer.totalQuantity;
 export const getOrder = (state:AppStateType) => state.reducer.order;
 export const getOrderDates = (state:AppStateType) => state.reducer.orderData;
+export const getOrderSuccess = (state:AppStateType) => state.reducer.orderSuccess;
 
 export const getLanguageData = (state:AppStateType) => state.language.languageData;
 

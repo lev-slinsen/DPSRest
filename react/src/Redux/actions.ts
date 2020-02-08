@@ -160,6 +160,7 @@ export const submitOrder = (orderData: I_orderFormData) => async (dispatch: Thun
     }
     setTimeout(() => dispatch(_setOrderSuccess(false)), 4000);
 };
+
 export const fetchOrderInfo = () => async (dispatch: any) => {
     try {
         const orderData = await productsAPI.getOrderData();
