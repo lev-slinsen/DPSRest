@@ -42,9 +42,11 @@ export const productsAPI = {
         };
         console.log(payload);
         try {
+        debugger
             let res = await instance.post(`order/`, payload);
             return res.statusText
         } catch (err) {
+        debugger
             if (err.response.status === 400) {
                 throw new Error(err.response.data.non_field_errors[0])
             }

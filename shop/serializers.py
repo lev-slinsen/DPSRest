@@ -3,11 +3,36 @@ import copy
 from rest_framework import serializers
 from .models import Order, OrderItem
 from django.utils.translation import pgettext_lazy as _
+from . import bepaid
 
 
 def phone_validator(value):
     if len(value) == 9:
-        raise serializers.ValidationError(_('Validator|Phone', 'Phone must be 9 digits long'))
+        raise serializers.ValidationError(_('Validator|Phone length', 'Phone must be 9 digits long'))
+
+
+def first_name_validator(value):
+    if len(value) >= 20:
+        raise serializers.ValidationError(_('Validator|Name length', 'Max name length 20 letters'))
+    # if value.isalpha:
+    #     raise serializers.ValidationError(_('Validator|Name letters', 'Name can only contain letters'))
+
+
+def address_validator(value):
+    if len(value) >= 100:
+        raise serializers.ValidationError(_('Validator|Address Length', 'Max address length 100 letters'))
+
+
+def comment_validator(value):
+    if len(value) >= 100:
+        raise serializers.ValidationError(_('Validator|Comment Length', 'Max address length 100 letters'))
+
+
+def payment_validator(value, bepaid):
+    if value == 2:
+        bepaid = bepaid()
+        response_data = bepaid.bp_token(total_price)
+    return HttpResponse(response_data, content_type='application/json')
 
 
 class OrderItemSerializer(serializers.ModelSerializer):
@@ -30,7 +55,10 @@ class OrderSerializer(serializers.ModelSerializer):
                   'comment',
                   'payment',
                   'order_items')
-        validators = [phone_validator]
+        validators = [phone_validator,
+                      first_name_validator,
+                      address_validator,
+                      comment_validator]
 
     def create(self, validated_data, **kwargs):
         for_items = copy.deepcopy(validated_data)
