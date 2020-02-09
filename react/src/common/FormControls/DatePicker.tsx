@@ -61,7 +61,7 @@ export const RenderDateTimePicker: React.FC<I_datePickerProps> = ({
     return (
         <Popover
             content={<Alert message={error} type="error"/>}
-            visible={isTouched && error? true : false}
+            visible={!!(isTouched && error)}
             placement="rightTop">
             <FormItem
                 label={label}
