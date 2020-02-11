@@ -11,7 +11,7 @@ interface I_Props {
     totalPrice: number,
 }
 
-const StickyBar: React.FC<I_Props> = ({totalQuantity, totalPrice}:I_Props) => {
+const StickyBar: React.FC<I_Props> = React.memo(({totalQuantity, totalPrice}:I_Props) => {
     let [opened, setOpened] = useState(false);
     let [visible, setVisible] = useState(false);
 
@@ -66,6 +66,6 @@ const StickyBar: React.FC<I_Props> = ({totalQuantity, totalPrice}:I_Props) => {
             </div>
 
         )
-};
+});
 
 export default StickyBar;

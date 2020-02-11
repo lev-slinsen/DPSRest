@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {connect} from "react-redux";
 import {compose} from "redux";
 import style from './About.module.css';
@@ -9,6 +9,7 @@ import bgPict from "../../assets/images/slide1.png";
 import {Fade} from "react-reveal";
 import {Progress} from "antd";
 import useRecursiveTimeout from "../../utils/useRecursiveTimeout";
+import ButtonMain from "../../common/Buttons/ButtonMain";
 
 interface I_Props {
     imageLoaded?: any
@@ -55,14 +56,12 @@ const About: React.FC<I_Props> = (props: any) => {
                     setProgress3(progress3 + 1);
                     r();
                 }), 90);
-
     return (
         <div>
             <Slider
                 commonImages={commonCarusel.index.front_image}
                 commonTexts={commonCarusel.index.front_text}
             />
-
             <div className={style.aboutWrapper}>
                 <h2>About</h2>
                 <div style={{
