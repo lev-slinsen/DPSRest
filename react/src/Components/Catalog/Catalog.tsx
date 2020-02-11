@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, useCallback, useState} from 'react';
 import style from './Catalog.module.css';
 import ProductCard from "../ProductItem/ProductItem";
 import {compose} from "redux";
@@ -12,96 +12,94 @@ import {ProductsModal} from "../../common/PopupWrapper";
 import {addProductToOrder, calculateOrder, setSortFilter} from "../../Redux/actions";
 
 
-
-interface IConnectProps {
+interface I_ConnectProps {
     products: Array<I_productItem>,
     filters: Array<I_filterItem>,
     selectedFilter: string,
     languageData: I_LanguageData
 }
 
-interface LinkDispatchProps {
+interface I_LinkDispatchProps {
     addProductToOrder: (productItem: I_productItem, quantity: number) => void;
     calculateOrder: () => void;
     setSortFilter: (filter: string) => void;
 }
 
-interface IState {
+interface I_State {
     bgPict: string
     isPopupOpen: boolean
     popupProduct: I_productItem
 }
 
-class Catalog extends Component<IConnectProps & LinkDispatchProps> {
+const Catalog: React.FC<I_ConnectProps & I_LinkDispatchProps> = (props) => {
 
-    state: IState = {
+    let [state, setState] = useState<I_State>({
         bgPict: bgPict,
         isPopupOpen: false,
-        popupProduct: this.props.products[0],
+        popupProduct: props.products[0],
+    });
+    let {languageData} = props;
+
+    const setPopupOpen = useCallback((product: I_productItem, option: boolean) => {
+        setState({...state, popupProduct: product});
+        setState({...state, isPopupOpen: option});
+    }, []);
+    const setPopupClose = useCallback(() => {
+        setPopupOpen(state.popupProduct, false)
+    }, []);
+    const callCalculateOrder = useCallback(props.calculateOrder, []);
+    const callAddProductToOrder = useCallback(props.addProductToOrder, []);
+
+    const changeFilter = (filterName: string) => {
+        props.setSortFilter(filterName)
     };
 
-    setPopupOpen = (product: I_productItem, option: boolean) => {
-        this.setState({popupProduct: product});
-        this.setState({isPopupOpen: option});
-    };
-    changeFilter = (filterName: string) => {
-        this.props.setSortFilter(filterName)
-    };
+    let products = props.products
+        .map(p => (
+            <ProductCard product={p}
+                         openPopup={setPopupOpen}
+                         key={p.id}
+                         calculateOrder={callCalculateOrder}
+                         addProductToOrder={callAddProductToOrder}
+            />
+        ));
+    let filters = props.filters
+        .map(f => (
+            <button
+                key={f.name}
+                className={style.filterBtn}
+                onClick={() => {
+                    changeFilter(f.name)
+                }}
+            >
+                {f.name}
+            </button>
+        ));
+    console.log('!!!!!!!!!!!!!! CATALOG RENDERED');
+    return (
+        <div>
+            {state.isPopupOpen &&
+            <ProductsModal
+                product={state.popupProduct}
+                setPopupClose={setPopupClose}
+            />}
 
-    render() {
-        let {languageData} = this.props;
-        let products = this.props.products
-            .map(p => (
-                <ProductCard product={p}
-                             openPopup={() => {
-                                 this.setPopupOpen(p, true)
-                             }}
-                             key={p.id}
-                             calculateOrder={this.props.calculateOrder}
-                             addProductToOrder={this.props.addProductToOrder}
-                />
-            ));
-
-        let filters = this.props.filters
-            .map(f => (
-                <button
-                    key={f.name}
-                    className={style.filterBtn}
-                    onClick={() => {
-                        this.changeFilter(f.name)
-                    }}
-                >
-                    {f.name}
-                </button>
-            ));
-
-        return (
             <div>
-                {this.state.isPopupOpen &&
-                <ProductsModal
-                    product={this.state.popupProduct}
-                    setPopupClose={() => {
-                        this.setPopupOpen(this.state.popupProduct, false)
-                    }}
-                />}
-
-                <div>
-                    <Slider
-                        commonImages={languageData.index.front_image}
-                        commonTexts={languageData.index.front_text}
-                    />
-                    <div className={style.container}>{filters}</div>
-                    <hr/>
-                    <div className={style.productsContainer}>
-                        {products}
-                    </div>
+                <Slider
+                    commonImages={languageData.index.front_image}
+                    commonTexts={languageData.index.front_text}
+                />
+                <div className={style.container}>{filters}</div>
+                <hr/>
+                <div className={style.productsContainer}>
+                    {products}
                 </div>
             </div>
-        )
-    }
-}
+        </div>
+    )
+};
 
-const mapStateToProps = (state: AppStateType): IConnectProps => {
+const mapStateToProps = (state: AppStateType): I_ConnectProps => {
     return {
         products: getProducts(state),
         filters: getFilters(state),
