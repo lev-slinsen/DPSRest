@@ -4,7 +4,6 @@ from django.urls import reverse
 from django.conf import settings
 from requests.auth import HTTPBasicAuth
 
-
 class Bepaid:
     def __init__(self):
         self.test = settings.DEBUG
@@ -34,7 +33,9 @@ class Bepaid:
                 "order": {
                     "currency": "BYN",
                     "amount": total_price,
-                    "description": 'После совершения оплаты, мы перезвоним Вам для подтверждения заказа. Пекарня "Печорин"'
+                    "description": 'После совершения оплаты, \
+                                    мы перезвоним Вам для подтверждения заказа. \
+                                    Пекарня "Печорин"'
                 },
             }
         }
