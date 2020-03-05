@@ -4,6 +4,7 @@ from django.urls import reverse
 from django.conf import settings
 from requests.auth import HTTPBasicAuth
 
+
 class Bepaid:
     def __init__(self):
         self.test = settings.DEBUG
@@ -39,10 +40,12 @@ class Bepaid:
                 },
             }
         }
-        response = requests.post(self.url, json=payload, headers={'Accept': 'application/json'}, auth=HTTPBasicAuth('3013', '85b45d21923689cae8026b90a5f832f2221bede68265b566b86cdfd7ba21de41'))
+        response = requests.post(self.url, json=payload, headers={'Accept': 'application/json'},
+                                 auth=HTTPBasicAuth('3013',
+                                                    '85b45d21923689cae8026b90a5f832f2221bede68265b566b86cdfd7ba21de41'))
         response.json()
         if settings.DEBUG:
-            print(f"bepaid redirection link: "+response.json().get('checkout').get('redirect_url'))
+            print(f"bepaid redirection link: " + response.json().get('checkout').get('redirect_url'))
         # return response.json().get('checkout').get('redirect_url')
         print(response)
         return response

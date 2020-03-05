@@ -41,8 +41,9 @@ class OrderAdmin(admin.ModelAdmin):
         'delivery_time',
         'first_name',
         'total_price',
-        'payment'
+        'payment',
+        'discount'
     )
     date_hierarchy = 'delivery_date'
-    exclude = ('user',)
+    exclude = ('user', 'order_items')
     inlines = (OrderItemInline,)

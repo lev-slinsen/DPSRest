@@ -1,7 +1,24 @@
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from django.utils.translation import pgettext_lazy as _
+from django.db.models.signals import post_save
+from .bepaid import Bepaid
+from django.http import HttpResponse
 
 from catalog.models import Pizza
+
+
+def bp_redirect(sender, instance, **kwargs):
+    tp = instance.total_price()
+    print("INSTANCE", instance.payment, tp)
+
+    # if instance.payment == 2:
+    #     total_price = instance.total_price
+    #     print("TOTAL_PRICE", total_price)
+    #     bp = Bepaid()
+    #     response_data = bp.bp_token(total_price)
+    #     print("HTTP", HttpResponse(response_data, content_type='application/json'))
+    #     return HttpResponse(response_data, content_type='application/json')
 
 
 class Order(models.Model):
@@ -34,10 +51,20 @@ class Order(models.Model):
     comment = models.TextField(max_length=100, verbose_name=_('Order|Comment', 'Comment'), blank=True, null=True)
     payment = models.SmallIntegerField(choices=PAYMENT_CHOICES, verbose_name=_('Order|Payment', 'Payment method'))
     status = models.BooleanField(default=0, verbose_name=_('Order|Confirmed', 'Confirmed'))
+    discount = models.SmallIntegerField(default=0,
+                                        validators=[MinValueValidator(0), MaxValueValidator(100)],
+                                        verbose_name=_('Order|Discount', 'Discount'))
+
+    # Redundant field
     order_items = models.CharField(max_length=100)
 
     def total_price(self):
-        return sum([item.price for item in self.orderitem_set.all()])
+        tp = sum([item.price for item in self.orderitem_set.all()])
+        discount = 1 - self.discount / 100
+        final_price = round(float(tp) * float(discount), 2)
+        return final_price
+
+    # print(total_price())
 
     total_price.allow_tags = True
     total_price.short_description = _('Order|Total price', 'Total price')
@@ -48,6 +75,9 @@ class Order(models.Model):
     class Meta:
         verbose_name = _('Order|Meta', 'Order')
         verbose_name_plural = _('Order|Meta plural', 'Orders')
+
+
+post_save.connect(bp_redirect, sender=Order, weak=False)
 
 
 class OrderItem(models.Model):
@@ -65,6 +95,7 @@ class OrderItem(models.Model):
     "Property admin panel translation"
     def price_admin(self):
         return self.price
+
     price_admin.short_description = _('OrderItem|Price', 'Price')
 
     def __str__(self):
