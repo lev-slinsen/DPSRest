@@ -16,7 +16,7 @@ class PizzaSerializer(serializers.ModelSerializer):
         model = Pizza
         fields = ('id',
                   'name',
-                  'size',
+                  'category',
                   'price',
                   'text_short',
                   'text_long',

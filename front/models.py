@@ -3,7 +3,6 @@ from django.utils.translation import pgettext_lazy as _
 
 
 class FrontPage(models.Model):
-    id = models.PositiveSmallIntegerField(primary_key=True)
     page_name = models.CharField(max_length=100, verbose_name=_('Front|Page', 'HTML page'))
 
     def __str__(self):

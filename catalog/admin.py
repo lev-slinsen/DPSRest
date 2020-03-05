@@ -9,9 +9,9 @@ from .models import Pizza, Filter
 
 @admin.register(Pizza)
 class PizzaAdmin(admin.ModelAdmin):
-    list_display = ('name', 'id', 'size')
-    list_filter = ('filter__name', 'size')
-    fields = ('id', 'name', 'size', 'price', 'text_short', 'text_long', 'photo', 'filter', 'active')
+    list_display = ('name', 'id', 'category')
+    list_filter = ('filter__name', 'category')
+    fields = ('id', 'name', 'category', 'price', 'text_short', 'text_long', 'photo', 'filter', 'active')
     readonly_fields = ('photo_preview',)
 
     def photo_preview(self, obj):

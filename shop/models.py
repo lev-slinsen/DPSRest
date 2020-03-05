@@ -59,13 +59,12 @@ class Order(models.Model):
     order_items = models.CharField(max_length=100)
 
     def total_price(self):
-        tp = sum([item.price for item in self.orderitem_set.all()])
+        price = sum([item.price for item in self.orderitem_set.all()])
         discount = 1 - self.discount / 100
-        final_price = round(float(tp) * float(discount), 2)
+        final_price = round(float(price) * float(discount), 2)
         return final_price
 
-    # print(total_price())
-
+    # Total price field in Admin
     total_price.allow_tags = True
     total_price.short_description = _('Order|Total price', 'Total price')
 
@@ -77,7 +76,7 @@ class Order(models.Model):
         verbose_name_plural = _('Order|Meta plural', 'Orders')
 
 
-post_save.connect(bp_redirect, sender=Order, weak=False)
+post_save.connect(bp_redirect, sender=Order)
 
 
 class OrderItem(models.Model):
