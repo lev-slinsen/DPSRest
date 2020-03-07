@@ -4,13 +4,18 @@ from django.utils.translation import pgettext_lazy as _
 from django.db.models.signals import post_save
 from .bepaid import Bepaid
 from django.http import HttpResponse
+from django.contrib.sites.models import Site
+from django.core.mail import send_mail
+import logging
 
 from catalog.models import Pizza
 
 
+log = logging.getLogger(__name__)
+
+
 def bp_redirect(sender, instance, **kwargs):
     tp = instance.total_price()
-    print("INSTANCE", instance.payment, tp)
 
     # if instance.payment == 2:
     #     total_price = instance.total_price
@@ -55,7 +60,7 @@ class Order(models.Model):
                                         validators=[MinValueValidator(0), MaxValueValidator(100)],
                                         verbose_name=_('Order|Discount', 'Discount'))
 
-    # For total_price
+    "For total_price"
     order_items = models.CharField(max_length=100)
 
     def total_price(self):
@@ -64,7 +69,7 @@ class Order(models.Model):
         final_price = round(float(price) * float(discount), 2)
         return final_price
 
-    # Total price field in Admin
+    "Total price field in Admin"
     total_price.allow_tags = True
     total_price.short_description = _('Order|Total price', 'Total price')
 
@@ -84,12 +89,13 @@ class OrderItem(models.Model):
     pizza = models.ForeignKey(Pizza, on_delete=models.CASCADE, verbose_name=_('OrderItem|Item', 'Item'))
     quantity = models.PositiveSmallIntegerField(verbose_name=_('OrderItem|Quantity', 'Quantity'))
 
-    def pizza_id(self):
-        return self.pizza.id
-
     @property
     def price(self):
         return self.pizza.price * self.quantity
+
+    "For API"
+    def pizza_id(self):
+        return self.pizza.id
 
     "Property translation on admin panel"
     def price_admin(self):
@@ -105,7 +111,7 @@ class OrderItem(models.Model):
         verbose_name_plural = _('OrderItem|Meta plural', 'Items')
 
 
-def order_update(sender, instance, created, **kwargs):
+def order_email(sender, instance, created, **kwargs):
     if created:
         try:
             subject = 'Новый заказ'
@@ -120,3 +126,6 @@ def order_update(sender, instance, created, **kwargs):
             send_mail(subject, text_content, from_email, [to], fail_silently=False, html_message=html_content)
         except Exception as ex:
             log.error(ex)
+
+
+post_save.connect(order_email, sender=Order)

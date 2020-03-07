@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.contrib.admin.widgets import RelatedFieldWidgetWrapper
+from django.db.models.signals import post_save
 from django.utils.translation import pgettext_lazy as _
 
 from .models import OrderItem, Order

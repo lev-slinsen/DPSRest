@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'imagekit',
     'rest_framework_swagger',
+    'django.contrib.sites',
 ]
 
 REST_FRAMEWORK = {
@@ -191,3 +192,5 @@ STATICFILES_DIRS = [
 MEDIA_URL = '/media/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
+SITE_ID = 1
