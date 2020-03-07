@@ -55,7 +55,7 @@ class Order(models.Model):
                                         validators=[MinValueValidator(0), MaxValueValidator(100)],
                                         verbose_name=_('Order|Discount', 'Discount'))
 
-    # Redundant field
+    # For total_price
     order_items = models.CharField(max_length=100)
 
     def total_price(self):
@@ -91,7 +91,7 @@ class OrderItem(models.Model):
     def price(self):
         return self.pizza.price * self.quantity
 
-    "Property admin panel translation"
+    "Property translation on admin panel"
     def price_admin(self):
         return self.price
 
@@ -103,3 +103,20 @@ class OrderItem(models.Model):
     class Meta:
         verbose_name = _('OrderItem|Meta', 'Item')
         verbose_name_plural = _('OrderItem|Meta plural', 'Items')
+
+
+def order_update(sender, instance, created, **kwargs):
+    if created:
+        try:
+            subject = 'Новый заказ'
+            from_email = 'Печорин'
+            to = 'pechorinby@gmail.com'
+            site = Site.objects.get()
+            text_content = f'{site.domain}/admin/shop/order/{instance.id}/change'
+            html_content = f'<a href={site.domain}/admin/shop/order/{instance.id}/change>Новый заказ</a>'
+            # msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+            # msg.attach_alternative(html_content, "text/html")
+            # msg.send(fail_silently=False)
+            send_mail(subject, text_content, from_email, [to], fail_silently=False, html_message=html_content)
+        except Exception as ex:
+            log.error(ex)
