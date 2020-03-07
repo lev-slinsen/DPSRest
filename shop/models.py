@@ -14,18 +14,6 @@ from catalog.models import Pizza
 log = logging.getLogger(__name__)
 
 
-def bp_redirect(sender, instance, **kwargs):
-    tp = instance.total_price()
-
-    # if instance.payment == 2:
-    #     total_price = instance.total_price
-    #     print("TOTAL_PRICE", total_price)
-    #     bp = Bepaid()
-    #     response_data = bp.bp_token(total_price)
-    #     print("HTTP", HttpResponse(response_data, content_type='application/json'))
-    #     return HttpResponse(response_data, content_type='application/json')
-
-
 class Order(models.Model):
     DELIVERY_TIME_CHOICES = [
         (0, '09-10'),
@@ -59,6 +47,7 @@ class Order(models.Model):
     discount = models.SmallIntegerField(default=0,
                                         validators=[MinValueValidator(0), MaxValueValidator(100)],
                                         verbose_name=_('Order|Discount', 'Discount'))
+    order_price = models.FloatField(default=0, verbose_name=_('Order|Order price', 'Order price'))
 
     "For total_price"
     order_items = models.CharField(max_length=100)
@@ -79,9 +68,6 @@ class Order(models.Model):
     class Meta:
         verbose_name = _('Order|Meta', 'Order')
         verbose_name_plural = _('Order|Meta plural', 'Orders')
-
-
-post_save.connect(bp_redirect, sender=Order)
 
 
 class OrderItem(models.Model):

@@ -10,7 +10,6 @@ class OrderItemInline(admin.TabularInline):
     model = OrderItem
     fields = ('pizza', 'quantity', 'price_admin')
     readonly_fields = ('price_admin',)
-    exclude = ('order_items',)
     extra = 0
 
     def formfield_for_dbfield(self, db_field, *args, **kwargs):
@@ -43,8 +42,10 @@ class OrderAdmin(admin.ModelAdmin):
         'first_name',
         'total_price',
         'payment',
-        'discount'
+        'discount',
     )
     date_hierarchy = 'delivery_date'
-    exclude = ('user', 'order_items')
+    exclude = ('user',
+               'order_items',
+               'order_price')
     inlines = (OrderItemInline,)

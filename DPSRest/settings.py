@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     # custom apps
     'accounts.apps.AccountsConfig',
     'catalog.apps.CatalogConfig',
@@ -51,8 +52,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     'imagekit',
-    'rest_framework_swagger',
-    'django.contrib.sites',
+    'drf_yasg',
 ]
 
 REST_FRAMEWORK = {

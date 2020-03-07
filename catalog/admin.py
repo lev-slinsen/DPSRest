@@ -4,7 +4,7 @@ from django.db import models
 from django.forms import CheckboxSelectMultiple
 from django.utils.safestring import mark_safe
 
-from .models import Pizza, Filter, Category
+from .models import Pizza, Filter
 
 
 @admin.register(Pizza)
@@ -28,4 +28,3 @@ class PizzaAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Filter)
-admin.site.register(Category)
