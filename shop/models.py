@@ -1,7 +1,24 @@
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from django.utils.translation import pgettext_lazy as _
+from django.db.models.signals import post_save
+from .bepaid import Bepaid
+from django.http import HttpResponse
 
 from catalog.models import Pizza
+
+
+def bp_redirect(sender, instance, **kwargs):
+    tp = instance.total_price()
+    print("INSTANCE", instance.payment, tp)
+
+    # if instance.payment == 2:
+    #     total_price = instance.total_price
+    #     print("TOTAL_PRICE", total_price)
+    #     bp = Bepaid()
+    #     response_data = bp.bp_token(total_price)
+    #     print("HTTP", HttpResponse(response_data, content_type='application/json'))
+    #     return HttpResponse(response_data, content_type='application/json')
 
 
 class Order(models.Model):
@@ -34,11 +51,20 @@ class Order(models.Model):
     comment = models.TextField(max_length=100, verbose_name=_('Order|Comment', 'Comment'), blank=True, null=True)
     payment = models.SmallIntegerField(choices=PAYMENT_CHOICES, verbose_name=_('Order|Payment', 'Payment method'))
     status = models.BooleanField(default=0, verbose_name=_('Order|Confirmed', 'Confirmed'))
+    discount = models.SmallIntegerField(default=0,
+                                        validators=[MinValueValidator(0), MaxValueValidator(100)],
+                                        verbose_name=_('Order|Discount', 'Discount'))
+
+    # For total_price
     order_items = models.CharField(max_length=100)
 
     def total_price(self):
-        return sum([item.price for item in self.orderitem_set.all()])
+        price = sum([item.price for item in self.orderitem_set.all()])
+        discount = 1 - self.discount / 100
+        final_price = round(float(price) * float(discount), 2)
+        return final_price
 
+    # Total price field in Admin
     total_price.allow_tags = True
     total_price.short_description = _('Order|Total price', 'Total price')
 
@@ -48,6 +74,9 @@ class Order(models.Model):
     class Meta:
         verbose_name = _('Order|Meta', 'Order')
         verbose_name_plural = _('Order|Meta plural', 'Orders')
+
+
+post_save.connect(bp_redirect, sender=Order)
 
 
 class OrderItem(models.Model):
@@ -62,9 +91,10 @@ class OrderItem(models.Model):
     def price(self):
         return self.pizza.price * self.quantity
 
-    "Property admin panel translation"
+    "Property translation on admin panel"
     def price_admin(self):
         return self.price
+
     price_admin.short_description = _('OrderItem|Price', 'Price')
 
     def __str__(self):
@@ -73,3 +103,20 @@ class OrderItem(models.Model):
     class Meta:
         verbose_name = _('OrderItem|Meta', 'Item')
         verbose_name_plural = _('OrderItem|Meta plural', 'Items')
+
+
+def order_update(sender, instance, created, **kwargs):
+    if created:
+        try:
+            subject = 'Новый заказ'
+            from_email = 'Печорин'
+            to = 'pechorinby@gmail.com'
+            site = Site.objects.get()
+            text_content = f'{site.domain}/admin/shop/order/{instance.id}/change'
+            html_content = f'<a href={site.domain}/admin/shop/order/{instance.id}/change>Новый заказ</a>'
+            # msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+            # msg.attach_alternative(html_content, "text/html")
+            # msg.send(fail_silently=False)
+            send_mail(subject, text_content, from_email, [to], fail_silently=False, html_message=html_content)
+        except Exception as ex:
+            log.error(ex)

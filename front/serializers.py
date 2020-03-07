@@ -28,7 +28,7 @@ class FrontPageSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = FrontPage
-        fields = ('id', 'page_name', 'front_text', 'front_image')
+        fields = ('page_name', 'front_text', 'front_image')
 
 
 class WorkDateSerializer(serializers.ModelSerializer):

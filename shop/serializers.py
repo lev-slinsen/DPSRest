@@ -3,7 +3,11 @@ import copy
 from rest_framework import serializers
 from .models import Order, OrderItem
 from django.utils.translation import pgettext_lazy as _
-from . import bepaid
+from .bepaid import Bepaid
+from django.db.models.signals import post_save
+from django.http import HttpResponse
+
+from django.dispatch import receiver
 
 
 def phone_validator(value):
@@ -26,13 +30,6 @@ def address_validator(value):
 def comment_validator(value):
     if len(value) >= 100:
         raise serializers.ValidationError(_('Validator|Comment Length', 'Max address length 100 letters'))
-
-
-def payment_validator(value, bepaid):
-    if value == 2:
-        bepaid = bepaid()
-        response_data = bepaid.bp_token(total_price)
-    return HttpResponse(response_data, content_type='application/json')
 
 
 class OrderItemSerializer(serializers.ModelSerializer):
@@ -58,7 +55,8 @@ class OrderSerializer(serializers.ModelSerializer):
         validators = [phone_validator,
                       first_name_validator,
                       address_validator,
-                      comment_validator]
+                      comment_validator,
+                      ]
 
     def create(self, validated_data, **kwargs):
         for_items = copy.deepcopy(validated_data)
