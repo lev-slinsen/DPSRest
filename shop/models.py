@@ -7,6 +7,7 @@ from django.http import HttpResponse
 from django.contrib.sites.models import Site
 from django.core.mail import send_mail
 import logging
+from django.core.exceptions import ValidationError
 
 from catalog.models import Pizza
 
@@ -32,22 +33,40 @@ class Order(models.Model):
         (1, _('Order|Card', 'Card')),
         (2, _('Order|Online', 'Online')),
     ]
-    phone = models.CharField(max_length=100, verbose_name=_('Order|Phone', 'Phone'))
-    first_name = models.CharField(max_length=100, verbose_name=_('Order|Name', 'Name'))
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('Order|Created at', 'Created at'))
+    phone = models.CharField(max_length=100,
+                             verbose_name=_('Order|Phone', 'Phone'))
+    first_name = models.CharField(max_length=100,
+                                  verbose_name=_('Order|Name', 'Name'))
+    created_at = models.DateTimeField(auto_now_add=True,
+                                      verbose_name=_('Order|Created at', 'Created at'))
     delivery_date = models.DateField(verbose_name=_('Order|Delivery date', 'Delivery date'))
-    delivery_time = models.SmallIntegerField(
-        choices=DELIVERY_TIME_CHOICES,
-        verbose_name=_('Order|Delivery time', 'Delivery time'),
-    )
-    address = models.CharField(max_length=100, verbose_name=_('Order|Address', 'Address'))
-    comment = models.TextField(max_length=100, verbose_name=_('Order|Comment', 'Comment'), blank=True, null=True)
-    payment = models.SmallIntegerField(choices=PAYMENT_CHOICES, verbose_name=_('Order|Payment', 'Payment method'))
-    status = models.BooleanField(default=0, verbose_name=_('Order|Confirmed', 'Confirmed'))
+    delivery_time = models.SmallIntegerField(choices=DELIVERY_TIME_CHOICES,
+                                             verbose_name=_('Order|Delivery time', 'Delivery time'))
+    address = models.CharField(max_length=100,
+                               verbose_name=_('Order|Address', 'Address'))
+    comment = models.TextField(max_length=100,
+                               blank=True,
+                               null=True,
+                               verbose_name=_('Order|Comment', 'Comment'))
+    payment = models.SmallIntegerField(choices=PAYMENT_CHOICES,
+                                       verbose_name=_('Order|Payment', 'Payment method'))
+    status = models.BooleanField(default=0,
+                                 verbose_name=_('Order|Confirmed', 'Confirmed'))
     discount = models.SmallIntegerField(default=0,
                                         validators=[MinValueValidator(0), MaxValueValidator(100)],
                                         verbose_name=_('Order|Discount', 'Discount'))
     order_price = models.FloatField(default=0, verbose_name=_('Order|Order price', 'Order price'))
+
+    "Field validation for admin"
+    def clean(self):
+        if len(self.phone) != 9:
+            raise ValidationError(_('Model validator|Phone length', 'Phone must be 9 digits long'))
+        elif len(self.first_name) >= 20:
+            raise ValidationError(_('Model validator|Name length', 'Max name length 20 letters'))
+        elif len(self.address) >= 100:
+            raise ValidationError(_('Model validator|Address Length', 'Max address length 100 letters'))
+        elif len(self.comment) >= 100:
+            raise ValidationError(_('Model validator|Comment Length', 'Max address length 100 letters'))
 
     "For total_price"
     order_items = models.CharField(max_length=100)

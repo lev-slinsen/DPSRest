@@ -11,15 +11,13 @@ from django.dispatch import receiver
 
 
 def phone_validator(value):
-    if len(value) == 9:
+    if len(value) != 9:
         raise serializers.ValidationError(_('Validator|Phone length', 'Phone must be 9 digits long'))
 
 
 def first_name_validator(value):
     if len(value) >= 20:
         raise serializers.ValidationError(_('Validator|Name length', 'Max name length 20 letters'))
-    # if value.isalpha:
-    #     raise serializers.ValidationError(_('Validator|Name letters', 'Name can only contain letters'))
 
 
 def address_validator(value):
