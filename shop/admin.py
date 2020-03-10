@@ -2,14 +2,16 @@ from django.contrib import admin
 from django.contrib.admin.widgets import RelatedFieldWidgetWrapper
 from django.db.models.signals import post_save
 from django.utils.translation import pgettext_lazy as _
+from .models import Pizza
 
 from .models import OrderItem, Order
 
 
 class OrderItemInline(admin.TabularInline):
     model = OrderItem
-    fields = ('pizza', 'quantity', 'price_admin')
-    readonly_fields = ('price_admin',)
+    # queryset = OrderItem.objects.filter(category=1)
+    fields = ('category', 'pizza', 'quantity', 'price_admin',)
+    readonly_fields = ('price_admin', 'category',)
     extra = 0
 
     def formfield_for_dbfield(self, db_field, *args, **kwargs):

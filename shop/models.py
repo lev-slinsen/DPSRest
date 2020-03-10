@@ -71,13 +71,22 @@ class Order(models.Model):
 
 
 class OrderItem(models.Model):
-    order = models.ForeignKey(Order, on_delete=models.CASCADE, verbose_name=_('OrderItem|Order', 'Order'))
-    pizza = models.ForeignKey(Pizza, on_delete=models.CASCADE, verbose_name=_('OrderItem|Item', 'Item'))
-    quantity = models.PositiveSmallIntegerField(verbose_name=_('OrderItem|Quantity', 'Quantity'))
+    order = models.ForeignKey(Order,
+                              on_delete=models.CASCADE,
+                              verbose_name=_('OrderItem|Order', 'Order'))
+    pizza = models.ForeignKey(Pizza,
+                              on_delete=models.CASCADE,
+                              verbose_name=_('OrderItem|Item', 'Item'))
+    quantity = models.PositiveSmallIntegerField(validators=[MinValueValidator(1)],
+                                                verbose_name=_('OrderItem|Quantity', 'Quantity'))
 
     @property
     def price(self):
         return self.pizza.price * self.quantity
+
+    @property
+    def category(self):
+        return self.pizza.category
 
     "For API"
     def pizza_id(self):
@@ -86,7 +95,6 @@ class OrderItem(models.Model):
     "Property translation on admin panel"
     def price_admin(self):
         return self.price
-
     price_admin.short_description = _('OrderItem|Price', 'Price')
 
     def __str__(self):
