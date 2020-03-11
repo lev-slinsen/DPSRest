@@ -35,16 +35,16 @@ class Order(models.Model):
     ]
     phone = models.CharField(max_length=100,
                              verbose_name=_('Order|Phone', 'Phone'))
-    first_name = models.CharField(max_length=100,
+    first_name = models.CharField(max_length=25,
                                   verbose_name=_('Order|Name', 'Name'))
     created_at = models.DateTimeField(auto_now_add=True,
                                       verbose_name=_('Order|Created at', 'Created at'))
     delivery_date = models.DateField(verbose_name=_('Order|Delivery date', 'Delivery date'))
     delivery_time = models.SmallIntegerField(choices=DELIVERY_TIME_CHOICES,
                                              verbose_name=_('Order|Delivery time', 'Delivery time'))
-    address = models.CharField(max_length=100,
+    address = models.CharField(max_length=60,
                                verbose_name=_('Order|Address', 'Address'))
-    comment = models.TextField(max_length=100,
+    comment = models.TextField(max_length=60,
                                blank=True,
                                null=True,
                                verbose_name=_('Order|Comment', 'Comment'))
@@ -55,18 +55,19 @@ class Order(models.Model):
     discount = models.SmallIntegerField(default=0,
                                         validators=[MinValueValidator(0), MaxValueValidator(100)],
                                         verbose_name=_('Order|Discount', 'Discount'))
-    order_price = models.FloatField(default=0, verbose_name=_('Order|Order price', 'Order price'))
+    order_price = models.FloatField(default=0,
+                                    verbose_name=_('Order|Order price', 'Order price'))
 
     "Field validation for admin"
     def clean(self):
         if len(self.phone) != 9:
             raise ValidationError(_('Model validator|Phone length', 'Phone must be 9 digits long'))
-        elif len(self.first_name) >= 20:
-            raise ValidationError(_('Model validator|Name length', 'Max name length 20 letters'))
-        elif len(self.address) >= 100:
-            raise ValidationError(_('Model validator|Address Length', 'Max address length 100 letters'))
-        elif len(self.comment) >= 100:
-            raise ValidationError(_('Model validator|Comment Length', 'Max address length 100 letters'))
+        # elif len(self.first_name) > 25:
+        #     raise ValidationError(_('Model validator|Name length', 'Max name length is 25 letters'))
+        # elif len(self.address) > 60:
+        #     raise ValidationError(_('Model validator|Address Length', 'Max address length is 60 letters'))
+        # elif len(self.comment) > 60:
+        #     raise ValidationError(_('Model validator|Comment Length', 'Max address length is 60 letters'))
 
     "For total_price"
     order_items = models.CharField(max_length=100)
@@ -102,10 +103,6 @@ class OrderItem(models.Model):
     @property
     def price(self):
         return self.pizza.price * self.quantity
-
-    @property
-    def category(self):
-        return self.pizza.category
 
     "For API"
     def pizza_id(self):

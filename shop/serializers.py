@@ -16,17 +16,17 @@ def phone_validator(value):
 
 
 def first_name_validator(value):
-    if len(value) >= 20:
+    if len(value) >= 25:
         raise serializers.ValidationError(_('Validator|Name length', 'Max name length 20 letters'))
 
 
 def address_validator(value):
-    if len(value) >= 100:
+    if len(value) >= 60:
         raise serializers.ValidationError(_('Validator|Address Length', 'Max address length 100 letters'))
 
 
 def comment_validator(value):
-    if len(value) >= 100:
+    if len(value) >= 60:
         raise serializers.ValidationError(_('Validator|Comment Length', 'Max address length 100 letters'))
 
 

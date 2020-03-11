@@ -34,13 +34,22 @@ class Pizza(models.Model):
         ('4', _('Size|4', '4')),
     )
     id = models.PositiveSmallIntegerField(primary_key=True)
-    name = models.CharField(verbose_name=_('Pizza|Name', 'Name'), max_length=100)
-    category = models.CharField(choices=CAT_CHOICES, verbose_name=_('Pizza|Category', 'Category'), max_length=1)
-    price = models.DecimalField(default=0, max_digits=6, decimal_places=2, verbose_name=_('Pizza|Price', 'Price'))
-    text_short = models.CharField(verbose_name=_('Pizza|Short text', 'Short text'), max_length=100)
+    name = models.CharField(max_length=45,
+                            verbose_name=_('Pizza|Name', 'Name'))
+    category = models.CharField(choices=CAT_CHOICES,
+                                max_length=1,
+                                verbose_name=_('Pizza|Category', 'Category'))
+    price = models.DecimalField(default=0,
+                                max_digits=6,
+                                decimal_places=2,
+                                verbose_name=_('Pizza|Price', 'Price'))
+    text_short = models.CharField(max_length=100,
+                                  verbose_name=_('Pizza|Short text', 'Short text'))
     text_long = models.TextField(verbose_name=_('Pizza|Long text', 'Long text'))
-    filter = models.ManyToManyField(Filter, verbose_name=_('Pizza|Filter', 'Filter'))
-    photo = models.ImageField(upload_to='images/', verbose_name=_('Pizza|Image', 'Image'))
+    filter = models.ManyToManyField(Filter,
+                                    verbose_name=_('Pizza|Filter', 'Filter'))
+    photo = models.ImageField(upload_to='images/',
+                              verbose_name=_('Pizza|Image', 'Image'))
     photo_thumbnail = ImageSpecField(source='photo',
                                      processors=[ResizeToFill(100, 100)],
                                      format='JPEG',
