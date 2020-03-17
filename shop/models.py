@@ -33,7 +33,7 @@ class Order(models.Model):
         (1, _('Order|Card', 'Card')),
         (2, _('Order|Online', 'Online')),
     ]
-    phone = models.CharField(max_length=100,
+    phone = models.CharField(max_length=9,
                              verbose_name=_('Order|Phone', 'Phone'))
     first_name = models.CharField(max_length=25,
                                   verbose_name=_('Order|Name', 'Name'))
@@ -62,12 +62,8 @@ class Order(models.Model):
     def clean(self):
         if len(self.phone) != 9:
             raise ValidationError(_('Model validator|Phone length', 'Phone must be 9 digits long'))
-        # elif len(self.first_name) > 25:
-        #     raise ValidationError(_('Model validator|Name length', 'Max name length is 25 letters'))
-        # elif len(self.address) > 60:
-        #     raise ValidationError(_('Model validator|Address Length', 'Max address length is 60 letters'))
-        # elif len(self.comment) > 60:
-        #     raise ValidationError(_('Model validator|Comment Length', 'Max address length is 60 letters'))
+        elif self.phone.isdigit() == False:
+            raise ValidationError(_('Validator|Phone length', 'Phone must only contain digits'))
 
     "For total_price"
     order_items = models.CharField(max_length=100)
@@ -77,6 +73,9 @@ class Order(models.Model):
         discount = 1 - self.discount / 100
         final_price = round(float(price) * float(discount), 2)
         return final_price
+
+    # def total_price2(self, OrderItems):
+    #     OrderItem.objects.filter()
 
     "Total price field in Admin"
     total_price.allow_tags = True
