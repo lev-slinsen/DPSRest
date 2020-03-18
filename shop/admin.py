@@ -19,7 +19,6 @@ from django.utils import timezone
 
 class OrderItemInline(admin.TabularInline):
     model = OrderItem
-    # queryset = OrderItem.objects.filter(category=1)
     fields = ('pizza', 'quantity', 'price_admin',)
     readonly_fields = ('price_admin',)
     extra = 0
