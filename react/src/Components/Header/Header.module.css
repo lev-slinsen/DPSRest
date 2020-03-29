@@ -114,15 +114,21 @@
 
     text-decoration: none;
 
-    color: inherit;
+    color: #FFF;
     border: 1px solid #fff;
     border-radius: .8rem;
     background-color: #fd7e14;
 }
 
+.cartBtnWrapper:hover {
+    text-decoration: inherit;
+    color: #FFF;
+    text-shadow: 0px 0px 3px #FFF;
+}
+
+
 .cartName
 {
     padding: 0 1rem 0 .5rem;
-
     border-right: 1px solid #fff;
 }
