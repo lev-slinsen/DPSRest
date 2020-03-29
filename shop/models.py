@@ -4,21 +4,15 @@ from django.utils.translation import pgettext_lazy as _
 from django.db.models.signals import post_save
 from .bepaid import Bepaid
 from django.http import HttpResponse
+from django.contrib.sites.models import Site
+from django.core.mail import send_mail
+import logging
+from django.core.exceptions import ValidationError
 
 from catalog.models import Pizza
 
 
-def bp_redirect(sender, instance, **kwargs):
-    tp = instance.total_price()
-    print("INSTANCE", instance.payment, tp)
-
-    # if instance.payment == 2:
-    #     total_price = instance.total_price
-    #     print("TOTAL_PRICE", total_price)
-    #     bp = Bepaid()
-    #     response_data = bp.bp_token(total_price)
-    #     print("HTTP", HttpResponse(response_data, content_type='application/json'))
-    #     return HttpResponse(response_data, content_type='application/json')
+log = logging.getLogger(__name__)
 
 
 class Order(models.Model):
@@ -39,23 +33,39 @@ class Order(models.Model):
         (1, _('Order|Card', 'Card')),
         (2, _('Order|Online', 'Online')),
     ]
-    phone = models.CharField(max_length=100, verbose_name=_('Order|Phone', 'Phone'))
-    first_name = models.CharField(max_length=100, verbose_name=_('Order|Name', 'Name'))
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('Order|Created at', 'Created at'))
+    phone = models.CharField(max_length=9,
+                             verbose_name=_('Order|Phone', 'Phone'))
+    first_name = models.CharField(max_length=25,
+                                  verbose_name=_('Order|Name', 'Name'))
+    created_at = models.DateTimeField(auto_now_add=True,
+                                      verbose_name=_('Order|Created at', 'Created at'))
     delivery_date = models.DateField(verbose_name=_('Order|Delivery date', 'Delivery date'))
-    delivery_time = models.SmallIntegerField(
-        choices=DELIVERY_TIME_CHOICES,
-        verbose_name=_('Order|Delivery time', 'Delivery time'),
-    )
-    address = models.CharField(max_length=100, verbose_name=_('Order|Address', 'Address'))
-    comment = models.TextField(max_length=100, verbose_name=_('Order|Comment', 'Comment'), blank=True, null=True)
-    payment = models.SmallIntegerField(choices=PAYMENT_CHOICES, verbose_name=_('Order|Payment', 'Payment method'))
-    status = models.BooleanField(default=0, verbose_name=_('Order|Confirmed', 'Confirmed'))
+    delivery_time = models.SmallIntegerField(choices=DELIVERY_TIME_CHOICES,
+                                             verbose_name=_('Order|Delivery time', 'Delivery time'))
+    address = models.CharField(max_length=60,
+                               verbose_name=_('Order|Address', 'Address'))
+    comment = models.TextField(max_length=60,
+                               blank=True,
+                               null=True,
+                               verbose_name=_('Order|Comment', 'Comment'))
+    payment = models.SmallIntegerField(choices=PAYMENT_CHOICES,
+                                       verbose_name=_('Order|Payment', 'Payment method'))
+    status = models.BooleanField(default=0,
+                                 verbose_name=_('Order|Confirmed', 'Confirmed'))
     discount = models.SmallIntegerField(default=0,
                                         validators=[MinValueValidator(0), MaxValueValidator(100)],
                                         verbose_name=_('Order|Discount', 'Discount'))
+    order_price = models.FloatField(default=0,
+                                    verbose_name=_('Order|Order price', 'Order price'))
 
-    # For total_price
+    "Field validation for admin"
+    def clean(self):
+        if len(self.phone) != 9:
+            raise ValidationError(_('Model validator|Phone length', 'Phone must be 9 digits long'))
+        elif self.phone.isdigit() == False:
+            raise ValidationError(_('Validator|Phone length', 'Phone must only contain digits'))
+
+    "For total_price"
     order_items = models.CharField(max_length=100)
 
     def total_price(self):
@@ -64,7 +74,10 @@ class Order(models.Model):
         final_price = round(float(price) * float(discount), 2)
         return final_price
 
-    # Total price field in Admin
+    # def total_price2(self, OrderItems):
+    #     OrderItem.objects.filter()
+
+    "Total price field in Admin"
     total_price.allow_tags = True
     total_price.short_description = _('Order|Total price', 'Total price')
 
@@ -76,36 +89,38 @@ class Order(models.Model):
         verbose_name_plural = _('Order|Meta plural', 'Orders')
 
 
-post_save.connect(bp_redirect, sender=Order)
-
-
 class OrderItem(models.Model):
-    order = models.ForeignKey(Order, on_delete=models.CASCADE, verbose_name=_('OrderItem|Order', 'Order'))
-    pizza = models.ForeignKey(Pizza, on_delete=models.CASCADE, verbose_name=_('OrderItem|Item', 'Item'))
-    quantity = models.PositiveSmallIntegerField(verbose_name=_('OrderItem|Quantity', 'Quantity'))
-
-    def pizza_id(self):
-        return self.pizza.id
+    order = models.ForeignKey(Order,
+                              on_delete=models.CASCADE,
+                              verbose_name=_('OrderItem|Order', 'Order'))
+    pizza = models.ForeignKey(Pizza,
+                              on_delete=models.CASCADE,
+                              verbose_name=_('OrderItem|Item', 'Item'))
+    quantity = models.PositiveSmallIntegerField(validators=[MinValueValidator(1)],
+                                                verbose_name=_('OrderItem|Quantity', 'Quantity'))
 
     @property
     def price(self):
         return self.pizza.price * self.quantity
 
+    "For API"
+    def pizza_id(self):
+        return self.pizza.id
+
     "Property translation on admin panel"
     def price_admin(self):
         return self.price
-
     price_admin.short_description = _('OrderItem|Price', 'Price')
 
     def __str__(self):
-        return f"{self.quantity}, {self.pizza}"
+        return f"{self.pizza.category}"
 
     class Meta:
         verbose_name = _('OrderItem|Meta', 'Item')
         verbose_name_plural = _('OrderItem|Meta plural', 'Items')
 
 
-def order_update(sender, instance, created, **kwargs):
+def order_email(sender, instance, created, **kwargs):
     if created:
         try:
             subject = 'Новый заказ'
@@ -120,3 +135,6 @@ def order_update(sender, instance, created, **kwargs):
             send_mail(subject, text_content, from_email, [to], fail_silently=False, html_message=html_content)
         except Exception as ex:
             log.error(ex)
+
+
+post_save.connect(order_email, sender=Order)

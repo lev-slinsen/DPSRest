@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     # custom apps
     'accounts.apps.AccountsConfig',
     'catalog.apps.CatalogConfig',
@@ -51,7 +52,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     'imagekit',
-    'rest_framework_swagger',
+    'drf_yasg',
 ]
 
 REST_FRAMEWORK = {
@@ -71,14 +72,17 @@ REST_FRAMEWORK = {
 AUTH_USER_MODEL = 'accounts.User'
 
 MIDDLEWARE = [
+    # Django middleware
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'accounts.middleware.UserLanguageMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # My middleware
+    'accounts.middleware.UserLanguageMiddleware',
+    # Plugin middleware
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
 ]
@@ -95,6 +99,7 @@ CORS_ORIGIN_WHITELIST = [
     'http://127.0.0.1:8000',
     'http://127.0.0.1:3000'
 ]
+
 CSRF_COOKIE_NAME = "csrftoken"
 
 ROOT_URLCONF = 'DPSRest.urls'
@@ -191,3 +196,5 @@ STATICFILES_DIRS = [
 MEDIA_URL = '/media/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
+SITE_ID = 1
