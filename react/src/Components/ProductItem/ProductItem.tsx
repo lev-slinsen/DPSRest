@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import style from './ProductItem.module.css';
 import ProductImage from "./ProductImage";
 import {I_productItem} from "../../types/types";
@@ -8,12 +8,11 @@ interface I_props {
     product: I_productItem,
     addProductToOrder: (product: I_productItem, quantity: number) => void
     calculateOrder: () => void
-    openPopup: () => void
+    openPopup: (product: I_productItem, option: boolean) => void
 }
 
-const ProductCard = ({product, addProductToOrder, calculateOrder, openPopup}: I_props) => {
-
-    let [quantity, setQuantity] = useState(1);
+const ProductCard = React.memo(({product, addProductToOrder, calculateOrder, openPopup}: I_props) => {
+    let [quantity, setQuantity] = useState<number>(1);
 
     const decreaseQuantity = () => {
         if (quantity !== 1) {
@@ -21,20 +20,18 @@ const ProductCard = ({product, addProductToOrder, calculateOrder, openPopup}: I_
         }
     };
 
-    const onAddToCart = () => {
+    const onAddToCart = useCallback(() => {
         addProductToOrder(product, quantity);
         calculateOrder();
         setQuantity(1);
-
-    };
-
-
+    }, []);
+    const onOpenPopup = () => {openPopup(product, true)};
     return (
         <div className={style.productCardWrapper}>
             <ProductImage
                 imgUrl={product.photo}
                 altText={product.text_short}
-                openPopup={openPopup}
+                openPopup={onOpenPopup}
                 imgThumbnail={product.photo_thumbnail}
             />
             <div className={style.container}>
@@ -64,6 +61,6 @@ const ProductCard = ({product, addProductToOrder, calculateOrder, openPopup}: I_
             </div>
         </div>
     )
-};
+});
 
 export default ProductCard;

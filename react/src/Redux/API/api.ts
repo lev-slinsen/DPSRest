@@ -1,13 +1,13 @@
 import axios from "axios";
-import {I_orderDates, I_orderFormData, I_orderToPost, I_postOrderItem} from "../../types/types";
-import {testFilters, testPissas} from "./TestApi";
+import {I_orderDates, I_orderFormData, I_postOrderItem} from "../../types/types";
+import {testFilters, testLanguageData, testPissas} from "./TestApi";
 import {APIerrorLogger} from "../../utils/errorLogger";
 
 axios.defaults.xsrfHeaderName = "X-CSRFToken";
 axios.defaults.xsrfCookieName = "csrftoken";
 
 const instance = axios.create({
-    baseURL: "http://127.0.0.1:8000/api/",
+    baseURL: `http://127.0.0.1:8000/api/`,
 });
 
 export const productsAPI = {
@@ -34,29 +34,30 @@ export const productsAPI = {
             })
     },
     async postOrder(formData: I_orderFormData, order: Array<I_postOrderItem>) {
+
+
         let payload = {
             ...formData,
             delivery_time: +formData.delivery_time,
             payment: +formData.payment,
-            order_items: order
+            order_items: order,
+            order_price: 0
         };
         console.log(payload);
         try {
-        debugger
             let res = await instance.post(`order/`, payload);
             return res.statusText
         } catch (err) {
-        debugger
             if (err.response.status === 400) {
                 throw new Error(err.response.data.non_field_errors[0])
             }
             APIerrorLogger(err);
-            console.log( JSON.parse(JSON.stringify(err)) );
+            console.log(JSON.parse(JSON.stringify(err)));
 
         }
     },
 
-    getOrderData():Promise<Array<I_orderDates>> {
+    getOrderData(): Promise<Array<I_orderDates>> {
         return instance.get(`work-month/`)
             .then(res => {
                 if (res.status === 200) {
@@ -76,7 +77,7 @@ export const languageDataAPI = {
         } catch (err) {
             APIerrorLogger(err);
             console.log(err);
-            throw err
+            return testLanguageData
         }
     },
 };
@@ -84,18 +85,17 @@ export const languageDataAPI = {
 export const paymentAPI = {
     getToken() {
         return axios.get('https://checkout.bepaid.by/ctp/api/checkouts',
-            {withCredentials: true,
+            {
+                withCredentials: true,
                 headers: [
-                {'Content-Type': 'application/json'},
-                {'Accept': 'application/json'},
+                    {'Content-Type': 'application/json'},
+                    {'Accept': 'application/json'},
                 ]
             })
-            .then( res => {
-                debugger;
+            .then(res => {
                 console.log(res)
             })
-            .catch( err => {
-                debugger;
+            .catch(err => {
                 console.log(err)
             })
     },

@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import style from './FormControl.module.css';
 import moment from 'moment';
 import 'antd/dist/antd.css';
+import './antdCustom.css';
 import FormItem, {FormItemProps} from "antd/lib/form/FormItem";
 import locale from 'antd/es/date-picker/locale/ru_RU';
 import DatePicker from "antd/lib/date-picker";
@@ -59,10 +60,7 @@ export const RenderDateTimePicker: React.FC<I_datePickerProps> = ({
     });
 
     return (
-        <Popover
-            content={<Alert message={error} type="error"/>}
-            visible={isTouched && error? true : false}
-            placement="rightTop">
+        <>
             <FormItem
                 label={label}
                 validateStatus={getValidateStatus({isTouched, error, warning, valid})}
@@ -85,8 +83,14 @@ export const RenderDateTimePicker: React.FC<I_datePickerProps> = ({
                         setIsTouched(true)
                     }}
                 />
+
             </FormItem>
-        </Popover>
+            {
+                (isTouched && error) &&
+                <span style={{marginTop: '-24px', marginBottom: '24px'}}
+                      className={style.errorMessage}>{error}</span>
+            }
+        </>
     )
 };
 

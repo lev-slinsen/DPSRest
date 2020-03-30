@@ -37,26 +37,29 @@ interface I_dispatchProps {
 type I_MainProps = I_Props & I_ConnectedProps & I_dispatchProps
 
 class Main extends Component<I_MainProps> {
+
     componentDidMount() {
         this.props.fetchCatalog();
         this.props.fetchLanguageData();
     }
-
+    timeout: number | undefined;
 
     componentDidUpdate(prevProps: Readonly<I_MainProps>, prevState: Readonly<{}>, snapshot?: any): void {
         //retrying connect to server
         if (this.props.appError) {
-            setTimeout(() => {
+            this.timeout = window.setTimeout(() => {
                 this.props.fetchCatalog()
             }, 20000)
         }
     }
-
+    componentWillUnmount(): void {
+        clearTimeout(this.timeout);
+    }
 
     render() {
         const { totalQuantity, totalPrice } = this.props;
         return (
-            <div>
+            <>
                 <Header totalQuantity={totalQuantity} totalPrice={totalPrice}/>
                 <div className={style.mainWrapper}>
                     {this.props.isFetching ? <Preloader/> :
@@ -77,7 +80,7 @@ class Main extends Component<I_MainProps> {
                     }
                 </div>
                 <Footer/>
-            </div>
+            </>
         );
     }
 }

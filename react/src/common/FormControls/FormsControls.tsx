@@ -46,13 +46,10 @@ export const ReduxFormWrapper = ({
     return (
         <div className={classForField}>
             <span className={required ? style.titleRequired : style.title}>{label}</span>
-            <Popover
-                content={<Alert message={error} type="error"/>}
-                visible={!!(touched && error)}
-                placement="rightTop">
-
-                {children}
-            </Popover>
+            {children}
+            {
+                (touched && error) && <span className={style.errorMessage}>{error}</span>
+            }
         </div>
     )
 };

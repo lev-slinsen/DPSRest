@@ -1,22 +1,25 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {compose} from "redux";
 import {connect} from "react-redux";
 import {Redirect} from "react-router-dom";
 import style from './Order.module.css';
-import {getOrderDates, getTotalQuantity} from "../../Redux/selectors";
+import {getOrder, getOrderDates, getTotalQuantity} from "../../Redux/selectors";
 import {AppStateType} from "../../Redux/Store";
 import OrderForm from "../../common/FormControls/OrderForm";
-import {I_orderDates, I_orderFormData} from "../../types/types";
+import {I_orderDates, I_orderFormData, I_orderItem} from "../../types/types";
 import {fetchOrderInfo, submitOrder} from "../../Redux/actions";
+import {OrderModal} from "../../common/PopupWrapper";
 
 interface I_Props {
     totalQuantity: number
     submitOrder: (formData: I_orderFormData) => void
     fetchOrderInfo: () => void
     orderDisabled: I_orderDates[]
+    order: Array<I_orderItem>
 }
 
-const Order = ({totalQuantity, submitOrder, fetchOrderInfo, orderDisabled}: I_Props) => {
+const Order = ({totalQuantity, submitOrder, fetchOrderInfo, orderDisabled, order}: I_Props) => {
+    let [isPopUpOpen, setPopUpOpen] = useState(false);
 
     useEffect(() => { fetchOrderInfo() }, []);
 
@@ -28,6 +31,7 @@ const Order = ({totalQuantity, submitOrder, fetchOrderInfo, orderDisabled}: I_Pr
     } else
         return (
             <div className={style.pageWrapper}>
+                { isPopUpOpen && <OrderModal title={"success"} orderItems={order}/> }
                 <div>
                     <h3>Подтвердить заказ</h3>
                     <hr />
@@ -43,7 +47,8 @@ const Order = ({totalQuantity, submitOrder, fetchOrderInfo, orderDisabled}: I_Pr
 const mapStateToProps = (state: AppStateType) => {
     return {
         totalQuantity: getTotalQuantity(state),
-        orderDisabled: getOrderDates(state)
+        orderDisabled: getOrderDates(state),
+        order: getOrder(state)
     }
 };
 

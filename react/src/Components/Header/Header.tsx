@@ -1,44 +1,43 @@
-import React from 'react';
+import React, {useState} from 'react';
 import style from './Header.module.css';
 import {Link, NavLink} from "react-router-dom";
 import CartBtn from "./CartBtn";
 import logoImg from "./../../assets/icons/logo.svg"
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import {faBars} from '@fortawesome/free-solid-svg-icons'
+import {Drawer} from 'antd';
+import HeaderMenu from "./HeaderMenu";
 
 interface IProps {
     totalQuantity: number,
     totalPrice: number
 }
-function Header(props:IProps) {
-    return (
 
+function Header(props: IProps) {
+    const [visible, setVisible] = useState(false);
+
+    return (
         <header className={style.headerWrapper}>
-            <Link  to="/catalog">
+            <Link to="/catalog">
                 <div className={style.label}>
                     <img src={logoImg} alt={"Pekarnya Pechorin"}/>
                 </div>
-            </Link >
-            <div className={style.navContainer}>
-                <NavLink to="/about" activeClassName={style.active}>
-                    <div className={style.item}>
-                        About
-                    </div>
-                </NavLink>
-                <NavLink to="/catalog" activeClassName={style.active}>
-                    <div className={style.item}>
-                        Catalog
-                    </div>
-                </NavLink>
-                <NavLink to="/order" activeClassName={style.active}>
-                    <div className={style.item}>
-                        Order
-                    </div>
-                </NavLink>
-            </div>
-            <div className={style.inform}>
-                <span>Мы работаем с пн.-пт. с 8 до 19.00</span>
-                <span>+375 (33) 658-02-20</span>
-            </div>
+            </Link>
+           <HeaderMenu/>
             <CartBtn {...props}/>
+            <div className={style.menuBtn} onClick={() => setVisible(!visible)}>
+                <FontAwesomeIcon icon={faBars}/>
+            </div>
+            <Drawer
+                placement={'right'}
+                closable={false}
+                onClose={() => setVisible(false)}
+                visible={visible}
+                getContainer={false}
+                className={style.drawer}
+            >
+                <HeaderMenu setVisible={setVisible}/>
+            </Drawer>
         </header>
     );
 }

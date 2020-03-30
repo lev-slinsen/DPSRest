@@ -10,7 +10,7 @@ interface IProps {
     height?: number
 }
 
-const ProductImage = ({imgThumbnail, altText, imgUrl, openPopup, height = 310}: IProps) => {
+const ProductImage = React.memo(({imgThumbnail, altText, imgUrl, openPopup, height = 310}: IProps) => {
 
     return (
         <div className={style.mainImgWrap} onClick={openPopup}>
@@ -25,6 +25,6 @@ const ProductImage = ({imgThumbnail, altText, imgUrl, openPopup, height = 310}: 
             />
         </div>
     );
-};
+});
 
 export default ProductImage;

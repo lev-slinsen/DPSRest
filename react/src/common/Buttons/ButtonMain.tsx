@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import classNames from "classnames/bind";
 import style from "./Buttons.module.css";
 
@@ -9,22 +9,22 @@ interface IProps {
     buttonText: string
 }
 
-const ButtonMain = ({
-                        onClickCallback = () => {},
-                        buttonText,
-                        disabled,
-                        type
-                    }: IProps) => {
+const ButtonMain = React.memo(({
+                                   onClickCallback = () => {},
+                                   buttonText,
+                                   disabled,
+                                   type
+                               }: IProps) => {
     let [addSucces, setAddSucces] = useState(false);
-    let timer: any = useRef(); //now you can pass timer to another component
+    let timer: any = useRef(); //now possible pass timer to another component
 
-    let onButtonClick = () => {
+    let onButtonClick = useCallback(() => {
         onClickCallback();
         setAddSucces(true);
         timer.current = window.setTimeout(() => {
             setAddSucces(false);
         }, 500)
-    };
+    }, []);
 
     useEffect(() => {
         return () => { // Return callback to run on unmount.
@@ -44,6 +44,6 @@ const ButtonMain = ({
         >{buttonText}
         </button>
     )
-};
+});
 
 export default ButtonMain;
