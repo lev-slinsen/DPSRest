@@ -1,61 +1,99 @@
 import axios from "axios";
-import {IPostOrderItem} from "../../types/types";
-import {testFilters, testPissas} from "./TestApi";
+import {I_orderDates, I_orderFormData, I_postOrderItem} from "../../types/types";
+import {testFilters, testLanguageData, testPissas} from "./TestApi";
+import {APIerrorLogger} from "../../utils/errorLogger";
 
 axios.defaults.xsrfHeaderName = "X-CSRFToken";
 axios.defaults.xsrfCookieName = "csrftoken";
 
 const instance = axios.create({
-    baseURL: "http://127.0.0.1:8000/api/",
+    baseURL: `http://127.0.0.1:8000/api/`,
 });
 
 export const productsAPI = {
-    getProducts () {
+    getProducts() {
         return instance.get('pizza/?format=json')
             .then(res => {
-                if(res.status === 200) {
+                if (res.status === 200) {
                     return res.data;
                 }
             })
-            .catch( ()=> {
+            .catch(() => {
                 return testPissas;
             })
     },
-    getFilters () {
+    getFilters() {
         return instance.get(`filter/?format=json`)
             .then(res => {
-                if(res.status === 200) {
+                if (res.status === 200) {
                     return res.data;
                 }
             })
-            .catch( ()=> {
+            .catch(() => {
                 return testFilters;
             })
     },
-    postOrder (formData:any, order: Array<IPostOrderItem>) {
-        return instance.post(`order/`, {
-            "phone": formData.phone,
-            "first_name": formData.first_name,
-            "delivery_date": formData.delivery_date,
-            "delivery_time": formData.delivery_time,
-            "address": formData.address,
-            "comment": !formData.comment? '': formData.comment,
-            "payment": formData.payment,
-            "order_items": order
-        }, {withCredentials: true})
-            .then(res => {
-                return res
-            })
+    async postOrder(formData: I_orderFormData, order: Array<I_postOrderItem>) {
+        let payload = {
+            ...formData,
+            delivery_time: +formData.delivery_time,
+            payment: +formData.payment,
+            order_items: order
+        };
+        console.log(payload);
+        try {
+            let res = await instance.post(`order/`, payload);
+            return res.statusText
+        } catch (err) {
+            if (err.response.status === 400) {
+                throw new Error(err.response.data.non_field_errors[0])
+            }
+            APIerrorLogger(err);
+            console.log(JSON.parse(JSON.stringify(err)));
+
+        }
     },
-    getOrders () {
-        return instance.get('order/?format=json')
+
+    getOrderData(): Promise<Array<I_orderDates>> {
+        return instance.get(`work-month/`)
             .then(res => {
-                if(res.status === 200) {
+                if (res.status === 200) {
                     return res.data
                 }
             })
-            .catch(()=>{
-                return testFilters;
+            .catch((err) => {
+                throw err;
             })
     },
 };
+export const languageDataAPI = {
+    async getLanguageData() {
+        try {
+            let res = await instance.get('front-page/');
+            return res.data
+        } catch (err) {
+            APIerrorLogger(err);
+            console.log(err);
+            return testLanguageData
+        }
+    },
+};
+
+export const paymentAPI = {
+    getToken() {
+        return axios.get('https://checkout.bepaid.by/ctp/api/checkouts',
+            {
+                withCredentials: true,
+                headers: [
+                    {'Content-Type': 'application/json'},
+                    {'Accept': 'application/json'},
+                ]
+            })
+            .then(res => {
+                console.log(res)
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    },
+}

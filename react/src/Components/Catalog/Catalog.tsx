@@ -1,117 +1,110 @@
-import React, {Component} from 'react';
+import React, {Component, useCallback, useState} from 'react';
 import style from './Catalog.module.css';
 import ProductCard from "../ProductItem/ProductItem";
 import {compose} from "redux";
 import {connect} from "react-redux";
-import {addProductToOrder, calculateOrder, setSortFilter} from "../../Redux/productsReducer";
 import bgPict from "./../../assets/images/slide1.png"
-import PopupWrapper from "../../common/PopupWrapper";
-import {IFilterItem, IProductItem} from "../../types/types";
+import {I_filterItem, I_LanguageData, I_productItem} from "../../types/types";
 import {AppStateType} from "../../Redux/Store";
-import {getFilters, getProducts, getSelectedFilter} from "../../Redux/selectors";
+import {getFilters, getLanguageData, getProducts, getSelectedFilter} from "../../Redux/selectors";
+import Slider from "../../common/Slider";
+import {ProductsModal} from "../../common/PopupWrapper";
+import {addProductToOrder, calculateOrder, setSortFilter} from "../../Redux/actions";
 
 
-interface IConnectProps {
-    products: Array<IProductItem>,
-    filters: Array<IFilterItem>,
-    selectedFilter: string
+interface I_ConnectProps {
+    products: Array<I_productItem>,
+    filters: Array<I_filterItem>,
+    selectedFilter: string | number,
+    languageData: I_LanguageData
 }
 
-interface LinkDispatchProps {
-    addProductToOrder: (productItem: IProductItem, quantity: number) => void;
+interface I_LinkDispatchProps {
+    addProductToOrder: (productItem: I_productItem, quantity: number) => void;
     calculateOrder: () => void;
-    setSortFilter: (filter:string) => void;
+    setSortFilter: (filter: string | number) => void;
 }
 
-interface IState {
+interface I_State {
     bgPict: string
     isPopupOpen: boolean
-    popupProduct: IProductItem
+    popupProduct: I_productItem
 }
 
-class Catalog extends Component<IConnectProps & LinkDispatchProps> {
+const Catalog: React.FC<I_ConnectProps & I_LinkDispatchProps> = (props) => {
 
-    state: IState = {
+    let [state, setState] = useState<I_State>({
         bgPict: bgPict,
         isPopupOpen: false,
-        popupProduct: this.props.products[0],
+        popupProduct: props.products[0],
+    });
+    let {languageData} = props;
+
+    const setPopupOpen = useCallback((product: I_productItem, option: boolean) => {
+        setState({...state, popupProduct: product});
+        setState({...state, isPopupOpen: option});
+    }, []);
+    const setPopupClose = useCallback(() => {
+        setPopupOpen(state.popupProduct, false)
+    }, []);
+    const callCalculateOrder = useCallback(props.calculateOrder, []);
+    const callAddProductToOrder = useCallback(props.addProductToOrder, []);
+
+    const changeFilter = (filterName: string) => {
+        props.setSortFilter(filterName)
     };
 
-    setPopupOpen = (product: IProductItem, option: boolean) => {
-        this.setState({popupProduct: product});
-        this.setState({isPopupOpen: option});
-    };
-    changeFilter = (filterName: string) => {
-        this.props.setSortFilter(filterName)
-    };
+    let products = props.products
+        .map(p => (
+            <ProductCard product={p}
+                         openPopup={setPopupOpen}
+                         key={p.id}
+                         calculateOrder={callCalculateOrder}
+                         addProductToOrder={callAddProductToOrder}
+            />
+        ));
+    let filters = props.filters.map(f=>{
+        let classBtn = f.name === props.selectedFilter ? `${style.filterBtn} ${style.active}`:style.filterBtn;
+        return <button key={f.name} className={classBtn}
+                onClick={() => {
+                    changeFilter(f.name)
+                }}>{f.name}</button>
+    });
+    console.log('!!!!!!!!!!!!!! CATALOG RENDERED');
+    return (
+        <div>
+            {state.isPopupOpen &&
+            <ProductsModal
+                product={state.popupProduct}
+                setPopupClose={setPopupClose}
+            />}
 
-    render() {
-        let products = this.props.products
-            .map(p => (
-                <ProductCard product={p}
-                           openPopup={() => {
-                               this.setPopupOpen(p, true)
-                           }}
-                           key={p.id}
-                           calculateOrder={this.props.calculateOrder}
-                           addProductToOrder={this.props.addProductToOrder}
-                />
-            ));
-
-        let filters = this.props.filters
-            .map(f => (
-                <button
-                    key={f.name}
-                    className={style.filterBtn}
-                    onClick={() => {
-                        this.changeFilter(f.name)
-                    }}
-                >
-                    {f.name}
-                </button>
-            ));
-
-        return (
             <div>
-                {this.state.isPopupOpen &&
-                <PopupWrapper
-                    product={this.state.popupProduct}
-                    setPopupClose={() => {
-                        this.setPopupOpen(this.state.popupProduct, false)
-                    }}
-                />}
-
-                <div>
-                    <div>
-                        <div style={{
-                            backgroundImage: `url(${this.state.bgPict})`,
-                            backgroundPosition: 'center center',
-                            backgroundRepeat: 'no-repeat',
-                            height: `35rem`,
-                            backgroundSize: 'cover',
-                        }}
-                             className={style.caruselContent}>
-                            <h3>
-                                Carusel Title
-                            </h3>
+                <Slider
+                    commonImages={languageData.index.front_image}
+                    commonTexts={languageData.index.front_text}
+                />
+                <div className={style.container}>
+                    <div className={style.filterBlock}>
+                        <div className={style.filterBlockIn}>
+                            {filters}
                         </div>
-                        <div className={style.container}>{filters}</div>
-                    </div>
-                    <hr/>
-                    <div className={style.productsContainer}>
-                        {products}
                     </div>
                 </div>
+                <div className={style.productsContainer}>
+                    {products}
+                </div>
             </div>
-        )
-    }
-}
+        </div>
+    )
+};
 
-const mapStateToProps = (state: AppStateType): IConnectProps => {
+const mapStateToProps = (state: AppStateType): I_ConnectProps => {
     return {
         products: getProducts(state),
         filters: getFilters(state),
         selectedFilter: getSelectedFilter(state),
+        languageData: getLanguageData(state)
     }
 };
 export default compose(

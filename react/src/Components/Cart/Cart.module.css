@@ -1,9 +1,8 @@
-.cartWrapper {
-    composes: container from './../../App.css';
-}
 .container {
     composes: container from './../../App.css';
+    overflow: initial;
 }
+
 .row {
     display: flex;
     flex-direction: row;
@@ -11,88 +10,193 @@
     flex-wrap: wrap;
     height: 100%;
 }
+
 .rowCalc {
     composes: row;
     width: 2rem;
     height: 100%;
     flex-wrap: nowrap;
 }
+
 .col {
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-}
-.rowBetween {
-    composes: row;
-    justify-content: space-around;
-    padding: .5rem;
-}
-.tableRow{
-    composes: row;
-    width: 80%;
-    flex-wrap: nowrap;
-    position: relative;
     align-items: center;
-    justify-content: space-around;
-    max-height: 15rem;
-    padding: .7rem 4rem .7rem .2rem;
-    color: #999;
-    font-size: 15px;
-    border-bottom: 1px solid #999999;
-}
-.tableRow > * span {
-    font-size: 14px;
-}
-.mainImg {
-    display: flex;
-}
-.mainImg > img{
-    width: 100px;
-}
-.buttonMain {
-    composes: mainBtn from './../../App.css';
+    position: relative;
 }
 
-.btnSmall
-{
-    font-weight: 600;
-
+.btnSmall {
     width: 30px;
     height: 30px;
     padding: 0;
     margin: 0;
     border: none;
+    color: #ff5500;
+    font-size: 1.2rem;
+    font-weight: 700;
 }
-.btnSmallMinus
-{
-    padding-bottom: 4px;
 
-    composes: btnSmall;
-}
 .btnSmallClose {
     composes: btnSmall;
     border: none;
     position: absolute;
-    top: 40%;
+    top: 50%;
+    margin-top: -15px;
     right: 0;
+    color: inherit;
+    font-size: 1rem;
 }
+
+.col span {
+    font-size: 16px;
+}
+
+.col .bold {
+    color: #000000;
+    font-weight: bold;
+}
+
+.cartWrapper {
+    margin-top: 4rem;
+    composes: col;
+}
+
+.rowBetween {
+    composes: row;
+    justify-content: flex-end;
+    width: 80%;
+    padding: .5rem;
+}
+.rowBetween a + a {
+    margin-left: auto;
+}
+.rowBetween .btnToMenu button{
+    background-color: transparent;
+    color: #000000;
+    border: 1px solid grey;
+    transition: .2s all ease;
+}
+.rowBetween .btnToMenu button:hover{
+    border-color: #ff5500;
+    color: #ff5500;
+}
+.rowBetween .btnOrder button{
+    background-color: rgba(255, 70, 7, 0.73);
+    color: #000000;
+    border: 1px solid transparent;
+    transition: .2s all ease;
+}
+.rowBetween .btnOrder button:hover{
+    border: 1px solid #ff5500;
+    background-color: transparent;
+}
+
+.cartTableWrapper{
+    overflow-x: auto;
+    width: 80%;
+    font-family: 'Vollkorn', sans-serif;
+}
+.cartTable {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.cartTable tbody tr:hover td{
+    background-color: #f9f9f9;
+}
+
+@media(min-width: 0px) and (max-width: 991px) {
+    .cartTable{
+        min-width: 800px;
+    }
+}
+.cartTable tr {
+    border-bottom: 1px solid black;
+}
+
+.cartTable tr:nth-child(1) th:nth-child(2) {
+    text-align: left;
+}
+
+@media (max-width: 991px) {
+    .tableRow {
+        width: 100%;
+    }
+}
+
+@media (max-width: 760px) {
+    .tableRow {
+        width: 100%;
+        padding: 0.3rem 1.5rem 0.3rem 0.3rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .container {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        align-self: center;
+    }
+
+    .tableRow {
+        width: 100%;
+        padding: 0.3rem 1.5rem 0.3rem 0.3rem;
+        flex-wrap: wrap;
+        max-height: min-content;
+    }
+
+    .btnSmallClose {
+        top: 7%;
+    }
+}
+
+.tableRow > * span {
+    font-size: 14px;
+}
+
+.mainImg {
+    display: flex;
+    margin-left: 30px;
+}
+
+.mainImg > img {
+    width: 100px;
+}
+
+.buttonMain {
+    composes: mainBtn from './../../App.css';
+}
+
+.btnSmallMinus {
+    padding-bottom: 4px;
+
+    composes: btnSmall;
+}
+
 .empty {
     display: flex;
     content: '';
     min-width: .5rem;
 }
-.calculator {
+
+.description {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    width: 8rem;
 }
-.description {
-    composes: calculator;
+
+.description h6 {
+    text-align: left;
 }
+
+.description > * {
+    margin: .2rem;
+}
+
 .description > h6 {
-    margin: 2px;
     font-size: 16px;
     font-weight: bolder;
-    border-bottom: 1px solid #999999;
+    /*border-bottom: 1px solid #999999;*/
 }

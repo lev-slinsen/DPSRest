@@ -5,43 +5,68 @@
 }
 .productsContainer {
     composes: container;
-}
-.caruselContent{
-    display: flex;
     justify-content: center;
-    align-items: center;
+}
+
+.container .filterBlock{
+    position: relative;
+    display: flex;
+    width: 83%;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+.container .filterBlock:after{
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 2px;
     width: 100%;
-    margin: 0;
-    color: #FFFFFF;
-    font-size: 1.5rem;
+    background-color: #4f4f4f;
+}
+.container .filterBlock .filterBlockIn{
+    display: flex;
+    flex-wrap: wrap;
+    position: relative;
+    font-family: 'Vollkorn',sans-serif;
+}
+.container .filterBlock .filterBlockIn:after{
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    height: 1px;
+    width: 100%;
+    background-color: #4f4f4f;
+}
+.container .filterBlock .filterBlockIn .filterBtn{
+    width: 30%;
+    padding: 5px;
+}
+
+.container .filterBlock .filterBlockIn .filterBtn:hover{
+    font-weight: bold;
 }
 .filterBtn {
     position: relative;
     color: #ff5500;
-    padding: 8px 30px;
+    padding: 0;
     border: none;
     font-size: 20px;
-    font-weight: bolder;
+    margin-bottom: 5px;
+    /*font-weight: bolder;*/
     display: flex;
     justify-content: center;
     min-width: 66px;
 }
-.filterBtn:before{
-    content: "";
-    position: absolute;
-    width: 70%;
-    bottom: 0;
-    height: 5px;
-    z-index: -1;
-    background-color: #ff5500;
-    box-shadow: 0px 0px 5px 0px #ff5500;
-    -webkit-transition: width 0.5s, height 0.5s, background-color 0.5s, -webkit-transform 0.5s;
-    transition: width 0.5s, height 0.5s, background-color 0.5s, transform 0.5s;
+.filterBtn.active{
+    font-weight: bold;
+    color: #662700;
 }
-.filterBtn:hover {
-    color: #FFFFFF;
+
+.container .filterBlock .filterBlockIn .filterBtn + .filterBtn {
+    margin-left: 5px;
 }
-.filterBtn:hover:before {
-    height: 100%;
-    width: 100%;
+.container .filterBlock .filterBlockIn .filterBtn:nth-child(4n+4){
+    margin-left: 0;
 }

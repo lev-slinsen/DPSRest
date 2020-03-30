@@ -1,113 +1,221 @@
-import React, {Component, useRef, useState} from 'react';
-import slide from "./../../assets/images/slide1.png"
-import Preloader from "../../common/Preloader";
-import {fetchOrders} from "../../Redux/productsReducer";
+import React, {useCallback, useState} from 'react';
 import {connect} from "react-redux";
 import {compose} from "redux";
 import style from './About.module.css';
 import {AppStateType} from "../../Redux/Store";
-import axios from "axios";
-import {IFilterItem, IProductItem} from "../../types/types";
+import Slider from "../../common/Slider";
+import bgPict from "../../assets/images/slide1.png";
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import {faDesktop} from '@fortawesome/free-solid-svg-icons'
+import {faTruck} from '@fortawesome/free-solid-svg-icons'
+import {faIdCardAlt} from '@fortawesome/free-solid-svg-icons'
+// @ts-ignore
+import {Fade} from "react-reveal";
+import {Progress} from "antd";
+import useRecursiveTimeout from "../../utils/useRecursiveTimeout";
+import ButtonMain from "../../common/Buttons/ButtonMain";
 
-interface IProps {
-    filters: Array<IFilterItem>,
-    pizzas: Array<IProductItem>
+interface I_Props {
+    imageLoaded?: any
+    order?: any
 }
-interface IState {
-    imageLoaded: boolean
-    pizzas: any
-}
 
-const PizzaForm:any = ({onSubmit}:any) => {
-    const userNameRef = useRef(null);
-    let [image, setImage] = useState(null);
-    // @ts-ignore
-    const addNewPizza = async (obj) => {
-        let formData = new FormData();
-        // @ts-ignore
-        formData.append('image', image);
-        formData.append("name", obj.name);
-        await axios.post("http://127.0.0.1:8000/pizzas", formData, {
-            headers: {
-                'Content-type': 'multipart/form-data'
-            }
-        });
-    };
-    const createPizza = () => {
-        // @ts-ignore
-        let obj = {name: userNameRef.current.value};
-        addNewPizza(obj);
-    };
-    let mainPhotoSelected = (e:any) => {
-        if (e.target.files.length) {
-            setImage(e.target.files[0]);
-        }
-    };
+let commonCarusel = {
+    index: {
+        "front_image": [
+            {"image": bgPict},
+            {"image": bgPict},
+            {"image": bgPict}
+        ],
+        front_text: [
+            {text: "carousel asdasdasd image 1"},
+            {text: "Общество с ограниченной ответственностью «Печь Орин» image 2"},
+            {text: "Общество с ограниченной ответственностью «Печь Орин» image 3"}
+        ]
+    }
+};
 
+
+const About: React.FC<I_Props> = (props: any) => {
+    let [progress, setProgress] = useState(0);
+    let [progress2, setProgress2] = useState(0);
+    let [progress3, setProgress3] = useState(0);
+    let [hovered, setHovered] = useState(false);
+
+    useRecursiveTimeout(
+        () =>
+            new Promise(r => {
+                setProgress(progress + 1);
+                r();
+            }), 50)
+    useRecursiveTimeout(
+        () =>
+            new Promise(r => {
+                setProgress2(progress2 + 1);
+                r();
+            }), 70);
+    useRecursiveTimeout(
+        () =>
+            new Promise(r => {
+                setProgress3(progress3 + 1);
+                r();
+            }), 90);
     return (
         <div>
-            <div>
-                <input onChange={mainPhotoSelected} type={"file"}/>
-                <input ref={userNameRef}/>
-                <button onClick={createPizza}>newUser</button>
+            <Slider
+                commonImages={commonCarusel.index.front_image}
+                commonTexts={commonCarusel.index.front_text}
+            />
+            <div className={style.aboutWrapper}>
+                <h2>About</h2>
+                <div className={style.row}>
+                    <div className={`${style.imgBlock} ${style.grid}`}>
+                        <div className={style.gridItem}>
+                            <img src="https://pechorin.by/media/hardcode/about/2.jpg" alt=""/>
+                        </div>
+                        <div className={style.gridItem}>
+                            <img src="https://pechorin.by/media/hardcode/about/2.jpg" alt=""/>
+                        </div>
+                        <div className={style.gridItem}>
+                            <img src="https://pechorin.by/media/hardcode/about/2.jpg" alt=""/>
+                        </div>
+                        <div className={style.gridItem}>
+                            <img src="https://pechorin.by/media/hardcode/about/2.jpg" alt=""/>
+                        </div>
+                    </div>
+                    <div className={style.textBlock}>
+                        <div className={style.topBlock}></div>
+                        <p>
+                            Пекарня Печорин предлагает Вам выпечку по оригинальным рецептам, основанных на классической
+                            славянской кухне. Тонкое, без дрожжевое тесто, много разнообразной начинки, это и есть
+                            настоящие, правильные пирожки. Мы предлагаем только свежую выпечку, Наши кондитера
+                            приготовят и
+                            отпекут Ваш заказ непосредственно перед доставкой. Вы можете самостоятельно собрать набор из
+                            нашего ассортимента для любого случая. Накрыть стол для друзей, коллег по работе,
+                            организовать
+                            фуршет. Каждый найдет в нашем ассортименте пирог по своему вкусу.
+                        </p>
+                    </div>
+                </div>
+                <div className={style.row}>
+                    <div className={style.imgBlock}>
+                        <img src={'https://pechorin.by/media/hardcode/about/5.jpg'} alt={''}/>
+                    </div>
+                    <div className={style.textBlock}>
+                        <div className={style.topBlock}>
+                            <div className={style.icon}>
+                                <FontAwesomeIcon icon={faDesktop}/>
+                            </div>
+                            <div className={style.title}>О Сервисе</div>
+                        </div>
+                        <p>
+                            Мы работаем с понедельника по пятницу, по рабочим дням. Заказы сегодня на сегодня
+                            принимаются только по телефону до 12-30. Время для приготовления и доставки занимает от 1,5
+                            часов, и зависит от величины заказа и района доставки. Если Вам нужно приготовить большой
+                            заказ или важно время доставки, пожалуйста, сделайте заказ заранее.
+                        </p>
+                    </div>
+                </div>
+                <div className={style.row}>
+                    <div className={style.imgBlock}>
+                        <img src={'https://pechorin.by/media/hardcode/about/5.jpg'} alt={''}/>
+                    </div>
+                    <div className={style.textBlock}>
+                        <div className={style.topBlock}>
+                            <div className={style.icon}>
+                                <FontAwesomeIcon icon={faIdCardAlt}/>
+                            </div>
+                            <div className={style.title}>Для юридических лиц</div>
+                        </div>
+                        <p>
+                            Если Вы хотите сделать заказ на организацию, с оплатой по безналичному расчету. Пришлите,
+                            пожалуйста, Ваш заказ и реквизиты на наш e-mail: info@pechorin.by. Мы также осуществляем
+                            поставки нашей продукции на регулярной (договорной) основе для ИП и юр.лиц для реализации
+                            или корпоративного питания.
+                        </p>
+                    </div>
+                </div>
+                <div className={style.row}>
+                    <div className={`${style.imgBlock} ${style.grid}`}>
+                        <div className={style.gridItem}>
+                            <img src="https://pechorin.by/media/hardcode/about/2.jpg" alt=""/>
+                        </div>
+                        <div className={style.gridItem}>
+                            <img src="https://pechorin.by/media/hardcode/about/2.jpg" alt=""/>
+                        </div>
+                        <div className={style.gridItem}>
+                            <img src="https://pechorin.by/media/hardcode/about/2.jpg" alt=""/>
+                        </div>
+                        <div className={style.gridItem}>
+                            <img src="https://pechorin.by/media/hardcode/about/2.jpg" alt=""/>
+                        </div>
+                    </div>
+                    <div className={style.textBlock}>
+                        <div className={style.topBlock}>
+                            <div className={style.icon}>
+                                <FontAwesomeIcon icon={faTruck}/>
+                            </div>
+                            <div className={style.title}>Доставка</div>
+                        </div>
+                        <p>Доставка осуществляется нашими курьерами с 9-00 до 18-30.</p>
+                    </div>
+                </div>
+                {/* <div style={{
+                    backgroundImage: `url(${bgPict})`,
+                }} className={style.parallaxImg}>
+
+                    <Fade cascade>
+                        <div className={style.row}>
+                            <div className={style.col5}>
+                                <img src={'https://pechorin.by/media/hardcode/about/5.jpg'}/>
+                            </div>
+                            <div className={style.col7}>
+                                <h3>О сервисе</h3>
+                                <article>Мы работаем с понедельника по пятницу, по рабочим дням. Заказы сегодня на
+                                    сегодня принимаются только по телефону до 12-30. Время для приготовления и
+                                    доставки
+                                    занимает от 1,5 часов, и зависит от величины заказа и района доставки. Если Вам
+                                    нужно приготовить большой заказ или важно время доставки, пожалуйста, сделайте
+                                    заказ
+                                    заранее.
+                                </article>
+                            </div>
+                        </div>
+                        <div className={style.row}>
+                            <div className={style.col5}>
+                                <img src={'https://pechorin.by/media/hardcode/about/5.jpg'}/>
+                            </div>
+                            <div className={style.col7}>
+                                <div className={style.container}>
+                                    <h3>О сервисе</h3>
+
+                                    <article>Мы работаем с понедельника по пятницу, по рабочим дням. Заказы сегодня
+                                        на
+                                        сегодня принимаются только по телефону до 12-30. Время для приготовления и
+                                        доставки
+                                        занимает от 1,5 часов, и зависит от величины заказа и района доставки. Если
+                                        Вам
+                                        нужно приготовить большой заказ или важно время доставки, пожалуйста,
+                                        сделайте
+                                        заказ
+                                        заранее.
+                                    </article>W
+                                </div>
+                            </div>
+                        </div>
+                    </Fade>
+                </div>*/}
             </div>
         </div>
-    )
-}
+    );
+};
 
-class About extends Component<IProps> {
-    state:any = {
-        imageLoaded: false,
-        pizzas: [{id: 'asd', name: 'ssww'}],
-    };
 
-    fetchPizzas = async() => {
-        let asd = await axios.get("http://127.0.0.1:8000/pizzas");
-        this.setState({pizzas: asd.data.pizzas});
-    };
-
-    onSubmit = (formData:any) => {
-        axios.post("http://127.0.0.1:8000/pizzas", {formData});
-    };
-    handleImageLoaded() {
-        this.setState({imageLoaded: true});
-    }
-    deletePizza = (id:number) => {
-        axios.delete(`http://127.0.0.1:8000/pizzas/${id}`);
-    };
-    render() {
-        let pizzas = this.state.pizzas;
-        let displayPizzas = pizzas.map((p:any) =>
-            <div key={p.id}>
-                {p.name}
-                <button onClick={() => {
-                    this.deletePizza(p.id)
-                }}>X
-                </button>
-            </div>
-        );
-        return (
-            <div className={style.aboutWrapper}>
-                <div>
-                    {!this.state.imageLoaded && <Preloader/>}
-                    <img src={slide} onLoad={this.handleImageLoaded.bind(this)} alt={"Pechorin Bulki"}/>
-                </div>
-
-                <div>
-                    <PizzaForm onSubmit={this.onSubmit}/>
-                </div>
-                <button onClick={this.fetchPizzas}>fetch-pizzas</button>
-                {displayPizzas}
-            </div>
-        );
-    }
-}
-
-const mapStateToProps = (state:AppStateType) => {
+const mapStateToProps = (state: AppStateType) => {
     return {
         filters: state.reducer.filters,
         pizzas: state.reducer.products
     }
 };
 
-export default compose(connect(mapStateToProps, {fetchOrders}))(About);
+export default compose(connect(mapStateToProps, {}))(About);

@@ -1,83 +1,101 @@
 import React, {Component} from 'react';
-import {Redirect, Route, withRouter} from "react-router-dom";
-import {compose} from "redux";
+import {Redirect, Route, Switch, withRouter} from "react-router-dom";
 import {connect} from "react-redux";
 import Preloader from "../common/Preloader";
 import Header from "./Header/Header";
 import Footer from "./Footer/Footer";
-import {fetchCatalog} from "../Redux/productsReducer";
 import {withSuspense} from "../hoc/withSuspense";
 import {AppStateType} from "../Redux/Store";
 import Catalog from "./Catalog/Catalog";
 import '../App.css';
 import style from './Main.module.css';
 import {getIsFetching, getTotalPrice, getTotalQuantity} from "../Redux/selectors";
+import Order from "./Order/Order";
+import Cart from "./Cart/Cart";
+import StickyBar from "./StickyBar/StickyBar";
+import {fetchLanguageData} from "../Redux/languageDataReducer";
+import {fetchCatalog} from "../Redux/actions";
 
 const About = React.lazy(() => import('./About/About'));
-const Order = React.lazy(() => import('./Order/Order'));
-const Cart = React.lazy(() => import("./Cart/Cart"));
 
-interface IProps {
-    title: string
+interface I_Props {
+
 }
 
-interface IConnectProps {
+interface I_ConnectedProps {
     isFetching: boolean,
     totalQuantity: number,
     totalPrice: number,
+    appError: string,
 }
 
-interface LinkDispatchProps {
+interface I_dispatchProps {
     fetchCatalog: () => void;
+    fetchLanguageData: () => void;
 }
 
-class Main extends Component<IProps & IConnectProps & LinkDispatchProps> {
+type I_MainProps = I_Props & I_ConnectedProps & I_dispatchProps
+
+class Main extends Component<I_MainProps> {
+
     componentDidMount() {
         this.props.fetchCatalog();
-        //listning for errors
-        window.addEventListener('unhandledrejection', this.catchAllUnhandledErrors());
+        this.props.fetchLanguageData();
     }
+    timeout: number | undefined;
 
-    catchAllUnhandledErrors = (promiseRejectionEvent?: any): any => {
-        console.log('some error occured');
-    };
-
-    componentWillUnmount() {
-        window.removeEventListener('unhandledrejection', this.catchAllUnhandledErrors())
+    componentDidUpdate(prevProps: Readonly<I_MainProps>, prevState: Readonly<{}>, snapshot?: any): void {
+        //retrying connect to server
+        if (this.props.appError) {
+            this.timeout = window.setTimeout(() => {
+                this.props.fetchCatalog()
+            }, 20000)
+        }
+    }
+    componentWillUnmount(): void {
+        clearTimeout(this.timeout);
     }
 
     render() {
+        const { totalQuantity, totalPrice } = this.props;
         return (
-            <div>
-                <Header totalQuantity={this.props.totalQuantity} totalPrice={this.props.totalPrice}/>
+            <>
+                <Header totalQuantity={totalQuantity} totalPrice={totalPrice}/>
                 <div className={style.mainWrapper}>
-                    {this.props.isFetching ?
-                        <Preloader/> :
-                        <div>
-                            <Route exact path="/"
-                                   render={() => <Redirect to={"/catalog"}/>}/>
-                            <Route path="/catalog" component={Catalog}/>
-                            <Route path="/order" render={withSuspense(Order)}/>
-                            <Route path="/cart" render={withSuspense(Cart)}/>
-                            <Route path="/about" render={withSuspense(About)}/>
-                        </div>
+                    {this.props.isFetching ? <Preloader/> :
+                        <main>
+                            <StickyBar totalQuantity={totalQuantity} totalPrice={totalPrice}/>
+                            <Switch>
+                                <Route exact path="/"
+                                       render={() => <Redirect to={"/catalog"}/>}/>
+                                <Route path="/catalog" component={Catalog}/>
+                                <Route path="/cart" component={Cart}/>
+                                <Route path="/order">
+                                    <Order/>
+                                </Route>
+                                <Route path="/about" render={withSuspense(About)}/>
+                                <Route path="*" render={() => <div>Error 404</div>}/>
+                            </Switch>
+                        </main>
                     }
                 </div>
                 <Footer/>
-
-            </div>
+            </>
         );
     }
 }
 
-const mapStateToProps = (state: AppStateType): IConnectProps => {
+const mapStateToProps = (state: AppStateType): I_ConnectedProps => {
     return {
         isFetching: getIsFetching(state),
         totalQuantity: getTotalQuantity(state),
         totalPrice: getTotalPrice(state),
+        appError: ''
     }
 };
-export default compose(
-    withRouter,
-    connect(mapStateToProps, {fetchCatalog})
+
+let ComposedComponent = connect(
+    mapStateToProps, {fetchCatalog, fetchLanguageData}
 )(Main);
+
+export default withRouter(ComposedComponent);

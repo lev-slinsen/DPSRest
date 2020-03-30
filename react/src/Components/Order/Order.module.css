@@ -6,6 +6,7 @@
     composes: container from './../../App.css';
     justify-content: center;
     flex-direction: column;
+    align-items: flex-start;
 }
 .orderWrapper
 {
