@@ -148,12 +148,8 @@ export const fetchCatalog = () => async (dispatch: any) => {
 };
 export const submitOrder = (orderData: I_orderFormData) => async (dispatch: ThunkDispatch<{}, {}, I_appActions>, getState: GetStateType) => {
     try {
-        let orderPrice = 0;
-        const orderItems: Array<I_postOrderItem> = getState().reducer.order.map((oi: I_orderItem) => {
-            orderPrice = orderPrice + +(oi.price * oi.quantity).toFixed(2);
-            return {quantity: oi.quantity, pizza: oi.id}
-        });
-
+        const orderItems: Array<I_postOrderItem> = getState().reducer.order.map((oi: I_orderItem) =>
+            ({quantity: oi.quantity, pizza: oi.id}));
         const res = await productsAPI.postOrder(orderData, orderItems);
         if (res && res.toLowerCase() === 'created') {
             //setting status to block buttons or redirect to payment page

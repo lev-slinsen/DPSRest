@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {compose} from "redux";
 import {connect} from "react-redux";
 import {NavLink} from "react-router-dom";
@@ -29,10 +29,8 @@ interface ICartItemProps {
 }
 
 const Cart = ({order, decreaseQuantity, increaseQuantity, removeFromOrder, totalPrice, totalQuantity}: IDispatchProps & IConnectProps) => {
-    useEffect(() => {
-        window.scrollTo(0, 0);
-    }, [])
-    let tableItems = order.map(i => <tr style={{borderBottomColor: '#faad149c'}}>
+
+    let tableItems = order.map(i => <tr>
             <TableItem key={i.id} product={i} decreaseQuantity={decreaseQuantity}
                        increaseQuantity={increaseQuantity} removeFromOrder={removeFromOrder}/>
         </tr>
@@ -87,11 +85,10 @@ const TableItem = ({product, decreaseQuantity, increaseQuantity, removeFromOrder
             <td>
                 <div className={style.description}>
                     <h6>{product.name}</h6>
-                    {/*<span>{product.size}</span>*/}
                 </div>
             </td>
             <td>
-                {product.price}
+                <span className={style.price}>{product.price}</span>
             </td>
             <td>
                 <div className={style.col}>

@@ -50,7 +50,7 @@ const ProductCard = React.memo(({product, addProductToOrder, calculateOrder, ope
                         }}>+
                         </button>
                     </div>
-                    <div>
+                    <div className={style.price}>
                         <span>{(product.price * quantity).toFixed(2)}</span>
                         <span style={{marginLeft: '5px'}}>BYN</span>
                     </div>

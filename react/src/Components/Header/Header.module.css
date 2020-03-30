@@ -8,7 +8,7 @@
     z-index: 2;
     height: 4rem;
     padding: 0 9rem;
-
+    font-family: 'Vollkorn', sans-serif;
     background-color: inherit;
     box-shadow: 0 8px 10px rgba(159, 90, 12, .13);
 }
@@ -71,7 +71,8 @@
     margin-left: 30px;
 }
 .active {
-    color: #a75922 !important;
+    font-weight: 700;
+    color: #662700 !important;
 }
 
 .headerWrapper .headerIn .info {

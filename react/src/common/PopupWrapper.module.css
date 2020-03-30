@@ -64,7 +64,7 @@
     overflow: hidden;
     justify-content: center;
     outline-offset: -20px;
-    outline: 20px solid rgba(255, 255, 255, .5);
+    /*outline: 20px solid rgba(255, 255, 255, .5);*/
 }
 
 .mainImg > img {

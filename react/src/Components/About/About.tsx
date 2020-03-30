@@ -9,7 +9,11 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faDesktop} from '@fortawesome/free-solid-svg-icons'
 import {faTruck} from '@fortawesome/free-solid-svg-icons'
 import {faIdCardAlt} from '@fortawesome/free-solid-svg-icons'
+// @ts-ignore
+import {Fade} from "react-reveal";
+import {Progress} from "antd";
 import useRecursiveTimeout from "../../utils/useRecursiveTimeout";
+import ButtonMain from "../../common/Buttons/ButtonMain";
 
 interface I_Props {
     imageLoaded?: any

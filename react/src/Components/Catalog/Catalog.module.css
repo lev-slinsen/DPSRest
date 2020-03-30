@@ -28,6 +28,7 @@
     display: flex;
     flex-wrap: wrap;
     position: relative;
+    font-family: 'Vollkorn',sans-serif;
 }
 .container .filterBlock .filterBlockIn:after{
     content: '';

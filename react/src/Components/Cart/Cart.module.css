@@ -95,6 +95,7 @@
 .cartTableWrapper{
     overflow-x: auto;
     width: 80%;
+    font-family: 'Vollkorn', sans-serif;
 }
 .cartTable {
     width: 100%;

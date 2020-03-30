@@ -2,6 +2,8 @@ import React, {useEffect, useState} from 'react';
 import style from './StickyBar.module.css';
 // @ts-ignore
 import {Fade} from "react-reveal";
+import menuBtn from './../../assets/icons/menu-button.png'
+import {NavLink} from "react-router-dom";
 import CartBtn from "../Header/CartBtn";
 
 interface I_Props {

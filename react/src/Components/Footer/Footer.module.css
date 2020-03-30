@@ -1,7 +1,7 @@
 .footerWrapper {
     margin-top: 1.5rem;
     padding-top: 1.5rem;
-
+    font-family: 'Vollkorn',sans-serif;
     color: #c3c3c3;
     background-color: #343a40;
 }
@@ -18,7 +18,7 @@
 .containerRow {
     justify-content: space-between;
     max-width: 90%;
-
+    align-items: flex-start;
     composes: row from './../../App.css';
 }
 
@@ -35,13 +35,15 @@
 }
 
 .containerCol > p {
-    font-size: .8rem;
+    font-size: 16px;
     margin: .4rem;
+    font-weight: 400;
 }
 
 .containerCol > h4 {
     font-size: 1.2rem;
     color: #c3c3c3;
+    font-weight: 600;
 }
 
 .payment {
