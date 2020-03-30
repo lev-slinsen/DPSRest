@@ -59,7 +59,7 @@ interface I_removeFromOrder {
 
 interface I_setSortFilter {
     type: typeof SET_SORT_FILTER,
-    filter: string
+    filter: string | number
 }
 
 interface I_setIsFetching {
@@ -91,7 +91,7 @@ export const setOrderDataFetchSuccess = (orderData: Array<I_orderDates>): I_setO
 export const setFiltersSuccess = (filters: Array<I_filterItem>): I_setFiltersSuccess =>
     ({type: SET_FILTERS, filters});
 
-export const setSortFilter = (filter: string): I_setSortFilter =>
+export const setSortFilter = (filter: string | number): I_setSortFilter =>
     ({type: SET_SORT_FILTER, filter});
 
 export const calculateOrder = (): I_calculateOrder =>
@@ -148,8 +148,12 @@ export const fetchCatalog = () => async (dispatch: any) => {
 };
 export const submitOrder = (orderData: I_orderFormData) => async (dispatch: ThunkDispatch<{}, {}, I_appActions>, getState: GetStateType) => {
     try {
-        const orderItems: Array<I_postOrderItem> = getState().reducer.order.map((oi: I_orderItem) =>
-            ({quantity: oi.quantity, pizza: oi.id}));
+        let orderPrice = 0;
+        const orderItems: Array<I_postOrderItem> = getState().reducer.order.map((oi: I_orderItem) => {
+            orderPrice = orderPrice + +(oi.price * oi.quantity).toFixed(2);
+            return {quantity: oi.quantity, pizza: oi.id}
+        });
+
         const res = await productsAPI.postOrder(orderData, orderItems);
         if (res && res.toLowerCase() === 'created') {
             //setting status to block buttons or redirect to payment page

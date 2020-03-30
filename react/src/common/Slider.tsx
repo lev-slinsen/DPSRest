@@ -12,9 +12,9 @@ let Slider = ({commonImages, commonTexts}: I_props) => {
 
     let items = commonImages.map((item, index) => {
         return (
-            <div key={item.image_name ? item.image_name : 'carousel'+index }>
+            <div key={item.image_name ? item.image_name : 'catousel'+index }>
                 <div style={{
-                    backgroundImage: `url(http://127.0.0.1:8000${item.image})`,
+                    backgroundImage: `url(${item.image})`,
                     backgroundPosition: 'center center',
                     backgroundRepeat: 'no-repeat',
                     height: `35rem`,
@@ -28,7 +28,7 @@ let Slider = ({commonImages, commonTexts}: I_props) => {
         )
     });
     return (
-        <Carousel effect="scrollx" autoplay>
+        <Carousel autoplay effect="fade">
             {items}
         </Carousel>
     )

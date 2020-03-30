@@ -59,7 +59,7 @@ class Main extends Component<I_MainProps> {
     render() {
         const { totalQuantity, totalPrice } = this.props;
         return (
-            <div>
+            <>
                 <Header totalQuantity={totalQuantity} totalPrice={totalPrice}/>
                 <div className={style.mainWrapper}>
                     {this.props.isFetching ? <Preloader/> :
@@ -80,7 +80,7 @@ class Main extends Component<I_MainProps> {
                     }
                 </div>
                 <Footer/>
-            </div>
+            </>
         );
     }
 }

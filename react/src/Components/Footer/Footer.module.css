@@ -1,11 +1,15 @@
 .footerWrapper {
-    margin-top: 5rem;
+    margin-top: 1.5rem;
     padding-top: 1.5rem;
 
     color: #c3c3c3;
     background-color: #343a40;
 }
-
+@media(min-width: 0px) and (max-width: 767px){
+    .footerWrapper {
+        margin-top: 2rem;
+    }
+}
 .container {
     padding: .5rem;
     composes: container from './../../App.css';

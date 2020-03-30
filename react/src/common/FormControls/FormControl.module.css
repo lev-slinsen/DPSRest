@@ -35,6 +35,9 @@
     white-space: initial;
     text-align: left;
 }
+.errorMessage{
+    color: red;
+}
 .titleRequired {
     composes: title;
 }

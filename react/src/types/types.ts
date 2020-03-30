@@ -37,7 +37,7 @@ export interface I_appState {
     totalQuantity: number,
     isFetching: boolean,
     filters: Array<I_filterItem>,
-    selectedFilter: string,
+    selectedFilter: string | number,
     orderSuccess: boolean,
     orderData: I_orderDates[]
 }

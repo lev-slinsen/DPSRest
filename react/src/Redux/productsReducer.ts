@@ -71,7 +71,7 @@ const productsReducer = (state: I_appState = initialState, action: I_appActions)
         case SET_FILTERS:
             return {
                 ...state,
-                filters: [...action.filters, {name: 'All'}]
+                filters: [{name: 'All'}, ...action.filters]
             };
         case SET_SORT_FILTER:
             return {

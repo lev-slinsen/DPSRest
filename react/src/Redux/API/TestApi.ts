@@ -8,7 +8,7 @@ export const testPissas = [
         photo: "https://pechorin.by/media/images/%D1%81%D1%8B%D1%82%D0%BD%D1%8B%D0%B9_%D0%BD%D0%BE%D0%B2%D1%8B%D0%B9.jpg",
         photo_thumbnail: "https://pechorin.by/media/images/%D1%81%D1%8B%D1%82%D0%BD%D1%8B%D0%B9_%D0%BD%D0%BE%D0%B2%D1%8B%D0%B9.jpg",
         price: 22.15,
-        size: 2,
+        size: 0,
         text_long: "В состав входят: Пирожки с ветчиной и сыром - 5 шт. Пирожки с курицей \"Карри\" - 5 шт." +
             " Пирожки с грибами, яйцом и сметаной - 5 шт. Пирожки с грудинкой и квашенной капустой - 5 шт. " +
             "Пирожки с брокколи, сыром и шпинатом - 5 шт.",
@@ -21,7 +21,7 @@ export const testPissas = [
         photo: "https://pechorin.by/media/images/%D1%80%D1%8B%D0%B1%D0%BD%D1%8B%D0%B9_%D0%BD%D0%BE%D0%B2%D1%8B%D0%B9.jpg",
         photo_thumbnail: "https://pechorin.by/media/images/%D1%80%D1%8B%D0%B1%D0%BD%D1%8B%D0%B9_%D0%BD%D0%BE%D0%B2%D1%8B%D0%B9.jpg",
         price: 28.30,
-        size: 2,
+        size: 1,
         text_long: "В состав входят: Пирожки с семгой и шпинатом - 5 шт. Пирожки с судаком - 5 шт. Пирожки с минтаем - 5 шт.",
         text_short: "Вес 1000г.",
     },
@@ -91,8 +91,8 @@ let commonCarusel = {
 };
 
 export const testFilters = [
-    {name: 'big'}, {name: 'small'}
-    ];
+    {name: 'big'}, {name: 'small'}, {name: 0}, {name: 1}, {name: 2}
+];
 
 export const testLanguageData = [
     {

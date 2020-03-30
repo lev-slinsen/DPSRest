@@ -5,11 +5,11 @@
     composes: mainBtn from './../../App.css';
 }
 .success {
-    background-color: #c38a0d;
-    border-color: #c36d26;
+    background-color: rgba(255, 126, 5, 0.37);
+    border-color: rgb(255, 126, 5);
     color: #FFFFFF;
 }
 .success:hover {
-    background-color: #c38a0d;
-    border-color: #c36d26;
+    background-color: rgba(255, 126, 5, 0.37);
+    border-color: rgb(255, 126, 5);
 }

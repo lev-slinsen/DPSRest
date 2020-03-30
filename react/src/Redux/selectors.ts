@@ -16,8 +16,10 @@ export const getLanguageData = (state:AppStateType) => state.language.languageDa
 
 export const getProducts = createSelector(_getProducts, getSelectedFilter, (products, selectedFilter) => {
     return products.filter((p:I_productItem) => {
-        if (selectedFilter !== 'All') {
+        if (selectedFilter !== 'All' && typeof(selectedFilter) === 'string') {
             return p.filter.some(f => f.name === selectedFilter);
+        } else if (typeof(selectedFilter) === 'number'){
+            return p.size === selectedFilter
         } else {
             return true;
         }

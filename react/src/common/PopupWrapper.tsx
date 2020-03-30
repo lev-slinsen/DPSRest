@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import Preloader from "./Preloader";
 import {I_orderItem, I_productItem} from "../types/types";
 import style from './PopupWrapper.module.css';
 import {Button, Modal} from "antd";

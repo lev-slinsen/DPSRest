@@ -10,11 +10,11 @@ interface IProps {
 }
 
 const ButtonMain = React.memo(({
-                        onClickCallback = () => {},
-                        buttonText,
-                        disabled,
-                        type
-                    }: IProps) => {
+                                   onClickCallback = () => {},
+                                   buttonText,
+                                   disabled,
+                                   type
+                               }: IProps) => {
     let [addSucces, setAddSucces] = useState(false);
     let timer: any = useRef(); //now possible pass timer to another component
 

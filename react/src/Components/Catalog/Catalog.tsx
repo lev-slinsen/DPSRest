@@ -15,14 +15,14 @@ import {addProductToOrder, calculateOrder, setSortFilter} from "../../Redux/acti
 interface I_ConnectProps {
     products: Array<I_productItem>,
     filters: Array<I_filterItem>,
-    selectedFilter: string,
+    selectedFilter: string | number,
     languageData: I_LanguageData
 }
 
 interface I_LinkDispatchProps {
     addProductToOrder: (productItem: I_productItem, quantity: number) => void;
     calculateOrder: () => void;
-    setSortFilter: (filter: string) => void;
+    setSortFilter: (filter: string | number) => void;
 }
 
 interface I_State {
@@ -63,18 +63,13 @@ const Catalog: React.FC<I_ConnectProps & I_LinkDispatchProps> = (props) => {
                          addProductToOrder={callAddProductToOrder}
             />
         ));
-    let filters = props.filters
-        .map(f => (
-            <button
-                key={f.name}
-                className={style.filterBtn}
+    let filters = props.filters.map(f=>{
+        let classBtn = f.name === props.selectedFilter ? `${style.filterBtn} ${style.active}`:style.filterBtn;
+        return <button key={f.name} className={classBtn}
                 onClick={() => {
                     changeFilter(f.name)
-                }}
-            >
-                {f.name}
-            </button>
-        ));
+                }}>{f.name}</button>
+    });
     console.log('!!!!!!!!!!!!!! CATALOG RENDERED');
     return (
         <div>
@@ -89,8 +84,13 @@ const Catalog: React.FC<I_ConnectProps & I_LinkDispatchProps> = (props) => {
                     commonImages={languageData.index.front_image}
                     commonTexts={languageData.index.front_text}
                 />
-                <div className={style.container}>{filters}</div>
-                <hr/>
+                <div className={style.container}>
+                    <div className={style.filterBlock}>
+                        <div className={style.filterBlockIn}>
+                            {filters}
+                        </div>
+                    </div>
+                </div>
                 <div className={style.productsContainer}>
                     {products}
                 </div>
