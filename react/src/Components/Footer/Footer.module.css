@@ -1,5 +1,4 @@
 .footerWrapper {
-    margin-top: 1.5rem;
     padding-top: 1.5rem;
     font-family: 'Vollkorn',sans-serif;
     color: #c3c3c3;
@@ -16,7 +15,7 @@
 }
 
 .containerRow {
-    justify-content: space-between;
+    justify-content: space-around;
     max-width: 90%;
     align-items: flex-start;
     composes: row from './../../App.css';

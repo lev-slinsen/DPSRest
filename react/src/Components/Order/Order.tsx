@@ -32,12 +32,12 @@ const Order = ({totalQuantity, submitOrder, fetchOrderInfo, orderDisabled, order
         return (
             <div className={style.pageWrapper}>
                 { isPopUpOpen && <OrderModal title={"success"} orderItems={order}/> }
-                <div>
+                <div className={style.title}>
                     <h3>Подтвердить заказ</h3>
                     <hr />
                 </div>
                 <div className={style.container}>
-                    <span>Поля отмеченные * обязательны для заполнения</span>
+                    <span className={style.titleLabel}>Поля отмеченные * обязательны для заполнения</span>
                     <OrderForm onSubmit={onSubmit} orderDisabled={orderDisabled}/>
                 </div>
             </div>

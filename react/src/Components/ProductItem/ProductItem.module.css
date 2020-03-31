@@ -24,7 +24,7 @@
     word-wrap: break-word;
 
     color: #000000;
-    border: 1px solid #999;
+    border: 1px solid rgba(0, 0, 0, .125);
     border-radius: .25rem;
     box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15);
     font-family: 'Vollkorn', sans-serif;
@@ -37,14 +37,15 @@
     composes: row from './../../App.css';
 }
 
-.row button{
+.row button {
     line-height: 19px;
     margin-top: 0;
 }
 
-.price{
+.price {
     margin-top: 5px;
 }
+
 .rowDiscr {
     composes: row;
 }

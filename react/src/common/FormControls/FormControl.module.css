@@ -24,9 +24,19 @@
     list-style: none;
     -webkit-font-feature-settings: 'tnum';
     font-feature-settings: 'tnum', "tnum";
-    margin-bottom: 24px;
+    margin-bottom: 14px;
     vertical-align: top;
 }
+
+.paymentField {
+    display: flex;
+    flex-direction: column;
+}
+
+.fieldWrapper select {
+    min-width: 150px;
+}
+
 .title {
     display: block;
     margin: 0;
@@ -35,12 +45,15 @@
     white-space: initial;
     text-align: left;
 }
-.errorMessage{
+
+.errorMessage {
     color: red;
 }
+
 .titleRequired {
     composes: title;
 }
+
 .titleRequired::before {
     display: inline-block;
     margin-right: 4px;
@@ -72,33 +85,49 @@
     flex-direction: row;
 
 }
-.rowSA{
+
+.paymentField .row .fieldWrapper {
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    align-items: center;
+    margin: 0;
+}
+
+.paymentField .row .fieldWrapper .title {
+    padding: 0;
+    margin-left: 10px;
+}
+
+.rowSA {
     composes: row;
     justify-content: space-around;
     width: 100%;
 }
+
 .col {
     composes: fieldWrapper;
     display: flex;
     flex-direction: column;
 }
 
-.btnAdd
-{
+.btnAdd {
     width: 6rem;
 
     composes: mainBtn from './../../App.css';
 }
+
 .successBtn {
     background-color: #83c318;
     border-color: #30460b;
     color: #FFFFFF;
 }
+
 .disabled {
     border-color: #464646;
     background-color: initial;
     color: #1f1f20;
 }
+
 .disabled:hover {
     border-color: #464646;
     background-color: initial;

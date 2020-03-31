@@ -44,6 +44,28 @@
     right: 20px;
 }
 
+.ant-modal-header {
+    border-bottom: 0;
+    padding-bottom: 0;
+}
+
+.ant-modal-footer {
+    display: none;
+}
+
+.ant-modal {
+    font-family: 'Vollkorn', sans-serif;
+}
+
+.ant-modal .ant-modal-title{
+    font-size: 1.5rem;
+}
+.ant-form-item-label{
+    line-height: 1.5;
+}
+.ant-form-item-label > label{
+    color: rgba(0, 0, 0, 0.65);
+}
 @media (min-width: 0px) and (max-width: 450px) {
     .ant-carousel .slick-prev {
         left: 10px;

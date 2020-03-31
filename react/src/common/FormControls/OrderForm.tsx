@@ -78,18 +78,20 @@ export const OrderReduxForm: React.FC<InjectedFormProps<I_orderFormData, I_Props
                 />
                 <div className={style.col}>
                     <label className={style.titleRequired}>Форма оплаты</label>
-                    {payments.map((option: string, index: number) => (
-                        <div key={option} className={style.row}>
-                            <Field
-                                name="payment"
-                                component={renderField}
-                                type="radio"
-                                label={option}
-                                value={index.toString()}
-                                validate={[required]}
-                            />
-                        </div>
-                    ))}
+                    <div className={style.paymentField}>
+                        {payments.map((option: string, index: number) => (
+                            <div key={option} className={style.row}>
+                                <Field
+                                    name="payment"
+                                    component={renderField}
+                                    type="radio"
+                                    label={option}
+                                    value={index.toString()}
+                                    validate={[required]}
+                                />
+                            </div>
+                        ))}
+                    </div>
                 </div>
                 <hr/>
                 {error && <div>

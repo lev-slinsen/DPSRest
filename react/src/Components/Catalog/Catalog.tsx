@@ -65,7 +65,8 @@ const Catalog: React.FC<I_ConnectProps & I_LinkDispatchProps> = (props) => {
         ));
     let filters = props.filters.map(f=>{
         let classBtn = f.name === props.selectedFilter ? `${style.filterBtn} ${style.active}`:style.filterBtn;
-        return <button key={f.name} className={classBtn}
+        let itemInRow = Math.round(props.filters.length / 2);
+        return <button style={{width:`${100 / itemInRow}%`}} key={f.name} className={classBtn}
                 onClick={() => {
                     changeFilter(f.name)
                 }}>{f.name}</button>

@@ -91,7 +91,7 @@ let commonCarusel = {
 };
 
 export const testFilters = [
-    {name: 'big'}, {name: 'small'}, {name: 0}, {name: 1}, {name: 2}
+    {name: 'big'}, {name: 'small'}, {name: 'verySmall'},{name: 0}, {name: 1}, {name: 2},
 ];
 
 export const testLanguageData = [

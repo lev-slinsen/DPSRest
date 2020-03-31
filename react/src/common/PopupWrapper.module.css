@@ -15,7 +15,6 @@
 
     width: 100%;
     height: 100%;
-
     background-color: rgba(6, 6, 6, .8);
 }
 
@@ -43,9 +42,10 @@
 .row {
     align-items: center;
 
-    padding: .3rem;
+    padding: 1rem .3rem .3rem;
     align-content: center;
     composes: row from './../App.css';
+    font-size: 1.2rem;
 }
 
 .productCardWrapper > * h5 {

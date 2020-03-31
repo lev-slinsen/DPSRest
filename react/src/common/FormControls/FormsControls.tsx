@@ -2,7 +2,6 @@ import React from 'react';
 import {createTextMask} from 'redux-form-input-masks';
 import classNames from 'classnames/bind';
 import style from './FormControl.module.css';
-import {Alert, Popover} from "antd";
 
 export const phoneMask = createTextMask({
     pattern: '8-(099) 999-9999',
@@ -34,7 +33,7 @@ interface I_renderDropDownProps extends I_renderFieldProps {
 
 export const ReduxFormWrapper = ({
                                      label, required,
-                                     meta: { touched, error, warning },
+                                     meta: {touched, error, warning},
                                      children
                                  }: I_renderFormWrapperProps) => {
     let cx = classNames.bind(style);
@@ -76,7 +75,7 @@ export const DropDownSelect = ({input, label, times, meta}: I_renderDropDownProp
     return (
         <ReduxFormWrapper required={true} label={label} meta={meta}>
             <select {...input}>
-                <option value={""}>Select</option>
+                <option value={""}>Выбрать время</option>
                 {times.map(renderSelectOptions)}
             </select>
         </ReduxFormWrapper>
