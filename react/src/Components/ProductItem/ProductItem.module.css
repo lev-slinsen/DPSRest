@@ -1,11 +1,10 @@
-.container
-{
+.container {
     justify-content: center;
 
     composes: container from './../../App.css';
 }
-.productCardWrapper
-{
+
+.productCardWrapper {
     composes: container;
     font-size: .8rem;
 
@@ -25,37 +24,46 @@
     word-wrap: break-word;
 
     color: #000000;
-    border: 1px solid #999;
+    border: 1px solid rgba(0, 0, 0, .125);
     border-radius: .25rem;
     box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15);
+    font-family: 'Vollkorn', sans-serif;
 }
 
-.row
-{
-    align-items: center;
+.row {
+    align-items: flex-start;
     justify-content: space-around;
-
+    font-size: 16px;
     composes: row from './../../App.css';
 }
-.rowDiscr
-{
+
+.row button {
+    line-height: 19px;
+    margin-top: 0;
+}
+
+.price {
+    margin-top: 5px;
+}
+
+.rowDiscr {
     composes: row;
 }
-.rowDiscr > span
-{
+
+.rowDiscr > span {
     width: 80%;
     height: 2.5rem;
     margin: 4px;
-
+    font-size: 16px;
     border-top: 1px solid #e5d0a2;
 }
-.productCardWrapper > * h5
-{
-    font-size: 1.1rem;
+
+.productCardWrapper > * h5 {
+    font-size: 20px;
     margin: .8rem;
 }
-.btnSmall
-{
+
+.btnSmall {
     font-weight: 600;
 
     width: 30px;
@@ -64,42 +72,41 @@
 
     border: 1px solid #ffbc80;
 }
-.btnSmallMinus
-{
-    padding-bottom: 4px;
 
+.btnSmallMinus {
     composes: btnSmall;
 }
 
-.btnAdd
-{
+.btnAdd {
     width: 6rem;
-
     composes: mainBtn from './../../App.css';
 }
-.calculator
-{
-    font-weight: bold;
 
+.calculator {
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     color: #000;
 }
-.calculator > * span
-{
+
+.calculator > * span {
     min-width: 2.5rem;
 }
+
 .mainImg {
     background-image: url("./../../assets/icons/single.png");
     background-size: contain;
     background-position: center center;
     background-repeat: no-repeat;
-    display: flex!important;
+    display: flex !important;
     overflow: hidden;
     align-content: center;
     align-items: center;
     justify-content: center;
 }
-.mainImg > img
-{
+
+.mainImg > img {
     zoom: 110%;
 }
 
@@ -110,21 +117,24 @@
     cursor: pointer;
     width: 300px;
     height: 300px;
-    outline: 22px solid rgba(255,255,255, .5);
+    outline: 22px solid rgba(255, 255, 255, .5);
     outline-offset: -20px;
 }
-.mainImgWrap:hover
-{
-    outline-color: rgba(255,255,255, .4);
+
+.mainImgWrap:hover {
+    outline-color: rgba(255, 255, 255, .4);
 }
-.mainImgWrap:hover > .mainImg > img{
+
+.mainImgWrap:hover > .mainImg > img {
     zoom: 109%;
 }
+
 .success {
     background-color: #83c318;
     border-color: #83c318;
     color: #FFFFFF;
 }
+
 .success:hover {
     background-color: #83c318;
     border-color: #83c318;

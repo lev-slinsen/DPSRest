@@ -60,6 +60,11 @@
 .cartWrapper {
     margin-top: 4rem;
     composes: col;
+    font-family: 'Vollkorn', sans-serif;
+}
+
+.cartWrapper h2 {
+    font-size: 1.75rem;
 }
 
 .rowBetween {
@@ -68,54 +73,70 @@
     width: 80%;
     padding: .5rem;
 }
+
 .rowBetween a + a {
     margin-left: auto;
 }
-.rowBetween .btnToMenu button{
+
+.rowBetween .btnToMenu button {
     background-color: transparent;
     color: #000000;
     border: 1px solid grey;
     transition: .2s all ease;
 }
-.rowBetween .btnToMenu button:hover{
+
+.rowBetween .btnToMenu button:hover {
     border-color: #ff5500;
     color: #ff5500;
 }
-.rowBetween .btnOrder button{
-    background-color: rgba(255, 70, 7, 0.73);
+
+.rowBetween .btnOrder button {
+    background-color: #fd7e14;
     color: #000000;
     border: 1px solid transparent;
     transition: .2s all ease;
 }
-.rowBetween .btnOrder button:hover{
+
+.rowBetween .btnOrder button:hover {
     border: 1px solid #ff5500;
     background-color: transparent;
 }
 
-.cartTableWrapper{
+.cartTableWrapper {
     overflow-x: auto;
     width: 80%;
+    font-family: 'Vollkorn', sans-serif;
 }
+
 .cartTable {
     width: 100%;
     margin-bottom: 20px;
 }
 
-.cartTable tbody tr:hover td{
+.cartTable tbody tr:hover td {
     background-color: #f9f9f9;
 }
 
-@media(min-width: 0px) and (max-width: 991px) {
-    .cartTable{
-        min-width: 800px;
-    }
+.cartTable thead th {
+    font-style: italic;
+    font-weight: 400;
+    font-size: 1.1rem;
+    color: rgba(0, 0, 0, .5);
+    border-bottom: 1px solid #dee2e6;
 }
+
 .cartTable tr {
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid rgba(255, 178, 99, 0.39);
 }
 
 .cartTable tr:nth-child(1) th:nth-child(2) {
     text-align: left;
+}
+
+@media (min-width: 0px) and (max-width: 991px) {
+    .cartTable {
+        min-width: 800px;
+    }
 }
 
 @media (max-width: 991px) {

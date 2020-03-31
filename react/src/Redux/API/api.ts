@@ -34,14 +34,11 @@ export const productsAPI = {
             })
     },
     async postOrder(formData: I_orderFormData, order: Array<I_postOrderItem>) {
-
-
         let payload = {
             ...formData,
             delivery_time: +formData.delivery_time,
             payment: +formData.payment,
-            order_items: order,
-            order_price: 0
+            order_items: order
         };
         console.log(payload);
         try {

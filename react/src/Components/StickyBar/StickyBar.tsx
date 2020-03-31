@@ -27,11 +27,10 @@ const StickyBar: React.FC<I_Props> = React.memo(({totalQuantity, totalPrice}: I_
 
         setVisible(visible);
     };
-
+    let stickyCard = visible ? style.visible : '';
     return (
-
         <div className={style.navButton}>
-            <div style={{display: visible ? 'block' : 'none'}}>
+            <div className={stickyCard} style={{display: visible ? 'block' : 'none'}}>
                 <Fade right big when={visible}>
                     <div onClick={hideMenu}>
                         <CartBtn totalQuantity={totalQuantity} totalPrice={totalPrice}/>
@@ -39,7 +38,6 @@ const StickyBar: React.FC<I_Props> = React.memo(({totalQuantity, totalPrice}: I_
                 </Fade>
             </div>
         </div>
-
     )
 });
 

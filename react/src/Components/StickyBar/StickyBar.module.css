@@ -6,9 +6,20 @@
     right: 0;
     left: 0;
     z-index: 2;
+    font-family: 'Vollkorn', sans-serif;
 }
+
 .navButton > div {
     position: relative;
+}
+@media screen and (min-width: 1541px) and (max-width: 1800px){
+    .visible a{
+        right: 5%;
+    }
+}@media screen and (min-width: 1800px){
+    .visible a{
+        right: 10%;
+    }
 }
 
 .navButtonsBlock {
@@ -22,10 +33,12 @@
     justify-content: center;
     align-content: center;
 }
-.navButtonsBlockDisplay{
+
+.navButtonsBlockDisplay {
     composes: navButtonsBlock;
     display: flex;
 }
+
 @media (max-width: 580px) {
     .navButtonsBlock {
         display: none;
@@ -36,9 +49,11 @@
         right: 0;
         height: 100vh;
     }
-    .navButtonsBlockDisplay{
+
+    .navButtonsBlockDisplay {
         display: flex;
     }
+
     .container {
         border-bottom: 1px solid darkgrey;
     }
@@ -57,9 +72,11 @@
     -webkit-transition: width 2s, height 2s, background-color 2s, -webkit-transform 2s;
     transition: width 2s, height 2s, background-color 2s, transform 2s;
 }
+
 .btn:hover {
     border-bottom: 1px solid rgba(255, 255, 255, 0.9);
 }
+
 .btnActive {
     border-bottom: 1px solid rgba(230, 230, 230, 0.4);
 }
@@ -71,6 +88,7 @@
     right: 10rem;
     text-shadow: #1f1f20;
 }
+
 .btnMenu:after {
     content: "";
     position: absolute;
@@ -82,9 +100,11 @@
     background-color: #ff55005e;
     box-shadow: 0 0 24px 17px #ff5500;
 }
+
 .btnMenu > img {
     max-width: 2rem;
 }
+
 .btnMenu:hover:after {
     box-shadow: 0 0 24px 22px #ff5500;
 }

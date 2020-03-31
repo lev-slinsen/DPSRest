@@ -17,6 +17,9 @@ function HeaderMenu({setVisible}: IProps) {
                 <NavLink onClick={()=>setVisible?.(false)} to="/about" activeClassName={style.active}>
                     О нас
                 </NavLink>
+                <NavLink onClick={()=>setVisible?.(false)} to="/order" activeClassName={style.active}>
+                    Закзать
+                </NavLink>
             </div>
             <div className={style.info}>
                 <span className={style.bold}>Мы работаем с пн.-пт. с 8 до 19.00</span>

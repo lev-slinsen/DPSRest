@@ -6,6 +6,7 @@
 .productsContainer {
     composes: container;
     justify-content: center;
+    padding-bottom: 40px;
 }
 
 .container .filterBlock{
@@ -18,7 +19,7 @@
 .container .filterBlock:after{
     content: '';
     position: absolute;
-    bottom: 0;
+    top: 50%;
     left: 0;
     height: 2px;
     width: 100%;
@@ -27,19 +28,13 @@
 .container .filterBlock .filterBlockIn{
     display: flex;
     flex-wrap: wrap;
-    position: relative;
-}
-.container .filterBlock .filterBlockIn:after{
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 0;
-    height: 1px;
+    justify-content: flex-start;
     width: 100%;
-    background-color: #4f4f4f;
+    position: relative;
+    font-family: 'Vollkorn',sans-serif;
 }
+
 .container .filterBlock .filterBlockIn .filterBtn{
-    width: 30%;
     padding: 5px;
 }
 
@@ -52,7 +47,7 @@
     padding: 0;
     border: none;
     font-size: 20px;
-    margin-bottom: 5px;
+    margin: 5px 0;
     /*font-weight: bolder;*/
     display: flex;
     justify-content: center;
@@ -63,9 +58,3 @@
     color: #662700;
 }
 
-.container .filterBlock .filterBlockIn .filterBtn + .filterBtn {
-    margin-left: 5px;
-}
-.container .filterBlock .filterBlockIn .filterBtn:nth-child(4n+4){
-    margin-left: 0;
-}
