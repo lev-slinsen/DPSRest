@@ -39,7 +39,8 @@ export interface I_appState {
     filters: Array<I_filterItem>,
     selectedFilter: string | number,
     orderSuccess: boolean,
-    orderData: I_orderDates[]
+    orderData: I_orderDates[],
+    submitting: 'pending' | 'stop' | 'success'
 }
 export interface I_orderFormData {
     phone: string,
@@ -64,7 +65,7 @@ export interface I_languagePage {
     front_text: Array<{text_name: string, text: string}>
     "front_image": Array<{image_name: string, image: string}>
 }
-type Pages = "cross" | "index" ;
+type Pages = "cross" | "index" | "about" | "footer" | "footerContacts" ;
 
 type PagesMap<P> = { [page in Pages]: P };
 

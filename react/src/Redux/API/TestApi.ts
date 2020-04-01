@@ -1,4 +1,6 @@
 import bgPict from "../../assets/images/slide1.png";
+import style from "../../Components/Footer/Footer.module.css";
+import React from "react";
 
 export const testPissas = [
     {
@@ -94,17 +96,17 @@ export const testFilters = [
     {name: 'big'}, {name: 'small'}, {name: 'verySmall'},{name: 0}, {name: 1}, {name: 2},
 ];
 
-export const testLanguageData = [
+export const mockLanguageData = [
     {
         "id": 1,
         "page_name": "cross",
         "front_text": [
             {
-                "text_name": "header time",
+                "text_name": "headerTime",
                 "text": "Мы работаем с пн.-пт. с 8 до 19.00"
             },
             {
-                "text_name": "header phone",
+                "text_name": "headerPhone",
                 "text": "+375 (33) 658-02-20"
             }
         ],
@@ -147,35 +149,133 @@ export const testLanguageData = [
         "page_name": "about",
         "front_text": [
             {
-                "text_name": "О нас",
+                "text_name": "head1",
+                "text": "О нас"
+            },
+            {
+                "text_name": "article1",
                 "text": "Пекарня Печорин предлагает Вам выпечку по оригинальным рецептам, основанных на классической славянской кухне. Тонкое, без дрожжевое тесто, много разнообразной начинки, это и есть настоящие, правильные пирожки. Мы предлагаем только свежую выпечку, Наши кондитера приготовят и отпекут Ваш заказ непосредственно перед доставкой. Вы можете самостоятельно собрать набор из нашего ассортимента для любого случая. Накрыть стол для друзей, коллег по работе, организовать фуршет. Каждый найдет в нашем ассортименте пирог по своему вкусу."
             },
             {
-                "text_name": "О сервисе",
-                "text": "Мы работаем с понедельника по пятницу, по рабочим дням. Заказы сегодня на сегодня принимаются только по телефону до 12-30. Время для приготовления и доставки занимает от 1,5 часов, и зависит от величины заказа и района доставки. Если Вам нужно приготовить большой заказ или важно время доставки, пожалуйста, сделайте заказ заранее."
+                "text_name": "head2",
+                "text": "О сервисе"
             },
             {
-                "text_name": "Для юридических лиц",
+                "text_name": "article2",
+                "text": "Пекарня Печорин предлагает Вам выпечку по оригинальным рецептам, основанных на классической славянской кухне. Тонкое, без дрожжевое тесто, много разнообразной начинки, это и есть настоящие, правильные пирожки. Мы предлагаем только свежую выпечку, Наши кондитера приготовят и отпекут Ваш заказ непосредственно перед доставкой. Вы можете самостоятельно собрать набор из нашего ассортимента для любого случая. Накрыть стол для друзей, коллег по работе, организовать фуршет. Каждый найдет в нашем ассортименте пирог по своему вкусу."
+            },
+            {
+                "text_name": "head3",
+                "text": "Для юридических лиц"
+            },
+            {
+                "text_name": "article3",
+                "text": "Если Вы хотите сделать заказ на организацию, с оплатой по безналичному расчету. Пришлите, пожалуйста, Ваш заказ и реквизиты на наш e-mail: info@pechorin.by. Мы также осуществляем поставки нашей продукции на регулярной (договорной) основе для ИП и юр.лиц для реализации или корпоративного питания."
+            },
+            {
+                "text_name": "head4",
+                "text": "Для юридических лиц"
+            },
+            {
+                "text_name": "article5",
                 "text": "Если Вы хотите сделать заказ на организацию, с оплатой по безналичному расчету. Пришлите, пожалуйста, Ваш заказ и реквизиты на наш e-mail: info@pechorin.by. Мы также осуществляем поставки нашей продукции на регулярной (договорной) основе для ИП и юр.лиц для реализации или корпоративного питания."
             }
         ],
         "front_image": [
             {
-                "image_name": "about image 4",
+                "image_name": "carusel1",
                 "image": bgPict
             },
             {
-                "image_name": "about image 3",
+                "image_name": "carusel1",
                 "image": bgPict
             },
             {
-                "image_name": "about image 2",
+                "image_name": "carusel1",
                 "image": bgPict
             },
             {
-                "image_name": "about image 1",
+                "image_name": "quatro1",
                 "image": bgPict
-            }
+            },
+            {
+                "image_name": "quatro2",
+                "image": bgPict
+            },
+            {
+                "image_name": "quatro3",
+                "image": bgPict
+            },
+            {
+                "image_name": "quatro4",
+                "image": bgPict
+            },
+            {
+                "image_name": "aboutMiddle1",
+                "image": bgPict
+            },
+            {
+                "image_name": "aboutMiddle2",
+                "image": bgPict
+            },
+            {
+                "image_name": "quatro11",
+                "image": bgPict
+            },
+            {
+                "image_name": "quatro12",
+                "image": bgPict
+            },
+            {
+                "image_name": "quatro13",
+                "image": bgPict
+            },
+            {
+                "image_name": "quatro14",
+                "image": bgPict
+            },
         ]
-    }
+    },
+    {
+        "id": 3,
+        "page_name": "footer",
+        "front_text": [
+            {
+                "text_name": "req1",
+                "text": "Общество с ограниченной ответственностью «Печь Орин»"
+            },
+            {
+                "text_name": "req2",
+                "text": "220035, г. Минск, ул. Бачило, д. 18"
+            },
+            {
+                "text_name": "req3",
+                "text": "Регистрационный номер в ТР РБ: 402852"
+            },
+            {
+                "text_name": "req4",
+                "text": "Общество с ограниченной ответственностью «Печь Орин»"
+            },
+            {
+                "text_name": "req5",
+                "text": "Общество с ограниченной ответственностью «Печь Орин»"
+            },
+        ],
+        "front_image": []
+    },
+    {
+        "id": 3,
+        "page_name": "footerContacts",
+        "front_text": [
+            {
+                "text_name": "cont1",
+                "text": "Телефон: +375 33 6580220"
+            },
+            {
+                "text_name": "cont2",
+                "text": "E-mail: info@pechorin.by"
+            },
+        ],
+        "front_image": []
+    },
 ];

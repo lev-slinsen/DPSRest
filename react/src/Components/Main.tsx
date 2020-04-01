@@ -15,6 +15,7 @@ import Cart from "./Cart/Cart";
 import StickyBar from "./StickyBar/StickyBar";
 import {fetchLanguageData} from "../Redux/languageDataReducer";
 import {fetchCatalog} from "../Redux/actions";
+import {I_LanguageData} from "../types/types";
 
 const About = React.lazy(() => import('./About/About'));
 
@@ -27,6 +28,7 @@ interface I_ConnectedProps {
     totalQuantity: number,
     totalPrice: number,
     appError: string,
+    languageData: I_LanguageData
 }
 
 interface I_dispatchProps {
@@ -57,10 +59,10 @@ class Main extends Component<I_MainProps> {
     }
 
     render() {
-        const { totalQuantity, totalPrice } = this.props;
+        const { totalQuantity, totalPrice, languageData } = this.props;
         return (
             <>
-                <Header totalQuantity={totalQuantity} totalPrice={totalPrice}/>
+                <Header languageData={languageData.cross} totalQuantity={totalQuantity} totalPrice={totalPrice}/>
                 <div className={style.mainWrapper}>
                     {this.props.isFetching ? <Preloader/> :
                         <main>
@@ -79,7 +81,7 @@ class Main extends Component<I_MainProps> {
                         </main>
                     }
                 </div>
-                <Footer/>
+                <Footer data={{req: languageData.footer, cont: languageData.footerContacts}}/>
             </>
         );
     }
@@ -90,7 +92,8 @@ const mapStateToProps = (state: AppStateType): I_ConnectedProps => {
         isFetching: getIsFetching(state),
         totalQuantity: getTotalQuantity(state),
         totalPrice: getTotalPrice(state),
-        appError: ''
+        appError: '',
+        languageData: state.language.languageData
     }
 };
 

@@ -7,10 +7,12 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faBars} from '@fortawesome/free-solid-svg-icons'
 import {Drawer} from 'antd';
 import HeaderMenu from "./HeaderMenu";
+import {I_languagePage} from "../../types/types";
 
 interface IProps {
     totalQuantity: number,
-    totalPrice: number
+    totalPrice: number,
+    languageData: I_languagePage
 }
 
 function Header(props: IProps) {
@@ -23,7 +25,7 @@ function Header(props: IProps) {
                     <img src={logoImg} alt={"Pekarnya Pechorin"}/>
                 </div>
             </Link>
-           <HeaderMenu/>
+           <HeaderMenu languageData={props.languageData}/>
             <CartBtn {...props}/>
             <div className={style.menuBtn} onClick={() => setVisible(!visible)}>
                 <FontAwesomeIcon icon={faBars}/>
@@ -36,7 +38,7 @@ function Header(props: IProps) {
                 getContainer={false}
                 className={style.drawer}
             >
-                <HeaderMenu setVisible={setVisible}/>
+                <HeaderMenu languageData={props.languageData} setVisible={setVisible}/>
             </Drawer>
         </header>
     );

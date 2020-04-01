@@ -44,7 +44,8 @@ const initialState: I_appState = {
     filters: [{name: 'one'}],
     selectedFilter: 'All',
     orderSuccess: false,
-    orderData: []
+    orderData: [],
+    submitting: 'stop'
 };
 
 
