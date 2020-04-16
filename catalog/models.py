@@ -13,7 +13,8 @@ class Filter(models.Model):
     Filter model, multi choice
     """
     name = models.CharField(max_length=100,
-                            verbose_name=_('Filter|Name', 'Filter'))
+                            verbose_name=_('Filter|Name', 'Filter'),
+                            unique=True)
 
     def __str__(self):
         return self.name
@@ -23,26 +24,16 @@ class Filter(models.Model):
         verbose_name_plural = _('Filter|Meta plural', 'Filters')
 
 
-class Category(models.Model):
-    """
-    Category model, single choice
-    """
-    name = models.CharField(max_length=100,
-                            verbose_name=_('Category|Name', 'Name'))
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        verbose_name = _('Category|Meta', 'Category')
-        verbose_name_plural = _('Category|Meta plural', 'Categories')
-
-
 class Pizza(models.Model):
     """
     Pizza model.
     """
-    id = models.PositiveSmallIntegerField(primary_key=True)
+    CATEGORY_CHOICES = (
+        (1, _('Categories|Category 1', 'Category 1')),
+        (2, _('Categories|Category 2', 'Category 2')),
+        (3, _('Categories|Category 3', 'Category 3')),
+        (4, _('Categories|Category 4', 'Category 4'))
+    )
     name = models.CharField(max_length=45,
                             verbose_name=_('Pizza|Name', 'Name'))
     price = models.DecimalField(default=0,
@@ -54,8 +45,8 @@ class Pizza(models.Model):
     text_long = models.TextField(verbose_name=_('Pizza|Long text', 'Long text'))
     filter = models.ManyToManyField(Filter,
                                     verbose_name=_('Pizza|Filter', 'Filter'))
-    category = models.ForeignKey(Category,
-                                 on_delete=models.CASCADE,)
+    category = models.SmallIntegerField(choices=CATEGORY_CHOICES,
+                                        verbose_name=_('Front|Month field', 'Month'))
     photo = models.ImageField(upload_to='images/',
                               verbose_name=_('Pizza|Image', 'Image'))
     photo_thumbnail = ImageSpecField(source='photo',

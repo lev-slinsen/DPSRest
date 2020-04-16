@@ -150,6 +150,7 @@ class OrderAdmin(admin.ModelAdmin):
         'phone',
         'id',
         'status',
+        'address',
         'delivery_date',
         'delivery_time',
         'first_name',
