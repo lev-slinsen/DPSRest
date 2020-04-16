@@ -38,4 +38,5 @@ class WorkDateInline(admin.TabularInline):
 @admin.register(WorkMonth)
 class WorkMonthAdmin(admin.ModelAdmin):
     model = WorkMonth
+    readonly_fields = ('month', 'id')
     inlines = (WorkDateInline,)

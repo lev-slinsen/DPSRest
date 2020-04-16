@@ -51,7 +51,14 @@ class WorkMonth(models.Model):
     )
     month = models.SmallIntegerField(verbose_name=_('Front|Month field', 'Month'),
                                      choices=MONTH_CHOICES)
-    id = models.PositiveSmallIntegerField(primary_key=True, verbose_name=_('Front|Month id', 'Month id'))
+    id = models.PositiveSmallIntegerField(verbose_name=_('Front|Month id', 'Month id'),
+                                          primary_key=True)
+
+    def has_add_permission(self, request):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
 
     class Meta:
         verbose_name = _('Front|Month', 'Month')

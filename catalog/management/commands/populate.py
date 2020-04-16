@@ -229,7 +229,7 @@ class Command(BaseCommand):
         image.save()
 
     def _create_months(self):
-        for m in range(1-12):
+        for m in range(1, 13):
             month = WorkMonth(id=m, month=m)
             month.save()
 
