@@ -1,18 +1,18 @@
 import axios from "axios";
 import {I_orderDates, I_orderFormData, I_postOrderItem} from "../../types/types";
-import {testFilters, testLanguageData, testPissas} from "./TestApi";
+import {testFilters, mockLanguageData, testPissas} from "./TestApi";
 import {APIerrorLogger} from "../../utils/errorLogger";
 
 axios.defaults.xsrfHeaderName = "X-CSRFToken";
 axios.defaults.xsrfCookieName = "csrftoken";
 
 const instance = axios.create({
-    baseURL: `http://127.0.0.1:8000/api/`,
+    baseURL: `http://127.0.0.1:8000/rest/`,
 });
 
 export const productsAPI = {
     getProducts() {
-        return instance.get('pizza/?format=json')
+        return instance.get('pizza/')
             .then(res => {
                 if (res.status === 200) {
                     return res.data;
@@ -23,7 +23,7 @@ export const productsAPI = {
             })
     },
     getFilters() {
-        return instance.get(`filter/?format=json`)
+        return instance.get(`filter/`)
             .then(res => {
                 if (res.status === 200) {
                     return res.data;
@@ -40,7 +40,6 @@ export const productsAPI = {
             payment: +formData.payment,
             order_items: order
         };
-        console.log(payload);
         try {
             let res = await instance.post(`order/`, payload);
             return res.statusText
@@ -50,10 +49,8 @@ export const productsAPI = {
             }
             APIerrorLogger(err);
             console.log(JSON.parse(JSON.stringify(err)));
-
         }
     },
-
     getOrderData(): Promise<Array<I_orderDates>> {
         return instance.get(`work-month/`)
             .then(res => {
@@ -70,11 +67,11 @@ export const languageDataAPI = {
     async getLanguageData() {
         try {
             let res = await instance.get('front-page/');
-            return res.data
+            return  res.data
         } catch (err) {
             APIerrorLogger(err);
             console.log(err);
-            return testLanguageData
+            return mockLanguageData
         }
     },
 };

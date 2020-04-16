@@ -16,6 +16,8 @@ export const DELETE_ORDER_ITEM = 'ORDER/DELETE_ORDER_ITEM';
 export const SET_ORDER_SUCCESS = 'ORDER/boolean/SET_ORDER_SUCCESS';
 export const SET_IS_FETCHING = 'COMMON/boolean/SET_IS_FETCHING';
 export const SET_COMMON_ORDER_SUCCESS = 'COMMON/SET_COMMON_ORDER_SUCCESS';
+export const SET_SUBMITTING = 'COMMON/SET_SUBMITTING';
+
 
 //interfaces
 interface I_setProductsSuccess {
@@ -73,11 +75,16 @@ interface I_addProductToOrder {
     quantity: number
 }
 
+interface I_setSubmitting {
+    type: typeof SET_SUBMITTING,
+    status: 'pending' | 'stop' | 'success',
+}
+
 export type I_appActions = I_setProductsSuccess |
     I_setOrderDataFetchSuccess | I_setFiltersSuccess | I_calculateOrder |
     I_increaseQuantity | I_decreaseQuantity | I_removeFromOrder |
     I_setOrderSuccess | I_setSortFilter | I_setIsFetching |
-    I_addProductToOrder
+    I_addProductToOrder | I_setSubmitting
 
 type GetStateType = () => AppStateType
 
@@ -108,6 +115,9 @@ export const _removeFromOrder = (id: string): I_removeFromOrder =>
 
 export const _setOrderSuccess = (status: boolean): I_setOrderSuccess =>
     ({type: SET_ORDER_SUCCESS, status});
+
+export const _setSubmitting = (status: 'pending' | 'stop' | 'success'): I_setSubmitting =>
+    ({type: SET_SUBMITTING, status});
 
 //EXTERNAL ACTIONS
 export const increaseQuantity = (id: string) => (dispatch: Dispatch) => {
@@ -148,14 +158,17 @@ export const fetchCatalog = () => async (dispatch: any) => {
 };
 export const submitOrder = (orderData: I_orderFormData) => async (dispatch: ThunkDispatch<{}, {}, I_appActions>, getState: GetStateType) => {
     try {
+        dispatch(_setSubmitting('pending'));
         const orderItems: Array<I_postOrderItem> = getState().reducer.order.map((oi: I_orderItem) =>
             ({quantity: oi.quantity, pizza: oi.id}));
         const res = await productsAPI.postOrder(orderData, orderItems);
         if (res && res.toLowerCase() === 'created') {
             //setting status to block buttons or redirect to payment page
             dispatch(_setOrderSuccess(true));
+            dispatch(_setSubmitting('success'));
         }
     } catch (err) {
+        dispatch(_setSubmitting('stop'));
         dispatch(stopSubmit('order', {_error: err.message ? err.message : 'some Error'}))
     }
     setTimeout(() => dispatch(_setOrderSuccess(false)), 4000);

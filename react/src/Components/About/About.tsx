@@ -9,11 +9,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faDesktop} from '@fortawesome/free-solid-svg-icons'
 import {faTruck} from '@fortawesome/free-solid-svg-icons'
 import {faIdCardAlt} from '@fortawesome/free-solid-svg-icons'
-// @ts-ignore
-import {Fade} from "react-reveal";
-import {Progress} from "antd";
 import useRecursiveTimeout from "../../utils/useRecursiveTimeout";
-import ButtonMain from "../../common/Buttons/ButtonMain";
 
 interface I_Props {
     imageLoaded?: any
@@ -40,7 +36,6 @@ const About: React.FC<I_Props> = (props: any) => {
     let [progress, setProgress] = useState(0);
     let [progress2, setProgress2] = useState(0);
     let [progress3, setProgress3] = useState(0);
-    let [hovered, setHovered] = useState(false);
 
     useRecursiveTimeout(
         () =>
@@ -160,51 +155,6 @@ const About: React.FC<I_Props> = (props: any) => {
                         <p>Доставка осуществляется нашими курьерами с 9-00 до 18-30.</p>
                     </div>
                 </div>
-                {/* <div style={{
-                    backgroundImage: `url(${bgPict})`,
-                }} className={style.parallaxImg}>
-
-                    <Fade cascade>
-                        <div className={style.row}>
-                            <div className={style.col5}>
-                                <img src={'https://pechorin.by/media/hardcode/about/5.jpg'}/>
-                            </div>
-                            <div className={style.col7}>
-                                <h3>О сервисе</h3>
-                                <article>Мы работаем с понедельника по пятницу, по рабочим дням. Заказы сегодня на
-                                    сегодня принимаются только по телефону до 12-30. Время для приготовления и
-                                    доставки
-                                    занимает от 1,5 часов, и зависит от величины заказа и района доставки. Если Вам
-                                    нужно приготовить большой заказ или важно время доставки, пожалуйста, сделайте
-                                    заказ
-                                    заранее.
-                                </article>
-                            </div>
-                        </div>
-                        <div className={style.row}>
-                            <div className={style.col5}>
-                                <img src={'https://pechorin.by/media/hardcode/about/5.jpg'}/>
-                            </div>
-                            <div className={style.col7}>
-                                <div className={style.container}>
-                                    <h3>О сервисе</h3>
-
-                                    <article>Мы работаем с понедельника по пятницу, по рабочим дням. Заказы сегодня
-                                        на
-                                        сегодня принимаются только по телефону до 12-30. Время для приготовления и
-                                        доставки
-                                        занимает от 1,5 часов, и зависит от величины заказа и района доставки. Если
-                                        Вам
-                                        нужно приготовить большой заказ или важно время доставки, пожалуйста,
-                                        сделайте
-                                        заказ
-                                        заранее.
-                                    </article>W
-                                </div>
-                            </div>
-                        </div>
-                    </Fade>
-                </div>*/}
             </div>
         </div>
     );

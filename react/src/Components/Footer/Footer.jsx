@@ -9,7 +9,7 @@ import visa from "../../assets/icons/payment/visa.png";
 import {NavLink} from "react-router-dom";
 
 
-const Footer = (props) => {
+const Footer = ({data}) => {
 
     let payments = [
         {title: 'belCard', logo: belCard},
@@ -34,17 +34,25 @@ const Footer = (props) => {
                         <h4>
                             РЕКВИЗИТЫ КОМПАНИИ
                         </h4>
-                        <p>Общество с ограниченной ответственностью «Печь Орин»</p>
-                        <p>220035, г. Минск, ул. Бачило, д. 18</p>
-                        <p>УНП 192810299</p>
-                        <p>Регистрационный номер в ТР РБ: 402852</p>
+                        {data && data.req && data.req.front_text && data.req.front_text.length
+                            ? data.req.front_text.map(d => <p key={d.text_name}>{d.text}</p>)
+                            : <React.Fragment>
+                                <p>"Общество с ограниченной ответственностью «Печь Орин»"}</p>
+                                <p>220035, г. Минск, ул. Бачило, д. 18</p>
+                                <p>УНП 192810299</p>
+                                <p>Регистрационный номер в ТР РБ: 402852</p>
+                            </React.Fragment>}
                     </div>
                     <div className={style.containerCol}>
                         <h4>
                             КОНТАКТЫ
                         </h4>
-                        <p>Телефон: +375 33 6580220</p>
-                        <p>E-mail: info@pechorin.by</p>
+                        {data && data.cont && data.cont.front_text && data.cont.front_text.length
+                            ? data.cont.front_text.map(d => <p key={d.text_name}>{d.text}</p>)
+                            : <React.Fragment>
+                                <p>Телефон: +375 33 6580220</p>
+                                <p>E-mail: info@pechorin.by</p>
+                            </React.Fragment>}
                         <p>Сайт: <a href={'pechorin.by'}>pechorin.by</a></p>
                     </div>
                 </div>

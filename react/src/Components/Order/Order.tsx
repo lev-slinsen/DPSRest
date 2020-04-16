@@ -16,16 +16,26 @@ interface I_Props {
     fetchOrderInfo: () => void
     orderDisabled: I_orderDates[]
     order: Array<I_orderItem>
+    submitting: 'pending' | 'stop' | 'success'
 }
 
-const Order = ({totalQuantity, submitOrder, fetchOrderInfo, orderDisabled, order}: I_Props) => {
+const Order = ({totalQuantity, submitOrder, fetchOrderInfo, orderDisabled, order, submitting}: I_Props) => {
     let [isPopUpOpen, setPopUpOpen] = useState(false);
 
     useEffect(() => { fetchOrderInfo() }, []);
 
     const onSubmit = (formData: I_orderFormData) => {
-        submitOrder(formData);
+        submitOrder({...formData, comment: formData.comment ? formData.comment : ''});
     };
+    useEffect(() => {
+        if (submitting === 'stop') {
+            setPopUpOpen(false)
+        } else if (submitting === 'pending') {
+            setPopUpOpen(true)
+        } else {
+            setPopUpOpen(true)
+        }
+    }, [submitting]);
     if (totalQuantity <= 0) {
         return <Redirect to={`/catalog`}/>
     } else
@@ -48,7 +58,8 @@ const mapStateToProps = (state: AppStateType) => {
     return {
         totalQuantity: getTotalQuantity(state),
         orderDisabled: getOrderDates(state),
-        order: getOrder(state)
+        order: getOrder(state),
+        submitting: state.reducer.submitting
     }
 };
 
