@@ -12,10 +12,12 @@
 .container .filterBlock{
     position: relative;
     display: flex;
+    flex-direction: column;
     width: 83%;
     margin-top: 15px;
     margin-bottom: 15px;
 }
+
 .container .filterBlock:after{
     content: '';
     position: absolute;
@@ -25,7 +27,7 @@
     width: 100%;
     background-color: #4f4f4f;
 }
-.container .filterBlock .filterBlockIn{
+.container .filterBlock .filterBlockTop{
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
@@ -34,11 +36,11 @@
     font-family: 'Vollkorn',sans-serif;
 }
 
-.container .filterBlock .filterBlockIn .filterBtn{
+.container .filterBlock .filterBlockTop .filterBtn{
     padding: 5px;
 }
 
-.container .filterBlock .filterBlockIn .filterBtn:hover{
+.container .filterBlock .filterBlockTop .filterBtn:hover{
     font-weight: bold;
 }
 .filterBtn {

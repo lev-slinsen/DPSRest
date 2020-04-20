@@ -63,6 +63,7 @@ export const productsAPI = {
             })
     },
 };
+
 export const languageDataAPI = {
     async getLanguageData() {
         try {

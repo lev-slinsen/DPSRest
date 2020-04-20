@@ -7,9 +7,13 @@ import masterCard from "../../assets/icons/payment/masterCard.png";
 import mtbank from "../../assets/icons/payment/mtbank.png";
 import visa from "../../assets/icons/payment/visa.png";
 import {NavLink} from "react-router-dom";
+import {I_LanguageData} from "../../types/types";
 
+interface IProps {
+    data: I_LanguageData
+}
 
-const Footer = ({data}) => {
+const Footer:React.FC<IProps> = ({data}) => {
 
     let payments = [
         {title: 'belCard', logo: belCard},
@@ -26,6 +30,9 @@ const Footer = ({data}) => {
         )
     });
 
+    const req  = data.cross.front_text.filter(t => t.text_name.indexOf("req") >= 1);
+    const cont = data.cross.front_text.filter(t => t.text_name.indexOf("cont") >= 1);
+
     return (
         <footer className={style.footerWrapper}>
             <div className={style.container}>
@@ -34,8 +41,8 @@ const Footer = ({data}) => {
                         <h4>
                             РЕКВИЗИТЫ КОМПАНИИ
                         </h4>
-                        {data && data.req && data.req.front_text && data.req.front_text.length
-                            ? data.req.front_text.map(d => <p key={d.text_name}>{d.text}</p>)
+                        {req.length
+                            ? req.map(d => <p key={d.text_name}>{d.text}</p>)
                             : <React.Fragment>
                                 <p>"Общество с ограниченной ответственностью «Печь Орин»"}</p>
                                 <p>220035, г. Минск, ул. Бачило, д. 18</p>
@@ -47,8 +54,8 @@ const Footer = ({data}) => {
                         <h4>
                             КОНТАКТЫ
                         </h4>
-                        {data && data.cont && data.cont.front_text && data.cont.front_text.length
-                            ? data.cont.front_text.map(d => <p key={d.text_name}>{d.text}</p>)
+                        {cont.length
+                            ? cont.map(d => <p key={d.text_name}>{d.text}</p>)
                             : <React.Fragment>
                                 <p>Телефон: +375 33 6580220</p>
                                 <p>E-mail: info@pechorin.by</p>

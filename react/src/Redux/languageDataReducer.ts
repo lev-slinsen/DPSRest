@@ -27,7 +27,31 @@ const initialState: I_appLanguageState = {
                 {
                     "text_name": "header phone",
                     "text": "+375 (33) 658-02-20"
-                }
+                },
+                {
+                    "text_name": "req1",
+                    "text": "Общество с ограниченной ответственностью «Печь Орин»"
+                },
+                {
+                    "text_name": "req2",
+                    "text": "220035, г. Минск, ул. Бачило, д. 18"
+                },
+                {
+                    "text_name": "req3",
+                    "text": "УНП 192810299"
+                },
+                {
+                    "text_name": "req4",
+                    "text": "Регистрационный номер в ТР РБ: 402852"
+                },
+                {
+                    "text_name": "cont1",
+                    "text": "Телефон: +375 33 6580220"
+                },
+                {
+                    "text_name": "cont2",
+                    "text": "E-mail: info@pechorin.by"
+                },
             ],
             front_image: []
         },
@@ -157,45 +181,7 @@ const initialState: I_appLanguageState = {
                     "image": Ico
                 },
             ]
-        },
-        footer: {
-            "id": 3,
-            "page_name": "footer",
-            "front_text": [
-                {
-                    "text_name": "req1",
-                    "text": "Общество с ограниченной ответственностью «Печь Орин»"
-                },
-                {
-                    "text_name": "req2",
-                    "text": "220035, г. Минск, ул. Бачило, д. 18"
-                },
-                {
-                    "text_name": "req3",
-                    "text": "УНП 192810299"
-                },
-                {
-                    "text_name": "req4",
-                    "text": "Регистрационный номер в ТР РБ: 402852"
-                },
-            ],
-            "front_image": []
-        },
-        footerContacts: {
-            "id": 3,
-            "page_name": "footerContacts",
-            "front_text": [
-                {
-                    "text_name": "cont1",
-                    "text": "Телефон: +375 33 6580220"
-                },
-                {
-                    "text_name": "cont2",
-                    "text": "E-mail: info@pechorin.by"
-                },
-            ],
-            "front_image": []
-        },
+        }
     },
     isFetchingLanguageData: false,
     errorLanguageData: null,

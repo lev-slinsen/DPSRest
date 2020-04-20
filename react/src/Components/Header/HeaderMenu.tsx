@@ -19,13 +19,10 @@ function HeaderMenu({setVisible, languageData}: IProps) {
                 <NavLink onClick={() => setVisible?.(false)} to="/about" activeClassName={style.active}>
                     О нас
                 </NavLink>
-                {/*<NavLink onClick={()=>setVisible?.(false)} to="/order" activeClassName={style.active}>*/}
-                {/*    Закзать*/}
-                {/*</NavLink>*/}
             </div>
             <div className={style.info}>
                 {languageData && languageData.front_text
-                    ? languageData.front_text.map(t => (
+                    ? languageData.front_text.filter(t => t.text_name.indexOf("header") >= 0).map(t => (
                         t.text_name === 'header time'
                             ? <span className={style.bold}>{t.text}</span>
                             : <span>{t.text}</span>

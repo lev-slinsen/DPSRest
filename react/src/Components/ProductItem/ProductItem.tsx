@@ -11,20 +11,19 @@ interface I_props {
     openPopup: (product: I_productItem, option: boolean) => void
 }
 
-const ProductCard = React.memo(({product, addProductToOrder, calculateOrder, openPopup}: I_props) => {
+const ProductCard = ({product, addProductToOrder, calculateOrder, openPopup}: I_props) => {
     let [quantity, setQuantity] = useState<number>(1);
-
     const decreaseQuantity = () => {
         if (quantity !== 1) {
             setQuantity(quantity - 1)
         }
     };
 
-    const onAddToCart = useCallback(() => {
+    const onAddToCart = () => {
         addProductToOrder(product, quantity);
         calculateOrder();
         setQuantity(1);
-    }, []);
+    };
     const onOpenPopup = () => {openPopup(product, true)};
     return (
         <div className={style.productCardWrapper}>
@@ -61,6 +60,6 @@ const ProductCard = React.memo(({product, addProductToOrder, calculateOrder, ope
             </div>
         </div>
     )
-});
+};
 
 export default ProductCard;

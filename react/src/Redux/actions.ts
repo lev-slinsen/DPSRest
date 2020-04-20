@@ -8,7 +8,10 @@ import {AppStateType} from "./Store";
 export const SET_PRODUCTS = 'MAIN_PAGE/ADD_LIST';
 export const SET_FILTERS = 'MAIN_PAGE/SET_FILTERS';
 export const CALCULATE_TOTAL = 'MAIN_PAGE/CALCULATE_TOTAL';
+
 export const SET_SORT_FILTER = 'MAIN_PAGE/SET_SORT_FILTER';
+export const SET_SORT_CATEGORY = 'MAIN_PAGE/SET_SORT_CATEGORY';
+
 export const INCREASE_QUANTITY = 'PRODUCTS/INCREASE_QUANTITY';
 export const DECREASE_QUANTITY = 'PRODUCTS/DECREASE_QUANTITY';
 export const ADD_PRODUCT_TO_ORDER = 'ORDER/ADD_PRODUCT_TO_ORDER';
@@ -22,7 +25,7 @@ export const SET_SUBMITTING = 'COMMON/SET_SUBMITTING';
 //interfaces
 interface I_setProductsSuccess {
     type: typeof SET_PRODUCTS,
-    products: Array<I_productItem>
+    products: Array<I_productItem>,
 }
 
 interface I_setOrderSuccess {
@@ -61,7 +64,12 @@ interface I_removeFromOrder {
 
 interface I_setSortFilter {
     type: typeof SET_SORT_FILTER,
-    filter: string | number
+    filter: string
+}
+
+interface I_setSortCategory {
+    type: typeof SET_SORT_CATEGORY,
+    category: string
 }
 
 interface I_setIsFetching {
@@ -84,7 +92,7 @@ export type I_appActions = I_setProductsSuccess |
     I_setOrderDataFetchSuccess | I_setFiltersSuccess | I_calculateOrder |
     I_increaseQuantity | I_decreaseQuantity | I_removeFromOrder |
     I_setOrderSuccess | I_setSortFilter | I_setIsFetching |
-    I_addProductToOrder | I_setSubmitting
+    I_addProductToOrder | I_setSubmitting | I_setSortCategory
 
 type GetStateType = () => AppStateType
 
@@ -98,8 +106,11 @@ export const setOrderDataFetchSuccess = (orderData: Array<I_orderDates>): I_setO
 export const setFiltersSuccess = (filters: Array<I_filterItem>): I_setFiltersSuccess =>
     ({type: SET_FILTERS, filters});
 
-export const setSortFilter = (filter: string | number): I_setSortFilter =>
+export const setSortFilter = (filter: string): I_setSortFilter =>
     ({type: SET_SORT_FILTER, filter});
+
+export const setSortCategory = (category: string): I_setSortCategory =>
+    ({type: SET_SORT_CATEGORY, category});
 
 export const calculateOrder = (): I_calculateOrder =>
     ({type: CALCULATE_TOTAL});

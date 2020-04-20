@@ -162,10 +162,7 @@ const About: React.FC<I_Props> = (props: any) => {
 
 
 const mapStateToProps = (state: AppStateType) => {
-    return {
-        filters: state.reducer.filters,
-        pizzas: state.reducer.products
-    }
+    return {}
 };
 
 export default compose(connect(mapStateToProps, {}))(About);

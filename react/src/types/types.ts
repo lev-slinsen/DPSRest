@@ -14,6 +14,7 @@ export interface I_orderDates {
 export interface I_productItem {
     filter: Array<I_filterItem>;
     id: string,
+    category: string,
     name: string,
     photo: string,
     photo_thumbnail: string,
@@ -33,11 +34,13 @@ export interface I_postOrderItem {
 export interface I_appState {
     products: Array<I_productItem>,
     order: Array<I_orderItem>,
+    categories: Array<string>,
     totalPrice: number,
     totalQuantity: number,
     isFetching: boolean,
     filters: Array<I_filterItem>,
-    selectedFilter: string | number,
+    selectedFilter: string,
+    selectedCategory: string,
     orderSuccess: boolean,
     orderData: I_orderDates[],
     submitting: 'pending' | 'stop' | 'success'
@@ -65,7 +68,7 @@ export interface I_languagePage {
     front_text: Array<{text_name: string, text: string}>
     "front_image": Array<{image_name: string, image: string}>
 }
-type Pages = "cross" | "index" | "about" | "footer" | "footerContacts" ;
+type Pages = "cross" | "index" | "about";
 
 type PagesMap<P> = { [page in Pages]: P };
 

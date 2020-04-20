@@ -30,8 +30,8 @@ interface ICartItemProps {
 
 const Cart = ({order, decreaseQuantity, increaseQuantity, removeFromOrder, totalPrice, totalQuantity}: IDispatchProps & IConnectProps) => {
 
-    let tableItems = order.map(i => <tr>
-            <TableItem key={i.id} product={i} decreaseQuantity={decreaseQuantity}
+    let tableItems = order.map((po, i) => <tr>
+            <TableItem key={po.id + 'product_in_cart' + i} product={po} decreaseQuantity={decreaseQuantity}
                        increaseQuantity={increaseQuantity} removeFromOrder={removeFromOrder}/>
         </tr>
     );

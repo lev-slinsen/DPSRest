@@ -10,9 +10,20 @@ import {
     SET_FILTERS,
     SET_IS_FETCHING,
     SET_ORDER_SUCCESS,
-    SET_PRODUCTS,
+    SET_PRODUCTS, SET_SORT_CATEGORY,
     SET_SORT_FILTER
 } from "./actions";
+
+Array.prototype.unique = function() {
+    var a = this.concat();
+    for (var i = 0; i < a.length; ++i) {
+        for (var j = i + 1; j < a.length; ++j) {
+            if (a[i] === a[j]) a.splice(j--, 1);
+        }
+    }
+    return a;
+};
+
 
 const persistedState: I_orderLocalStorage =
     localStorage.getItem('order') !== null && localStorage.getItem('order') !== undefined ?
@@ -28,6 +39,7 @@ const initialState: I_appState = {
         {
             filter: [{name: 'big'}],
             id: "123",
+            category: '1',
             name: "123",
             photo: "http://93.85.88.35/media/images/%D1%80%D1%8B%D0%B1%D0%BD%D1%8B%D0%B9.jpg",
             photo_thumbnail: "http://93.85.88.35/media/images/%D1%80%D1%8B%D0%B1%D0%BD%D1%8B%D0%B9.jpg",
@@ -37,12 +49,14 @@ const initialState: I_appState = {
             text_short: "da",
         },
     ],
+    categories: [],
     order: persistedState.order ? persistedState.order : [],
     totalPrice: persistedState.totalPrice ? persistedState.totalPrice : 0,
     totalQuantity: persistedState.totalQuantity ? persistedState.totalQuantity : 0,
     isFetching: false,
     filters: [{name: 'one'}],
     selectedFilter: 'All',
+    selectedCategory: '',
     orderSuccess: false,
     orderData: [],
     submitting: 'stop'
@@ -61,7 +75,8 @@ const productsReducer = (state: I_appState = initialState, action: I_appActions)
         case SET_PRODUCTS:
             return {
                 ...state,
-                products: action.products
+                products: action.products,
+                categories: action.products.map(p => p.category).unique()
             };
         //adding fetched disabled dates and times to state
         case SET_COMMON_ORDER_SUCCESS:
@@ -77,7 +92,12 @@ const productsReducer = (state: I_appState = initialState, action: I_appActions)
         case SET_SORT_FILTER:
             return {
                 ...state,
-                selectedFilter: action.filter
+                selectedFilter: state.selectedFilter === action.filter ? '' : action.filter
+            };
+        case SET_SORT_CATEGORY:
+            return {
+                ...state,
+                selectedCategory: state.selectedCategory === action.category ? '' : action.category
             };
         //increase quantity of single product in state
         case INCREASE_QUANTITY:
@@ -105,6 +125,8 @@ const productsReducer = (state: I_appState = initialState, action: I_appActions)
             };
         //adding product item to order
         case ADD_PRODUCT_TO_ORDER:
+            console.log("======> add order")
+            console.log(action)
             if (state.order.some((oi: I_orderItem) => oi.id === action.productItem.id)) {
                 return {
                     ...state,
@@ -137,11 +159,11 @@ const productsReducer = (state: I_appState = initialState, action: I_appActions)
                     ]
                 };
             }
-        case DELETE_ORDER_ITEM:
-            return {
-                ...state,
-                order: state.order.filter((oi: I_orderItem) => oi.id !== action.id)
-            };
+        // case DELETE_ORDER_ITEM:
+        //     return {
+        //         ...state,
+        //         order: state.order.filter((oi: I_orderItem) => oi.id !== action.id)
+        //     };
         case CALCULATE_TOTAL:
             let price = 0;
             let quantity = 0;

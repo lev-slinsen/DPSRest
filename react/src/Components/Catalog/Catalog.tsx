@@ -6,23 +6,33 @@ import {connect} from "react-redux";
 import bgPict from "./../../assets/images/slide1.png"
 import {I_filterItem, I_LanguageData, I_productItem} from "../../types/types";
 import {AppStateType} from "../../Redux/Store";
-import {getFilters, getLanguageData, getProducts, getSelectedFilter} from "../../Redux/selectors";
+import {
+    getCategories,
+    getFilters,
+    getLanguageData,
+    getProducts,
+    getSelectedCategory,
+    getSelectedFilter
+} from "../../Redux/selectors";
 import Slider from "../../common/Slider";
 import {ProductsModal} from "../../common/PopupWrapper";
-import {addProductToOrder, calculateOrder, setSortFilter} from "../../Redux/actions";
+import {addProductToOrder, calculateOrder, setSortCategory, setSortFilter} from "../../Redux/actions";
 
 
 interface I_ConnectProps {
     products: Array<I_productItem>,
     filters: Array<I_filterItem>,
-    selectedFilter: string | number,
+    categories: Array<string>,
+    selectedFilter: string,
+    getSelectedCategory: string,
     languageData: I_LanguageData
 }
 
 interface I_LinkDispatchProps {
     addProductToOrder: (productItem: I_productItem, quantity: number) => void;
     calculateOrder: () => void;
-    setSortFilter: (filter: string | number) => void;
+    setSortFilter: (filter: string) => void;
+    setSortCategory: (category: string) => void;
 }
 
 interface I_State {
@@ -63,15 +73,31 @@ const Catalog: React.FC<I_ConnectProps & I_LinkDispatchProps> = (props) => {
                          addProductToOrder={callAddProductToOrder}
             />
         ));
-    let filters = props.filters.map(f=>{
-        let classBtn = f.name === props.selectedFilter ? `${style.filterBtn} ${style.active}`:style.filterBtn;
-        let itemInRow = Math.round(props.filters.length / 2);
-        return <button style={{width:`${100 / itemInRow}%`}} key={f.name} className={classBtn}
-                onClick={() => {
-                    changeFilter(f.name)
-                }}>{f.name}</button>
+    let filters = props.filters.map(f => {
+        let classBtn = f.name === props.selectedFilter ? `${style.filterBtn} ${style.active}` : style.filterBtn;
+        //let itemInRow = Math.round(props.filters.length / 2);
+        return <button key={f.name} className={classBtn}
+                       onClick={() => {
+                           changeFilter(f.name)
+                       }}>{f.name}</button>
     });
-    console.log('!!!!!!!!!!!!!! CATALOG RENDERED');
+    let categories = props.categories
+        .filter(c => props.products
+            .filter(p => p.filter
+                .map(f => f.name)
+                .includes(props.selectedFilter))
+            .map(p => p.category)
+        ).map((c, i) => {
+            let classBtn = c === props.getSelectedCategory ? `${style.filterBtn} ${style.active}` : style.filterBtn;
+            return (
+                <button key={c + 'category' + i} className={classBtn}
+                        onClick={() => {
+                            props.setSortCategory(c)
+                        }}>{c}
+                </button>
+            )
+        });
+    ///console.log('!!!!!!!!!!!!!! CATALOG RENDERED');
     return (
         <div>
             {state.isPopupOpen &&
@@ -81,13 +107,16 @@ const Catalog: React.FC<I_ConnectProps & I_LinkDispatchProps> = (props) => {
             />}
 
             <div>
-                <Slider
-                    commonImages={languageData.index.front_image}
-                    commonTexts={languageData.index.front_text}
-                />
+                {/*<Slider*/}
+                {/*    commonImages={languageData.index.front_image}*/}
+                {/*    commonTexts={languageData.index.front_text}*/}
+                {/*/>*/}
                 <div className={style.container}>
                     <div className={style.filterBlock}>
-                        <div className={style.filterBlockIn}>
+                        <div className={style.filterBlockTop}>
+                            {categories}
+                        </div>
+                        <div className={style.filterBlockTop}>
                             {filters}
                         </div>
                     </div>
@@ -104,10 +133,12 @@ const mapStateToProps = (state: AppStateType): I_ConnectProps => {
     return {
         products: getProducts(state),
         filters: getFilters(state),
+        categories: getCategories(state),
         selectedFilter: getSelectedFilter(state),
+        getSelectedCategory: getSelectedCategory(state),
         languageData: getLanguageData(state)
     }
 };
 export default compose(
-    connect(mapStateToProps, {addProductToOrder, calculateOrder, setSortFilter})
+    connect(mapStateToProps, {addProductToOrder, calculateOrder, setSortFilter, setSortCategory})
 )(Catalog);

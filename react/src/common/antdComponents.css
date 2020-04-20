@@ -1,3 +1,7 @@
+.ant-carousel {
+    max-height: 400px;
+}
+
 .ant-carousel .slick-slide {
     width: 100%;
     margin: 0;
@@ -69,6 +73,10 @@
 @media (min-width: 0px) and (max-width: 450px) {
     .ant-carousel .slick-prev {
         left: 10px;
+    }
+
+    .ant-carousel {
+        max-height: 150px;
     }
 
     .ant-carousel .slick-next {

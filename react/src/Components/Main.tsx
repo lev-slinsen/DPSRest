@@ -81,7 +81,7 @@ class Main extends Component<I_MainProps> {
                         </main>
                     }
                 </div>
-                <Footer data={{req: languageData.footer, cont: languageData.footerContacts}}/>
+                <Footer data={languageData}/>
             </>
         );
     }

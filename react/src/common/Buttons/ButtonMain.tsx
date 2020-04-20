@@ -9,7 +9,7 @@ interface IProps {
     buttonText: string
 }
 
-const ButtonMain = React.memo(({
+const ButtonMain = ({
                                    onClickCallback = () => {},
                                    buttonText,
                                    disabled,
@@ -18,13 +18,13 @@ const ButtonMain = React.memo(({
     let [addSucces, setAddSucces] = useState(false);
     let timer: any = useRef(); //now possible pass timer to another component
 
-    let onButtonClick = useCallback(() => {
+    let onButtonClick = () => {
         onClickCallback();
         setAddSucces(true);
         timer.current = window.setTimeout(() => {
             setAddSucces(false);
         }, 500)
-    }, []);
+    };
 
     useEffect(() => {
         return () => { // Return callback to run on unmount.
@@ -44,6 +44,6 @@ const ButtonMain = React.memo(({
         >{buttonText}
         </button>
     )
-});
+};
 
 export default ButtonMain;
