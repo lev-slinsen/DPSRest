@@ -76,24 +76,27 @@ const Catalog: React.FC<I_ConnectProps & I_LinkDispatchProps> = (props) => {
     let filters = props.filters.map(f => {
         let classBtn = f.name === props.selectedFilter ? `${style.filterBtn} ${style.active}` : style.filterBtn;
         //let itemInRow = Math.round(props.filters.length / 2);
-        return <button key={f.name} className={classBtn}
+        return <button key={f.name}
+                       className={classBtn}
                        onClick={() => {
                            changeFilter(f.name)
-                       }}>{f.name}</button>
+                       }}
+                       disabled={props.products.filter(p => !p.filter.map(fi => fi.name).includes(f.name) && props.categories.includes(p.category)).length <= 0}
+        >{f.name}</button>
     });
     let categories = props.categories
-        .filter(c => props.products
-            .filter(p => p.filter
-                .map(f => f.name)
-                .includes(props.selectedFilter))
-            .map(p => p.category)
+        .filter(c => props.products.filter(p => p.filter.map(f => f.name).includes(props.selectedFilter))
+            .map(p => p.category === c)
         ).map((c, i) => {
             let classBtn = c === props.getSelectedCategory ? `${style.filterBtn} ${style.active}` : style.filterBtn;
             return (
                 <button key={c + 'category' + i} className={classBtn}
                         onClick={() => {
+                            //changeFilter("All");
                             props.setSortCategory(c)
-                        }}>{c}
+                        }}
+                        disabled={props.products.filter(p => p.category === c).length <= 0}
+                >{c}
                 </button>
             )
         });
@@ -107,10 +110,10 @@ const Catalog: React.FC<I_ConnectProps & I_LinkDispatchProps> = (props) => {
             />}
 
             <div>
-                {/*<Slider*/}
-                {/*    commonImages={languageData.index.front_image}*/}
-                {/*    commonTexts={languageData.index.front_text}*/}
-                {/*/>*/}
+                <Slider
+                    commonImages={languageData.index.front_image}
+                    commonTexts={languageData.index.front_text}
+                />
                 <div className={style.container}>
                     <div className={style.filterBlock}>
                         <div className={style.filterBlockTop}>
