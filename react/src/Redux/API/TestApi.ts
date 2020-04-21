@@ -10,7 +10,7 @@ export const testPissas = [
         photo: "https://pechorin.by/media/images/%D1%81%D1%8B%D1%82%D0%BD%D1%8B%D0%B9_%D0%BD%D0%BE%D0%B2%D1%8B%D0%B9.jpg",
         photo_thumbnail: "https://pechorin.by/media/images/%D1%81%D1%8B%D1%82%D0%BD%D1%8B%D0%B9_%D0%BD%D0%BE%D0%B2%D1%8B%D0%B9.jpg",
         price: 22.15,
-        category: 'aaaaaaa',
+        category: 'A',
         size: 0,
         text_long: "В состав входят: Пирожки с ветчиной и сыром - 5 шт. Пирожки с курицей \"Карри\" - 5 шт." +
             " Пирожки с грибами, яйцом и сметаной - 5 шт. Пирожки с грудинкой и квашенной капустой - 5 шт. " +
@@ -24,7 +24,7 @@ export const testPissas = [
         photo: "https://pechorin.by/media/images/%D1%80%D1%8B%D0%B1%D0%BD%D1%8B%D0%B9_%D0%BD%D0%BE%D0%B2%D1%8B%D0%B9.jpg",
         photo_thumbnail: "https://pechorin.by/media/images/%D1%80%D1%8B%D0%B1%D0%BD%D1%8B%D0%B9_%D0%BD%D0%BE%D0%B2%D1%8B%D0%B9.jpg",
         price: 28.30,
-        category: 'aaaaaaa2',
+        category: 'B',
         size: 1,
         text_long: "В состав входят: Пирожки с семгой и шпинатом - 5 шт. Пирожки с судаком - 5 шт. Пирожки с минтаем - 5 шт.",
         text_short: "Вес 1000г.",
@@ -36,7 +36,7 @@ export const testPissas = [
         photo: "https://pechorin.by/media/images/%D0%B3%D1%83%D1%80%D0%BC%D0%B0%D0%BD_%D0%BD%D0%BE%D0%B2%D1%8B%D0%B9.jpg",
         photo_thumbnail: "https://pechorin.by/media/images/%D0%B3%D1%83%D1%80%D0%BC%D0%B0%D0%BD_%D0%BD%D0%BE%D0%B2%D1%8B%D0%B9.jpg",
         price: 11.99,
-        category: 'aaaaaaa3',
+        category: 'B',
         size: 2,
         text_long: "В состав входят: Пирожки с семгой и шпинатом - 5 шт. Пирожки с судаком - 5 шт. Пирожки с минтаем - 5 шт.",
         text_short: "Вес 1650г.",
@@ -48,7 +48,7 @@ export const testPissas = [
         photo: "https://pechorin.by/media/images/%D1%81%D0%BB%D0%B0%D0%B4%D0%BA%D0%B8%D0%B9_%D0%BD%D0%BE%D0%B2%D1%8B%D0%B9.jpg",
         photo_thumbnail: "https://pechorin.by/media/images/%D1%81%D0%BB%D0%B0%D0%B4%D0%BA%D0%B8%D0%B9_%D0%BD%D0%BE%D0%B2%D1%8B%D0%B9.jpg",
         price: 11.99,
-        category: 'aaaaaaa',
+        category: 'C',
         size: 2,
         text_long: "В состав входят: Пирожки с семгой и шпинатом - 5 шт. Пирожки с судаком - 5 шт. Пирожки с минтаем - 5 шт.",
         text_short: "da",
@@ -60,7 +60,7 @@ export const testPissas = [
         photo: "https://pechorin.by/media/images/%D0%BC%D0%B8%D0%BA%D1%81_%D0%BD%D0%BE%D0%B2%D1%8B%D0%B9.jpg",
         photo_thumbnail: "https://pechorin.by/media/images/%D0%BC%D0%B8%D0%BA%D1%81_%D0%BD%D0%BE%D0%B2%D1%8B%D0%B9.jpg",
         price: 22.00,
-        category: 'aaaaaaa',
+        category: 'A',
         size: 2,
         text_long: "В состав входят: Пирожки курицей и маринованным огурчиком - 5 шт. Пирожки с ветчиной и сыром - 5 шт." +
             " Пирожки с грудинкой и квашенной капустой - 5 шт. Пирожки с яблоком и корицей - 5 шт. Пирожки с вишней - 5 шт.",
@@ -73,7 +73,7 @@ export const testPissas = [
         photo: "https://pechorin.by/media/images/%D0%BC%D0%B8%D0%BA%D1%81_%D0%BD%D0%BE%D0%B2%D1%8B%D0%B9.jpg",
         photo_thumbnail: "https://pechorin.by/media/images/%D0%BC%D0%B8%D0%BA%D1%81_%D0%BD%D0%BE%D0%B2%D1%8B%D0%B9.jpg",
         price: 8.50,
-        category: 'aaaaaaa2',
+        category: 'B',
         size: 2,
         text_long: "В состав входят: Пирожки курицей и маринованным огурчиком - 5 шт. Пирожки с ветчиной и сыром - 5 шт." +
             " Пирожки с грудинкой и квашенной капустой - 5 шт. Пирожки с яблоком и корицей - 5 шт. Пирожки с вишней - 5 шт.",
@@ -99,7 +99,7 @@ let commonCarusel = {
 };
 
 export const testFilters = [
-    {name: 'big'}, {name: 'small'}, {name: 'verySmall'},{name: 0}, {name: 1}, {name: 2},
+    {name: 'big'}, {name: 'small'}, {name: 'verySmall'},
 ];
 
 export const mockLanguageData = [

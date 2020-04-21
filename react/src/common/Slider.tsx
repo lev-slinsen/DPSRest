@@ -19,7 +19,7 @@ let Slider = ({commonImages, commonTexts}: I_props) => {
                     backgroundImage: `url(${item.image})`,
                     backgroundPosition: 'center center',
                     backgroundRepeat: 'no-repeat',
-                    height: `35rem`,
+                    height: `32rem`,
                     backgroundSize: 'cover',
                     display:"flex",
                     justifyContent:"space-between"

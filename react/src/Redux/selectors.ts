@@ -18,10 +18,11 @@ export const getLanguageData = (state:AppStateType) => state.language.languageDa
 
 export const getProducts = createSelector(_getProducts, getSelectedFilter, getSelectedCategory,(products, selectedFilter, selectedCategory) => {
     return products.filter((p:I_productItem) => {
-        if ((selectedFilter === 'All' || !selectedFilter) && selectedCategory) {
-            return p.category === selectedCategory
-        } else if (selectedFilter && selectedFilter !== 'All') {
-            return p.filter.map(f => f.name).includes(selectedFilter) && p.category === selectedCategory
-        } else return true
+        // if ((selectedFilter === 'All' || !selectedFilter) && selectedCategory) {
+        //     return p.category === selectedCategory
+        // } else if (selectedFilter && selectedFilter !== 'All') {
+        //     return p.filter.map(f => f.name).includes(selectedFilter) && p.category === selectedCategory
+        // } else return true
+        return true
     })
 });
