@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {compose} from "redux";
 import {connect} from "react-redux";
 import {NavLink} from "react-router-dom";
@@ -30,11 +30,17 @@ interface ICartItemProps {
 
 const Cart = ({order, decreaseQuantity, increaseQuantity, removeFromOrder, totalPrice, totalQuantity}: IDispatchProps & IConnectProps) => {
 
-    let tableItems = order.map((po, i) => <tr>
-            <TableItem key={po.id + 'product_in_cart' + i} product={po} decreaseQuantity={decreaseQuantity}
+    let tableItems = order.map((po, i) => <tr key={po.id + 'product_in_cart' + i}>
+            <TableItem product={po} decreaseQuantity={decreaseQuantity}
                        increaseQuantity={increaseQuantity} removeFromOrder={removeFromOrder}/>
         </tr>
     );
+
+    useEffect(
+        () => {
+            window.scrollTo(0, 0);
+        },[]);
+
     return (
         <div className={style.cartWrapper}>
             <h2>В корзине товаров: {totalQuantity}</h2>

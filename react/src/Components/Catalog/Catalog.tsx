@@ -49,7 +49,7 @@ const Catalog: React.FC<I_ConnectProps & I_LinkDispatchProps> = (props) => {
     });
     useEffect(() => {
         let cat = props.products.map(p => p.category).unique();
-        setState({...state, categories: cat})
+        setState({...state, categories: cat, selectedCategory: cat[0]})
     }, [props.products]);
     let {languageData} = props;
 
@@ -68,7 +68,7 @@ const Catalog: React.FC<I_ConnectProps & I_LinkDispatchProps> = (props) => {
 
     const changeFilter = (filterName: string) => {
         if (filterName === "All") {
-            setState({...state, selectedFilter: filterName, selectedCategory: ''})
+            setState({...state, selectedFilter: filterName})
         } else {
             setState({...state, selectedFilter: filterName})
         }
@@ -77,7 +77,7 @@ const Catalog: React.FC<I_ConnectProps & I_LinkDispatchProps> = (props) => {
         if (state.selectedCategory === category) {
             setState({...state, selectedCategory: ''})
         } else {
-            setState({...state, selectedCategory: category})
+            setState({...state, selectedCategory: category, selectedFilter: 'All'})
         }
     };
 
@@ -122,13 +122,6 @@ const Catalog: React.FC<I_ConnectProps & I_LinkDispatchProps> = (props) => {
                         onClick={() => {
                             changeCategory(c)
                         }}
-                        disabled={state.selectedFilter === 'All' ? false
-                            : props.products.filter(p =>
-                            state.selectedFilter
-                                ? p.category === c
-                                && p.filter.map(f => f.name).includes(state.selectedFilter)
-                                : true).length <= 0
-                        }
                 >{c}
                 </button>
             )
@@ -151,7 +144,7 @@ const Catalog: React.FC<I_ConnectProps & I_LinkDispatchProps> = (props) => {
                 </div>
                 <div className={style.container}>
                     <div className={style.filterBlock}>
-                        <div className={style.filterBlockTop}>
+                        <div className={style.filterBlockTop} style={{}}>
                             {categories}
                         </div>
                         <div className={style.filterBlockTop}>

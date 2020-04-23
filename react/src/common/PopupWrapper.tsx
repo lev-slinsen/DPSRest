@@ -3,6 +3,7 @@ import {I_orderItem, I_productItem} from "../types/types";
 import style from './PopupWrapper.module.css';
 import {Button, Modal} from "antd";
 import {LazyLoadImage} from "react-lazy-load-image-component";
+import Preloader from "./Preloader";
 
 interface I_Props {
     product: I_productItem
@@ -56,17 +57,13 @@ interface I_orderModal {
     title: string,
     order: Array<I_orderItem>
 }
-export const OrderModal = ({handleOk, handleCancel, loading, title, order}:any) => {
 
-    let [visible, setVisible] = useState(false);
-    const handleImageLoaded = () => {
-        setVisible(true);
-    };
+export const OrderModal = ({handleOk, handleCancel, loading, title, order, submitting}:any) => {
 
     return (
         <Modal
             visible={true}
-            title="Title"
+            title={title}
             onOk={handleOk}
             onCancel={handleCancel}
             footer={[
@@ -78,7 +75,11 @@ export const OrderModal = ({handleOk, handleCancel, loading, title, order}:any) 
                 </Button>,
             ]}
         >
-            {order.map( (oi:I_orderItem) => <p key={oi.id}><span>oi.name</span><strong>io.quantity</strong></p>)}
+            {submitting === 'pending' ? <Preloader/> :
+                <div>
+                    {order.map((oi: I_orderItem) => <p key={oi.id}><span>oi.name</span><strong>io.quantity</strong></p>)}
+                </div>
+            }
         </Modal>
     )
 };

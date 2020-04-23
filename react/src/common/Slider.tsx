@@ -14,26 +14,31 @@ let Slider = ({commonImages, commonTexts}: I_props) => {
 
     let items = commonImages.map((item, index) => {
         return (
-            <div key={item.image_name ? item.image_name : 'catousel'+index }>
+            <div className="caruselContainer" key={item.image_name ? item.image_name : 'catousel'+index }>
+            <div >
                 <div style={{
                     backgroundImage: `url(${item.image})`,
                     backgroundPosition: 'center center',
                     backgroundRepeat: 'no-repeat',
-                    height: `32rem`,
+                    maxHeight: `${window.innerWidth / 3}px`,
+                    height: '31rem',
                     backgroundSize: 'cover',
                     display:"flex",
                     justifyContent:"space-between"
                 }} className="caruselContent">
                 </div>
             </div>
+            </div>
         )
     });
     return (
+
         <Carousel arrows={true} autoplay effect="fade"
                   prevArrow={<FontAwesomeIcon icon={faChevronLeft}/>}
                   nextArrow={<FontAwesomeIcon icon={faChevronRight}/>}>
             {items}
         </Carousel>
+
     )
 };
 

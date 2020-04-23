@@ -32,8 +32,8 @@
     "yarn": "^1.22.4"
   },
   "scripts": {
-    "start-front": "react-scripts start",
-    "build": "react-scripts build",
+    "start-front": "react-scripts start -e .env.development ",
+    "build": "react-scripts build -e .env.development",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "yarn run build",

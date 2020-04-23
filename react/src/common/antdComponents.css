@@ -1,7 +1,12 @@
 .ant-carousel {
     /*max-height: 400px;*/
 }
-
+.caruselContainer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 .ant-carousel .slick-slide {
     width: 100%;
     margin: 0;
@@ -18,18 +23,59 @@
 }
 
 .caruselContent {
-    font-size: 1.5rem;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
     width: 100%;
-    margin: 0;
-
+    height: 32rem;
+    margin: 0 auto;
     color: #fff;
 }
 
+@media (min-width: 1151px) {
+    .caruselContent
+    {
+        max-width: 1100px;
+    }
+    .App {
+        max-width: 1280px;
+        margin: 0 auto;
+    }
+}
+
+@media (min-width: 992px) and (max-width: 1150px) {
+    .caruselContent
+    {
+        max-width: 960px;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+    .caruselContent {
+        max-width: 760px;
+    }
+}
+
+@media (min-width: 576px) and (max-width: 767px) {
+    .caruselContent {
+        max-width: 540px;
+    }
+
+    h2,
+    h3 {
+        font-size: 1.8rem;
+    }
+}
+
+@media (max-width: 576px) and (min-width: 300px) {
+    .caruselContent {
+        max-width: 350px;
+        padding-right: 5px;
+        padding-left: 5px;
+    }
+}
 .ant-carousel .slick-prev, .ant-carousel .slick-next {
     color: #ffffff;
     height: 25px;
