@@ -7,7 +7,7 @@ axios.defaults.xsrfHeaderName = "X-CSRFToken";
 axios.defaults.xsrfCookieName = "csrftoken";
 
 const instance = axios.create({
-    baseURL: `http://127.0.0.1:8000/rest/`,
+    baseURL: `${process.env.REACT_APP_SERVER_URL}/rest/`,
 });
 
 export const productsAPI = {

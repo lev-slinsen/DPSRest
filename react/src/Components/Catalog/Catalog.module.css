@@ -18,15 +18,10 @@
     margin-bottom: 15px;
 }
 
-.container .filterBlock:after{
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 0;
-    height: 2px;
-    width: 100%;
-    background-color: #4f4f4f;
+.filterBlockTop:first-child {
+    border-bottom: 2px solid #4f4f4f;
 }
+
 .container .filterBlock .filterBlockTop{
     display: flex;
     flex-wrap: wrap;
