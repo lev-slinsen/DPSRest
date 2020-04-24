@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.admin.widgets import RelatedFieldWidgetWrapper
 from django.db.models.signals import post_save
-from django.utils.translation import pgettext_lazy as _
+from django.utils.translation import ugettext_lazy as _
 from .models import Pizza
 
 from .models import OrderItem, Order
@@ -47,7 +47,7 @@ def make_confirmed(modeladmin, request, queryset):
     queryset.update(status=True)
 
 
-make_confirmed.short_description = _('Admin actions|Make confirmed', 'Confirm selected orders')
+make_confirmed.short_description = _('Confirm selected orders')
 
 
 def print_orders(modeladmin, request, queryset):
@@ -140,7 +140,7 @@ def print_orders(modeladmin, request, queryset):
                         filename=f'Заказы от {date}.pdf')
 
 
-print_orders.short_description = _('Admin actions|Print orders', 'Print orders')
+print_orders.short_description = _('Print orders')
 
 
 @admin.register(Order)

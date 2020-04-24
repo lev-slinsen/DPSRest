@@ -228,6 +228,22 @@ class Command(BaseCommand):
                            front_page=FrontPage(pk=2))
         image.save()
 
+        "Order page"
+        page = FrontPage(id=3, page_name='order')
+        page.save()
+
+        text = FrontText(id=15,
+                         text_name='modal1',
+                         text='Ваш заказ успешно принят',
+                         front_page=FrontPage(pk=3))
+        text.save()
+
+        text = FrontText(id=16,
+                         text_name='modal2',
+                         text='Спасибо за заказ. В ближайшее время с вами свяжутся по указанному телефону.',
+                         front_page=FrontPage(pk=3))
+        text.save()
+
     def _create_months(self):
         for m in range(1, 13):
             month = WorkMonth(id=m, month=m)

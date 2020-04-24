@@ -2,7 +2,7 @@ import copy
 
 from rest_framework import serializers
 from .models import Order, OrderItem
-from django.utils.translation import pgettext_lazy as _
+from django.utils.translation import ugettext_lazy as _
 from .bepaid import Bepaid
 from django.db.models.signals import post_save
 from django.http import HttpResponse
@@ -14,26 +14,26 @@ from django.dispatch import receiver
 def phone_validator(value):
     print("PHONE", value['phone'], str(value['phone']).isdigit())
     if len(value['phone']) != 9:
-        raise serializers.ValidationError(_('Validator|Phone length', 'Phone must be 9 digits long'))
+        raise serializers.ValidationError(_('Phone must be 9 digits long'))
     if str(value['phone']).isdigit() == False:
-        raise serializers.ValidationError(_('Validator|Phone length', 'Phone must only contain digits'))
+        raise serializers.ValidationError(_('Phone must only contain digits'))
 
 
 def first_name_validator(value):
     if len(value['first_name']) < 2:
-        raise serializers.ValidationError(_('Validator|Name length', 'Min name length 2 letters'))
+        raise serializers.ValidationError(_('Min name length 2 letters'))
     if len(value['first_name']) > 25:
-        raise serializers.ValidationError(_('Validator|Name length', 'Max name length 25 letters'))
+        raise serializers.ValidationError(_('Max name length 25 letters'))
 
 
 def address_validator(value):
     if len(value['address']) > 60:
-        raise serializers.ValidationError(_('Validator|Address Length', 'Max address length 60 letters'))
+        raise serializers.ValidationError(_('Max address length 60 letters'))
 
 
 def comment_validator(value):
     if len(value['comment']) > 60:
-        raise serializers.ValidationError(_('Validator|Comment Length', 'Max address length 60 letters'))
+        raise serializers.ValidationError(_('Max address length 60 letters'))
 
 
 class OrderItemSerializer(serializers.ModelSerializer):

@@ -14,7 +14,7 @@ import os
 import dj_database_url
 
 from django.conf.global_settings import DATABASES
-from django.utils.translation import pgettext_lazy as _
+from django.utils.translation import ugettext_lazy as _
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -158,18 +158,18 @@ AUTHENTICATION_BACKENDS = [
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
+USE_I18N = True
+
+USE_L10N = True
+
 LANGUAGES = (
-    ('en', _('Language|English', 'English')),
-    ('ru', _('Language|Russian', 'Russian')),
+    ('en', _('English')),
+    ('ru', _('Russian')),
 )
 
 LANGUAGE_CODE = 'ru'
 
 TIME_ZONE = 'Europe/Moscow'
-
-USE_I18N = True
-
-USE_L10N = True
 
 FORMAT_MODULE_PATH = [
     'catalog.formats',

@@ -38,5 +38,7 @@ class WorkDateInline(admin.TabularInline):
 @admin.register(WorkMonth)
 class WorkMonthAdmin(admin.ModelAdmin):
     model = WorkMonth
+    list_display = ('month',)
+    ordering = ('month',)
     readonly_fields = ('month', 'id')
     inlines = (WorkDateInline,)

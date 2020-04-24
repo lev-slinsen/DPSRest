@@ -2,7 +2,7 @@
 Catalogue models.
 """
 from django.db import models
-from django.utils.translation import pgettext_lazy as _
+from django.utils.translation import ugettext_lazy as _
 
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFill
@@ -13,15 +13,15 @@ class Filter(models.Model):
     Filter model, multi choice
     """
     name = models.CharField(max_length=100,
-                            verbose_name=_('Filter|Name', 'Filter'),
+                            verbose_name=_('Filter'),
                             unique=True)
 
     def __str__(self):
         return self.name
 
     class Meta:
-        verbose_name = _('Filter|Meta', 'Filter')
-        verbose_name_plural = _('Filter|Meta plural', 'Filters')
+        verbose_name = _('Filter')
+        verbose_name_plural = _('Filters')
 
 
 class Pizza(models.Model):
@@ -29,35 +29,35 @@ class Pizza(models.Model):
     Pizza model.
     """
     CATEGORY_CHOICES = (
-        (1, _('Categories|Category 1', 'Category 1')),
-        (2, _('Categories|Category 2', 'Category 2')),
-        (3, _('Categories|Category 3', 'Category 3')),
-        (4, _('Categories|Category 4', 'Category 4'))
+        (1, _('Category 1')),
+        (2, _('Category 2')),
+        (3, _('Category 3')),
+        (4, _('Category 4'))
     )
     name = models.CharField(max_length=45,
-                            verbose_name=_('Pizza|Name', 'Name'))
+                            verbose_name=_('Pizza name'))
     price = models.DecimalField(default=0,
                                 max_digits=6,
                                 decimal_places=2,
-                                verbose_name=_('Pizza|Price', 'Price'))
+                                verbose_name=_('Price'))
     text_short = models.CharField(max_length=100,
-                                  verbose_name=_('Pizza|Short text', 'Short text'))
-    text_long = models.TextField(verbose_name=_('Pizza|Long text', 'Long text'))
+                                  verbose_name=_('Short text'))
+    text_long = models.TextField(verbose_name=_('Long text'))
     filter = models.ManyToManyField(Filter,
-                                    verbose_name=_('Pizza|Filter', 'Filter'))
+                                    verbose_name=_('Filter'))
     category = models.SmallIntegerField(choices=CATEGORY_CHOICES,
-                                        verbose_name=_('Front|Month field', 'Month'))
+                                        verbose_name=_('Category'))
     photo = models.ImageField(upload_to='images/',
-                              verbose_name=_('Pizza|Image', 'Image'))
+                              verbose_name=_('Image'))
     photo_thumbnail = ImageSpecField(source='photo',
                                      processors=[ResizeToFill(100, 100)],
                                      format='JPEG',
                                      options={'quality': 90},)
-    active = models.BooleanField(verbose_name=_('Pizza|Active', 'Active'))
+    active = models.BooleanField(verbose_name=_('Active'))
 
     class Meta:
-        verbose_name = _('Pizza|Meta', 'Pizza')
-        verbose_name_plural = _('Pizza|Meta plural', 'Pizzas')
+        verbose_name = _('Pizza')
+        verbose_name_plural = _('Pizzas')
         ordering = ('category', 'name')
 
     # @property

@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.forms import AdminPasswordChangeForm
-from django.utils.translation import pgettext_lazy as _
+from django.utils.translation import ugettext_lazy as _
 
 from accounts.models import User
 from accounts.forms import UserAdminCreationForm, UserAdminChangeForm
@@ -16,8 +16,8 @@ class UserAdmin(BaseUserAdmin):
     add_form = UserAdminCreationForm
     change_password_form = AdminPasswordChangeForm
     fieldsets = (
-        (_('Accounts|Personal info', 'Personal Info'), {'fields': ('phone', 'first_name', 'email', 'language')}),
-        (_('Accounts|Permissions', 'Permissions'), {'fields': ('is_superuser', 'is_staff', 'groups')}),
+        (_('Personal Info'), {'fields': ('phone', 'first_name', 'email', 'language')}),
+        (_('Permissions'), {'fields': ('is_superuser', 'is_staff', 'groups')}),
     )
     add_fieldsets = (
         (None, {
