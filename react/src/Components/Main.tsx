@@ -73,7 +73,7 @@ class Main extends Component<I_MainProps> {
                                 <Route path="/catalog" component={Catalog}/>
                                 <Route path="/cart" component={Cart}/>
                                 <Route path="/order">
-                                    <Order/>
+                                    <Order languageData={languageData}/>
                                 </Route>
                                 <Route path="/about" render={withSuspense(About)}/>
                                 <Route path="*" render={() => <div>Error 404</div>}/>

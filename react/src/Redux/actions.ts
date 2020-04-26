@@ -176,6 +176,7 @@ export const submitOrder = (orderData: I_orderFormData) => async (dispatch: Thun
         if (res && res.toLowerCase() === 'created') {
             //setting status to block buttons or redirect to payment page
             dispatch(_setOrderSuccess(true));
+            localStorage.clear();
             dispatch(_setSubmitting('success'));
         }
     } catch (err) {

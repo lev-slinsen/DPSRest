@@ -6,13 +6,14 @@ import style from './Order.module.css';
 import {getOrder, getOrderDates, getTotalQuantity} from "../../Redux/selectors";
 import {AppStateType} from "../../Redux/Store";
 import OrderForm from "../../common/FormControls/OrderForm";
-import {I_orderDates, I_orderFormData, I_orderItem} from "../../types/types";
+import {I_LanguageData, I_orderDates, I_orderFormData, I_orderItem} from "../../types/types";
 import {fetchOrderInfo, submitOrder} from "../../Redux/actions";
 import {OrderModal} from "../../common/PopupWrapper";
 import {Button, Modal} from "antd";
 import Preloader from "../../common/Preloader";
 
 interface I_Props {
+    languageData: I_LanguageData,
     totalQuantity: number
     submitOrder: (formData: I_orderFormData) => void
     fetchOrderInfo: () => void
@@ -21,8 +22,8 @@ interface I_Props {
     submitting: 'pending' | 'stop' | 'success'
 }
 
-const Order = ({totalQuantity, submitOrder, fetchOrderInfo, orderDisabled, order, submitting}: I_Props) => {
-    let [isPopUpOpen, setPopUpOpen] = useState(true);
+const Order = ({totalQuantity, submitOrder, fetchOrderInfo, orderDisabled, order, submitting, languageData}: I_Props) => {
+    let [isPopUpOpen, setPopUpOpen] = useState(false);
     let [isSuccessOpen, setIsSuccessOpen] = useState(false);
     let [success, setSuccess] = useState(false);
 
@@ -52,8 +53,17 @@ const Order = ({totalQuantity, submitOrder, fetchOrderInfo, orderDisabled, order
     } else
         return (
             <div className={style.pageWrapper}>
-                { isSuccessOpen && <OrderSuccess submitting={submitting} handleOk={() => {setIsSuccessOpen(false); setSuccess(true)}}/>}
-                { isPopUpOpen && <OrderModal title={"success"} order={order} submitting={submitting} handleCancel={() => {setPopUpOpen(!isPopUpOpen)}}/> }
+                { isSuccessOpen && <OrderSuccess
+                    text={languageData.order.front_text}
+                    submitting={submitting}
+                    handleOk={() => {setIsSuccessOpen(false); setSuccess(true)}}
+                />}
+                {/*{ isPopUpOpen && <OrderModal*/}
+                {/*    text={languageData.order.front_text.filter(t => t.text_name === 'modal2')[0]}*/}
+                {/*    title={"success"} order={order}*/}
+                {/*    submitting={submitting}*/}
+                {/*    handleCancel={() => {setPopUpOpen(!isPopUpOpen)}}*/}
+                {/*/> }*/}
                 <div className={style.title}>
                     <h3 onClick={() => {setPopUpOpen(!isPopUpOpen)}}>Подтвердить заказ</h3>
                     <hr />
@@ -79,7 +89,7 @@ export default compose(
     connect(mapStateToProps, {submitOrder, fetchOrderInfo})
 )(Order);
 
-const OrderSuccess = ({handleOk, handleCancel, title, submitting}:any) => {
+const OrderSuccess = ({handleOk, handleCancel, title, submitting, text}:any) => {
 
     return (
         <Modal
@@ -90,11 +100,13 @@ const OrderSuccess = ({handleOk, handleCancel, title, submitting}:any) => {
         >
             {submitting === 'pending' ? <Preloader/> :
                 <div className="ant-modal-confirm-success" style={{display: "flex", flexDirection: "column", justifyContent: "center", textAlign: "center" }}>
-                    <h1>Ваш заказ успешно принят.</h1>
-                    <span style={{marginBottom: '30px'}}>В ближайшее время с вами свяжутся.</span>
+                    <h1>{text && text[0].text ? text[0].text :"Спасибо за заказ."}</h1>
+                    <span style={{marginBottom: '30px'}}>{text && text[1].text ? text[1].text : "В ближайшее время с вами свяжутся."}</span>
+                    <div style={{maxWidth: '50%'}}>
                     <Button key="success" onClick={handleOk}>
                         Return To Menu
                     </Button>
+                    </div>
                 </div>
             }
         </Modal>
