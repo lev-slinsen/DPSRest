@@ -32,11 +32,11 @@
     "yarn": "^1.22.4"
   },
   "scripts": {
-    "start-front": "react-scripts start -e .env.development ",
-    "build": "react-scripts build -e .env.development",
+    "start-front": "react-scripts start -e .env ",
+    "build": "react-scripts build -e .env",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "predeploy": "yarn run build -e .env.development",
+    "predeploy": "yarn run build -e .env",
     "deploy": "gh-pages -d build"
   },
   "eslintConfig": {

@@ -125,8 +125,8 @@ const productsReducer = (state: I_appState = initialState, action: I_appActions)
             };
         //adding product item to order
         case ADD_PRODUCT_TO_ORDER:
-            console.log("======> add order")
-            console.log(action)
+            //console.log("======> add order")
+            //console.log(action)
             if (state.order.some((oi: I_orderItem) => oi.id === action.productItem.id)) {
                 return {
                     ...state,
@@ -159,11 +159,11 @@ const productsReducer = (state: I_appState = initialState, action: I_appActions)
                     ]
                 };
             }
-        // case DELETE_ORDER_ITEM:
-        //     return {
-        //         ...state,
-        //         order: state.order.filter((oi: I_orderItem) => oi.id !== action.id)
-        //     };
+        case DELETE_ORDER_ITEM:
+            return {
+                ...state,
+                order: state.order.filter((oi: I_orderItem) => oi.id !== action.id)
+            };
         case CALCULATE_TOTAL:
             let price = 0;
             let quantity = 0;
@@ -178,10 +178,20 @@ const productsReducer = (state: I_appState = initialState, action: I_appActions)
             };
         //adding status of Posting Order
         case SET_ORDER_SUCCESS:
-            return {
-                ...state,
-                orderSuccess: action.status,
-            };
+            if (action.status) {
+                return {
+                    ...state,
+                    order: [],
+                    totalPrice: 0,
+                    totalQuantity: 0,
+                    orderSuccess: action.status,
+                };
+            } else {
+                return {
+                    ...state,
+                    orderSuccess: action.status,
+                };
+            }
         default:
             return state;
     }

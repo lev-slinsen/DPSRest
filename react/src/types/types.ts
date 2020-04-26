@@ -68,7 +68,7 @@ export interface I_languagePage {
     front_text: Array<{text_name: string, text: string}>
     "front_image": Array<{image_name: string, image: string}>
 }
-type Pages = "cross" | "index" | "about";
+type Pages = "cross" | "index" | "about" | "order";
 
 type PagesMap<P> = { [page in Pages]: P };
 

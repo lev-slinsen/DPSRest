@@ -122,6 +122,7 @@ const TableItem = ({product, decreaseQuantity, increaseQuantity, removeFromOrder
                     <span><b>BYN</b></span>
                     <button
                         onClick={() => {
+                            console.log(product.id)
                             removeFromOrder(product.id)
                         }}
                         className={style.btnSmallClose}>X

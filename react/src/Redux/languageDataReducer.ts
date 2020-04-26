@@ -181,7 +181,22 @@ const initialState: I_appLanguageState = {
                     "image": Ico
                 },
             ]
-        }
+        },
+        order: {
+            "id": 4,
+            "page_name": "order",
+            "front_image": [],
+            "front_text": [
+                {
+                    text: "Ваш заказ успешно принят",
+                    text_name: "modal1"
+                },
+                {
+                    text: "Спасибо за заказ. В ближайшее время с вами свяжутся по указанному телефону.",
+                    text_name: "modal2"
+                }
+            ]
+        },
     },
     isFetchingLanguageData: false,
     errorLanguageData: null,

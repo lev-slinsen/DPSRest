@@ -58,7 +58,7 @@ interface I_orderModal {
     order: Array<I_orderItem>
 }
 
-export const OrderModal = ({handleOk, handleCancel, loading, title, order, submitting}:any) => {
+export const OrderModal = ({handleOk, handleCancel, loading, title, order, submitting, text}:any) => {
 
     return (
         <Modal
@@ -77,6 +77,7 @@ export const OrderModal = ({handleOk, handleCancel, loading, title, order, submi
         >
             {submitting === 'pending' ? <Preloader/> :
                 <div>
+                    <span>{text ? text.text : " В ближайшее время с вами свяжутся по указанному телефону." }</span>
                     {order.map((oi: I_orderItem) => <p key={oi.id}><span>oi.name</span><strong>io.quantity</strong></p>)}
                 </div>
             }
