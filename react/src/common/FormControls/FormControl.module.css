@@ -30,7 +30,8 @@
 
 .paymentField {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: wrap;
 }
 
 .fieldWrapper select {
@@ -39,7 +40,7 @@
 
 .title {
     display: block;
-    margin: 0;
+    margin: 15px 0 0 0;
     padding: 0 0 8px;
     line-height: 1.5;
     white-space: initial;
@@ -83,7 +84,7 @@
 .row {
     display: flex;
     flex-direction: row;
-
+    margin-left: 15px;
 }
 
 .paymentField .row .fieldWrapper {

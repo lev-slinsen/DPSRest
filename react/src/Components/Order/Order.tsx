@@ -48,6 +48,7 @@ const Order = ({totalQuantity, submitOrder, fetchOrderInfo, orderDisabled, order
             setPopUpOpen(true)
         }
     }, [submitting]);
+
     if (totalQuantity <= 0 || success) {
         return <Redirect to={`/catalog`}/>
     } else
@@ -102,7 +103,7 @@ const OrderSuccess = ({handleOk, handleCancel, title, submitting, text}:any) => 
                 <div className="ant-modal-confirm-success" style={{display: "flex", flexDirection: "column", justifyContent: "center", textAlign: "center" }}>
                     <h1>{text && text[0].text ? text[0].text :"Спасибо за заказ."}</h1>
                     <span style={{marginBottom: '30px'}}>{text && text[1].text ? text[1].text : "В ближайшее время с вами свяжутся."}</span>
-                    <div style={{maxWidth: '50%'}}>
+                    <div style={{maxWidth: '50%', margin: 'auto'}}>
                     <Button key="success" onClick={handleOk}>
                         Return To Menu
                     </Button>
