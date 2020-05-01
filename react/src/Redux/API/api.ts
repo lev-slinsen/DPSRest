@@ -95,4 +95,4 @@ export const paymentAPI = {
                 console.log(err)
             })
     },
-}
+};

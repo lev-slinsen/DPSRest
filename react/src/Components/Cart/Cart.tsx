@@ -39,40 +39,47 @@ const Cart = ({order, decreaseQuantity, increaseQuantity, removeFromOrder, total
     useEffect(
         () => {
             window.scrollTo(0, 0);
-        },[]);
+        }, []);
 
     return (
         <div className={style.cartWrapper}>
-            <h2>В корзине товаров: {totalQuantity}</h2>
-            <div className={style.cartTableWrapper}>
-                <table className={style.cartTable}>
-                    <thead>
-                    <tr>
-                        <th></th>
-                        <th>Название</th>
-                        <th>Цена</th>
-                        <th>Шт.</th>
-                        <th>Сумма</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {tableItems}
-                    </tbody>
-                </table>
-            </div>
-            <div className={style.rowBetween}>
-                <div className={style.col}>
-                    <span>Доставка бесплатная!</span>
-                    <span className={style.bold}>К оплате: {totalPrice} BYN</span>
-                </div>
-            </div>
+            {order.length ? <h2>Ваша корзина пуста.</h2> : <h2>В корзине товаров: {totalQuantity}</h2>}
+            {order.length ?
+                <React.Fragment>
+                    <div className={style.cartTableWrapper}>
+                        <table className={style.cartTable}>
+                            <thead>
+                            <tr>
+                                <div className={style.cartRowGrid}>
+                                    <div></div>
+                                    <span style={{textAlign: "start"}}>Название</span>
+                                    <div>Цена</div>
+                                    <div>Шт.</div>
+                                    <div>Сумма</div>
+                                </div>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {tableItems}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div className={style.rowBetween}>
+                        <div className={style.col}>
+                            <span>Доставка бесплатная!</span>
+                            <span className={style.bold}>К оплате: {totalPrice} BYN</span>
+                        </div>
+                    </div>
+                </React.Fragment> : ""}
             <div className={style.rowBetween}>
                 <NavLink to="/catalog" className={style.btnToMenu}>
                     <ButtonMain buttonText={"В Меню"}/>
                 </NavLink>
-
-                <NavLink to="/order" className={style.btnOrder}>
-                    <ButtonMain buttonText={"Заказать"}/>
+                <NavLink
+                    style={!order.length ? {pointerEvents: 'none'} : {}}
+                    to={order.length ? "/order" : ''} className={style.btnOrder}
+                >
+                    <ButtonMain buttonText={"Заказать"} disabled={!order.length}/>
                 </NavLink>
             </div>
         </div>
@@ -81,56 +88,53 @@ const Cart = ({order, decreaseQuantity, increaseQuantity, removeFromOrder, total
 
 const TableItem = ({product, decreaseQuantity, increaseQuantity, removeFromOrder}: ICartItemProps) => {
     return (
-        <>
-            <td style={{width: '15%'}}>
-                <div className={style.mainImg}>
-                    <img src={product.photo_thumbnail} alt={product.text_short}/>
-                </div>
-            </td>
+        <div className={style.cartRowGrid}>
 
-            <td>
-                <div className={style.description}>
-                    <h6>{product.name}</h6>
-                </div>
-            </td>
-            <td>
-                <span className={style.price}>{product.price}</span>
-            </td>
-            <td>
-                <div className={style.col}>
-                    <button
-                        onClick={() => {
-                            increaseQuantity(product.id)
-                        }}
-                        className={style.btnSmall}
-                    >+
-                    </button>
-                    <span><b>{product.quantity}</b></span>
-                    <button
-                        onClick={() => {
-                            decreaseQuantity(product.id)
-                        }}
-                        className={style.btnSmallMinus}
-                    >-
-                    </button>
-                </div>
-            </td>
+            <span className={style.mainImg}>
+                <img src={product.photo_thumbnail} alt={product.text_short}/>
+            </span>
 
-            <td>
-                <div className={style.col}>
-                    <span>{(product.price * product.quantity).toFixed(2)}</span>
-                    <span><b>BYN</b></span>
-                    <button
-                        onClick={() => {
-                            console.log(product.id)
-                            removeFromOrder(product.id)
-                        }}
-                        className={style.btnSmallClose}>X
-                    </button>
-                </div>
-            </td>
-        </>
 
+            <span className={style.description}>
+                <h6>{product.name}</h6>
+                <span className={style.descText}>{product.text_short}</span>
+            </span>
+
+            <div className={style.purpose}>
+                <span>{product.price}</span>
+            </div>
+
+            <div className={style.colCalc}>
+                <button
+                    onClick={() => {
+                        increaseQuantity(product.id)
+                    }}
+                    className={style.btnSmall}
+                >+
+                </button>
+                <span><b>{product.quantity}</b></span>
+                <button
+                    onClick={() => {
+                        decreaseQuantity(product.id)
+                    }}
+                    className={style.btnSmallMinus}
+                >-
+                </button>
+            </div>
+
+
+            <div className={style.colPrice}>
+                <span>{(product.price * product.quantity).toFixed(2)}</span>
+                <span><b>BYN</b></span>
+                <button
+                    onClick={() => {
+                        //console.log(product.id);
+                        removeFromOrder(product.id)
+                    }}
+                    className={style.btnSmallClose}>X
+                </button>
+            </div>
+        </div>
     )
 };
 

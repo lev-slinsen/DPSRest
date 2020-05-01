@@ -38,6 +38,7 @@ const ButtonMain = ({
     });
     return (
         <button className={classNameForbtnAdd}
+                style={disabled ? {backgroundColor: '#80808066', pointerEvents: 'none'} : {}}
                 disabled={addSucces || disabled}
                 onClick={onButtonClick}
                 type={type}
