@@ -9,7 +9,7 @@ from django.contrib.auth.models import BaseUserManager, PermissionsMixin
 from django.contrib.auth.signals import user_logged_in
 from django.db import models
 from django.dispatch import receiver
-from django.utils.translation import gettext_lazy as _, pgettext_lazy as _p
+from django.utils.translation import ugettext_lazy as _
 
 
 class UserManager(BaseUserManager):
@@ -52,16 +52,16 @@ class User(AbstractBaseUser, PermissionsMixin):
     """
     Custom user model.
     """
-    phone = models.CharField(max_length=100, unique=True, verbose_name=_p('User|Phone', 'Phone'))
+    phone = models.CharField(max_length=100, unique=True, verbose_name=_('Phone'))
     username = models.CharField(max_length=150, unique=False, blank=True, null=True)
-    first_name = models.CharField(max_length=30, verbose_name=_p('User|Name', 'Name'))
+    first_name = models.CharField(max_length=30, verbose_name=_('Name'))
     language = models.CharField(max_length=20,
                                 choices=settings.LANGUAGES,
                                 default='ru',
-                                verbose_name=_p('User|Language', 'Language'))
+                                verbose_name=_('Language'))
     email = models.EmailField(max_length=100,
                               blank=True,
-                              verbose_name=_p('User|Email', 'Email'))
+                              verbose_name=_('Email'))
     is_staff = models.BooleanField(
         _('staff status'),
         default=False,
@@ -83,6 +83,10 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.phone
+
+    class Meta:
+        verbose_name = _('User')
+        verbose_name_plural = _('Users')
 
     @classmethod
     def normalize_phone(cls, phone):

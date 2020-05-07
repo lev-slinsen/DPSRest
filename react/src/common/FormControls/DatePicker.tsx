@@ -1,66 +1,97 @@
-import React from 'react';
-import DayPickerInput from 'react-day-picker/DayPickerInput';
-
-import 'react-day-picker/lib/style.css';
+import React, {useState} from 'react';
 import style from './FormControl.module.css';
+import moment from 'moment';
+import 'antd/dist/antd.css';
+import './antdCustom.css';
+import FormItem, {FormItemProps} from "antd/lib/form/FormItem";
+import locale from 'antd/es/date-picker/locale/ru_RU';
+import DatePicker from "antd/lib/date-picker";
+import classNames from 'classnames/bind';
+import {Alert, Popover} from "antd";
 
-import MomentLocaleUtils from 'react-day-picker/moment';
-import 'moment/locale/ru';
-
-export class DatepickerRU extends React.Component {
-    constructor(props:any) {
-        super(props);
-        this.handleDayChange = this.handleDayChange.bind(this);
-        this.state = {
-            selectedDay: undefined,
-        };
+interface I_datePickerProps extends FormItemProps {
+    input: {
+        onChange: (e: any, v?: any) => void,
+        value: moment.Moment | string | undefined
     }
-    handleDayChange(day:any) {
-        this.setState({ selectedDay: day });
-    }
+    onOpenChange?: (status: boolean) => void;
+    label: string
+    meta: { error: any, warning: any, valid: any }
+    dates: string[]
+}
 
-    render() {
-        const { selectedDay }:any = this.state;
-        const past = {
-            before: new Date(),
+export const RenderDateTimePicker: React.FC<I_datePickerProps> = ({
+                                                                      label,
+                                                                      meta: {error, warning, valid},
+                                                                      input: {onChange, value},
+                                                                      dates,
+                                                                      ...props
+                                                                  }: I_datePickerProps) => {
+    const dateFormat = 'YYYY-MM-DD';
+    let cx = classNames.bind(style);
+    let [isTouched, setIsTouched] = useState(false);
+
+    const disabledDate = (current: any): boolean => {
+        if (dates.indexOf(current.format(dateFormat)) >= 0) {
+            return true
         }
-        const weekends = {
-            daysOfWeek: [0, 6],
-        };
+        return current && current < moment().endOf('day');
+    };
 
-
-        function isFirstOfMonth(day:any) {
-            return day.getDate() === 25;
+    const getValidateStatus = ({isTouched, error, warning, valid}: any) => {
+        if (isTouched) {
+            if (error) return "error";
+            if (warning) return "warning";
+            if (valid) return "success";
         }
-        return (
-                <DayPickerInput
-                    inputProps={{...this.props}}
-                    onDayChange={this.handleDayChange}
-                    dayPickerProps={{
-                        locale: 'ru',
-                        localeUtils: MomentLocaleUtils,
-                        modifiers: {
-                            disabled: [past, weekends, isFirstOfMonth ],
-                        }
+        return undefined;
+    };
+
+    const valueToMoment = (value: moment.Moment | string | undefined, dateFormat: string) => {
+        if (value === undefined || value === null || value === "") {
+            return undefined;
+        }
+        return moment(value, dateFormat);
+    };
+
+    let classForField = cx(style.fieldWrapper, {
+        success: !error && valid,
+        error: error && isTouched,
+    });
+
+    return (
+        <>
+            <FormItem
+                label={label}
+                validateStatus={getValidateStatus({isTouched, error, warning, valid})}
+                required={true}
+                className={classForField}
+            >
+                <DatePicker
+                    onChange={(e: any, v) => {
+                        e !== null &&
+                        onChange(e.format(dateFormat));
+                    }}
+                    value={valueToMoment(value, dateFormat)}
+                    format={dateFormat}
+                    {...props}
+                    locale={locale}
+                    defaultValue={moment().endOf('day')}
+                    disabledDate={disabledDate}
+                    showTime={false}
+                    onOpenChange={() => {
+                        setIsTouched(true)
                     }}
                 />
-        );
-    }
-}
 
-interface IDatePickerProps {
-    label:string
-    meta: any
-}
+            </FormItem>
+            {
+                (isTouched && error) &&
+                <span style={{marginTop: '-24px', marginBottom: '24px'}}
+                      className={style.errorMessage}>{error}</span>
+            }
+        </>
+    )
+};
 
-export const renderDateTimePicker = ({ label, meta: {touched, error, warning}, ...props}:any) => (
-    <div>
-        <label>{label}</label>
-        <div className={style.fieldWrapper + ' ' + (error && touched ? style.error : '')}>
-            <DatepickerRU {...props}/>
-            {touched &&
-            ((error && <span className={style.errorMessage}>{error}</span>)
-                || (warning && <span className={style.errorMessage}>{warning}</span>))}
-        </div>
-    </div>
-)
+

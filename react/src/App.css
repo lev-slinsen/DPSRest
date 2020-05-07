@@ -1,11 +1,10 @@
-.App
-{
+.App {
     text-align: center;
 
-    box-shadow: 0 0 5px 0 #00004b;
+    box-shadow: 0 0 2px 0 #00004b1a;
 }
-.banner
-{
+
+.banner {
     position: relative;
 
     overflow: hidden;
@@ -18,13 +17,12 @@
     background-attachment: fixed;
     background-position: 50% 50%;
     -webkit-background-size: cover;
-       -moz-background-size: cover;
-         -o-background-size: cover;
-            background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
 }
 
-.bannerContent
-{
+.bannerContent {
     position: relative;
     z-index: 1;
 
@@ -36,35 +34,29 @@
     min-height: 120vh;
 }
 
-.container
-{
+.container {
     display: flex;
     overflow: hidden;
     flex-wrap: wrap;
-
     justify-content: center;
+
     box-sizing: border-box;
     width: 100%;
-    margin-right: auto;
-    margin-left: auto;
     padding-right: 15px;
     padding-left: 15px;
 }
 
-.row
-{
-    composes: container;
+.row {
     flex-direction: row;
     flex-wrap: wrap;
+
     box-sizing: content-box;
-}
-.col
-{
 
+    composes: container;
 }
 
-.mainBtn
-{
+
+.mainBtn {
     font-weight: 600;
 
     display: inline-block;
@@ -72,86 +64,70 @@
     margin: 2px 0;
     padding: 5px 5px;
 
-
+    color: #f50;
     border: solid 1px rgba(255, 85, 0, .99);
     border-radius: 5px;
 }
-.mainBtn:hover
-{
-    border-color: rgba(196, 67, 0, 0.99);
-    background-color: rgba(255, 85, 0, .99);
-    color: white;
-    font-weight: 600;
+
+.mainBtn:hover {
+    /*text-shadow: 0 0 5px rgba(196, 67, 0, .99);*/
+
+    /*color: white;*/
+    /*border-color: rgba(196, 67, 0, .99);*/
+    /*background-color: rgba(255, 85, 0, .99);*/
 }
-.mainBtn:active
-{
-    background-color: rgb(255, 85, 0);
-    color: #ffffff;
+
+.mainBtn:active {
+    color: #fff;
     border-color: inherit;
+    background-color: rgb(255, 85, 0);
 }
 
-@media (min-width: 1151px)
-{
-    .container
-    {
-        max-width: 1100px;
-    }
-
-    .App
-    {
+@media (min-width: 1151px) {
+    /*.container*/
+    /*{*/
+    /*    max-width: 1100px;*/
+    /*}*/
+    .App {
         max-width: 1280px;
         margin: 0 auto;
     }
 }
 
-@media (min-width: 992px) and (max-width: 1150px)
-{
-    .container
-    {
-        max-width: 960px;
-    }
+@media (min-width: 992px) and (max-width: 1150px) {
+    /*.container*/
+    /*{*/
+    /*    max-width: 960px;*/
+    /*}*/
 }
 
-@media (min-width: 768px) and (max-width: 991px)
-{
-    .container
-    {
-        max-width: 720px;
-    }
+@media (min-width: 768px) and (max-width: 991px) {
+    /*.container {*/
+    /*    max-width: 760px;*/
+    /*}*/
 }
 
-@media (min-width: 576px) and (max-width: 767px)
-{
-    .container
-    {
-        max-width: 540px;
-    }
+@media (min-width: 576px) and (max-width: 767px) {
+    /*.container {*/
+    /*    max-width: 540px;*/
+    /*}*/
 
     h2,
-    h3
-    {
+    h3 {
         font-size: 1.8rem;
     }
 }
 
-@media (max-width: 576px) and (min-width: 300px)
-{
-    .container, .row
-    {
-        max-width: 350px;
-        padding-right: 5px;
-        padding-left: 5px;
-    }
+@media (max-width: 576px) and (min-width: 300px) {
+    /*.container,*/
+    /*.row {*/
+    /*    max-width: 350px;*/
+    /*    padding-right: 5px;*/
+    /*    padding-left: 5px;*/
+    /*}*/
 }
 
-button
-{
-    cursor: pointer;
-    text-align: center;
-    vertical-align: middle;
-    text-decoration: none;
-    color: #f50;
-
+button {
     font-weight: 400;
 
     display: inline-block;
@@ -161,51 +137,82 @@ button
     margin: .5rem;
     padding: 8px 20px;
 
+    cursor: pointer;
+    text-align: center;
+    vertical-align: middle;
+    text-decoration: none;
+
+    color: #f50;
     border: solid 1px #999;
     border-radius: .4rem;
     background-color: inherit;
 }
 
-button:hover
-{
-    font-weight: bolder;
+button:hover {
+    border-color: rgba(196, 67, 0, .99);
 }
 
-link
-{
+link {
     text-decoration: none;
 }
 
-hr
-{
-    width: 80%;
-    height: .05rem;
+hr {
+    display: block;
+    overflow: visible;
 
-    border-color: rgb(169, 160, 111);
-    background-color: rgb(255, 255, 255);
+    box-sizing: content-box;
+    width: 100%;
+    height: 1px;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+
+    border: 0;
+    border-top: 1px solid rgba(0, 0, 0, .1);
+
+    unicode-bidi: isolate;
+    margin-block-start: .5em;
+    margin-block-end: .5em;
+    margin-inline-start: auto;
+    margin-inline-end: auto;
 }
 
-button:focus
-{
+button:focus {
     outline: 0;
 }
-input, select, textarea{
-    margin-top: .5rem;
-    display: block;
+
+input,
+select,
+textarea {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0 .725rem;
+    font-variant: tabular-nums;
+    list-style: none;
+    -webkit-font-feature-settings: 'tnum';
+    font-feature-settings: 'tnum', "tnum";
+    position: relative;
+    display: inline-block;
     width: 100%;
-    padding: .375rem .75rem;
-    font-size: 1rem;
-    font-weight: 400;
+    height: 32px;
+    color: rgba(0, 0, 0, 0.65);
+    font-size: 14px;
     line-height: 1.5;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+    -webkit-transition: all 0.3s;
+    transition: all 0.3s;
+
+    max-width: 90%;
+    margin-top: .5rem;
+
     color: #495057;
     background-clip: padding-box;
-    border: 1px solid #ced4da;
-    border-radius: .25rem;
-    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
-    max-width: 90%;
 }
-textarea
-{
+
+textarea {
     min-width: 10rem;
     min-height: 7rem;
 }

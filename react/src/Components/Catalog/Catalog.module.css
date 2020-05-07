@@ -5,43 +5,59 @@
 }
 .productsContainer {
     composes: container;
-}
-.caruselContent{
-    display: flex;
     justify-content: center;
-    align-items: center;
+    padding-bottom: 40px;
+}
+
+.container .filterBlock{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 83%;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.filterBlockTop:first-child {
+    border-bottom: 2px solid #4f4f4f;
+}
+
+.container .filterBlock .filterBlockTop{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
     width: 100%;
-    margin: 0;
-    color: #FFFFFF;
-    font-size: 1.5rem;
+    position: relative;
+    font-family: 'Vollkorn',sans-serif;
+}
+
+.container .filterBlock .filterBlockTop .filterBtn{
+    padding: 5px;
+}
+
+.container .filterBlock .filterBlockTop .filterBtn:hover{
+    text-shadow: 0px 0px 3px #9d3900;
 }
 .filterBtn {
     position: relative;
     color: #ff5500;
-    padding: 8px 30px;
+    padding: 0;
     border: none;
     font-size: 20px;
-    font-weight: bolder;
+    margin: 5px 0;
+    /*font-weight: bolder;*/
     display: flex;
     justify-content: center;
     min-width: 66px;
 }
-.filterBtn:before{
-    content: "";
-    position: absolute;
-    width: 70%;
-    bottom: 0;
-    height: 5px;
-    z-index: -1;
-    background-color: #ff5500;
-    box-shadow: 0px 0px 5px 0px #ff5500;
-    -webkit-transition: width 0.5s, height 0.5s, background-color 0.5s, -webkit-transform 0.5s;
-    transition: width 0.5s, height 0.5s, background-color 0.5s, transform 0.5s;
+.filterBtn.active{
+    font-weight: bold;
+    color: #662700;
 }
-.filterBtn:hover {
-    color: #FFFFFF;
+.filterBtn:disabled {
+    pointer-events: none;
+    color: #8b9898;
 }
-.filterBtn:hover:before {
-    height: 100%;
-    width: 100%;
+.filterBlockTop {
+    justify-content: space-around;
 }

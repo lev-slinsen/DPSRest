@@ -6,16 +6,41 @@
     composes: container from './../../App.css';
     justify-content: center;
     flex-direction: column;
+    align-items: flex-start;
 }
-.orderWrapper
-{
+
+.orderWrapper {
     composes: container;
     border-top: 1px solid #e5d0a2;
     flex-direction: column;
     justify-content: left;
 }
-.pageWrapper
-{
+
+.pageWrapper {
     composes: container;
-    margin-top: 3rem;
+    font-family: 'Vollkorn', sans-serif;
+    margin-top: 80px;
+    margin-bottom: 40px;
+}
+.pageWrapper .title{
+    font-size: 2rem;
+}
+.pageWrapper .title h3{
+    margin-bottom: 0;
+}
+.pageWrapper .title hr{
+    margin-top: 0;
+}
+.container .titleLabel{
+    color: rgba(0,0,0,.5);
+    font-size: 1rem;
+}
+@media screen  and (max-width: 355px){
+    .pageWrapper .title{
+        width: 100%;
+        text-align: center;
+    }
+    .pageWrapper .title h3{
+        font-size: 1.8rem;
+    }
 }

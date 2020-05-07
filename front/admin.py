@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
 
-from .models import FrontPage, FrontText, FrontImage
+from .models import FrontPage, FrontText, FrontImage, WorkDate, WorkMonth
 
 
 class FrontTextInline(admin.TabularInline):
@@ -29,3 +29,16 @@ class FrontImageInline(admin.TabularInline):
 class FrontPageAdmin(admin.ModelAdmin):
     model = FrontPage
     inlines = (FrontTextInline, FrontImageInline)
+
+
+class WorkDateInline(admin.TabularInline):
+    model = WorkDate
+
+
+@admin.register(WorkMonth)
+class WorkMonthAdmin(admin.ModelAdmin):
+    model = WorkMonth
+    list_display = ('month',)
+    ordering = ('month',)
+    readonly_fields = ('month', 'id')
+    inlines = (WorkDateInline,)

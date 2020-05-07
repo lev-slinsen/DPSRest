@@ -1,4 +1,4 @@
-export interface IOrderItem {
+export interface I_orderItem {
     id: string,
     name: string,
     photo_thumbnail: string,
@@ -7,10 +7,14 @@ export interface IOrderItem {
     text_short: string,
     quantity: number
 }
-
-export interface IProductItem {
-    filter: Array<IFilterItem>;
+export interface I_orderDates {
+    "month": number,
+    "work_dates": {"date": string}[]
+}
+export interface I_productItem {
+    filter: Array<I_filterItem>;
     id: string,
+    category: string,
     name: string,
     photo: string,
     photo_thumbnail: string,
@@ -18,39 +22,60 @@ export interface IProductItem {
     size: number,
     text_long: string,
     text_short: string,
-
 }
-export interface IFilterItem {
+export interface I_filterItem {
     name: string
 }
-
-export interface IPostOrderItem {
-    pizza_id: number,
+export interface I_postOrderItem {
+    pizza: string,
     quantity: number,
 }
 
-export interface IAppState {
-    products: Array<IProductItem>,
-    order: Array<IOrderItem>,
+export interface I_appState {
+    products: Array<I_productItem>,
+    order: Array<I_orderItem>,
+    categories: Array<string>,
     totalPrice: number,
     totalQuantity: number,
     isFetching: boolean,
-    filters: Array<IFilterItem>,
+    filters: Array<I_filterItem>,
     selectedFilter: string,
+    selectedCategory: string,
     orderSuccess: boolean,
+    orderData: I_orderDates[],
+    submitting: 'pending' | 'stop' | 'success'
 }
-export interface IOrderToPost {
+export interface I_orderFormData {
     phone: string,
     first_name: string,
     "delivery_date": string,
-    "delivery_time": number,
+    "delivery_time": string,
     "address": string,
     "comment": string,
-    "payment": number,
-    "order_items": Array<IPostOrderItem>
+    "payment": string,
 }
-export interface IOrderLocalStorage {
-    order: Array<IOrderItem>,
+export interface I_orderToPost extends I_orderFormData{
+    "order_items": Array<I_postOrderItem>
+}
+export interface I_orderLocalStorage {
+    order: Array<I_orderItem>,
     totalPrice: number,
     totalQuantity: number,
+}
+export interface I_languagePage {
+    id: string | number,
+    page_name: string,
+    front_text: Array<{text_name: string, text: string}>
+    "front_image": Array<{image_name: string, image: string}>
+}
+type Pages = "cross" | "index" | "about" | "order";
+
+type PagesMap<P> = { [page in Pages]: P };
+
+export type I_LanguageData = PagesMap<I_languagePage>;
+
+export interface I_appLanguageState {
+    languageData: I_LanguageData,
+    isFetchingLanguageData: boolean,
+    errorLanguageData: string | null,
 }

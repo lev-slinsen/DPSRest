@@ -1,21 +1,32 @@
-import {productsAPI} from "./API/api";
-import {IAppState, IFilterItem, IOrderItem, IOrderLocalStorage, IProductItem, IPostOrderItem} from "../types/types";
-import {Dispatch} from "redux";
+import {I_appState, I_orderItem, I_orderLocalStorage} from "../types/types";
+import {
+    ADD_PRODUCT_TO_ORDER,
+    CALCULATE_TOTAL,
+    DECREASE_QUANTITY,
+    DELETE_ORDER_ITEM,
+    I_appActions,
+    INCREASE_QUANTITY,
+    SET_COMMON_ORDER_SUCCESS,
+    SET_FILTERS,
+    SET_IS_FETCHING,
+    SET_ORDER_SUCCESS,
+    SET_PRODUCTS, SET_SORT_CATEGORY,
+    SET_SORT_FILTER
+} from "./actions";
 
-const SET_PRODUCTS = 'MAIN_PAGE/ADD_LIST';
-const SET_FILTERS = 'MAIN_PAGE/SET_FILTERS';
-const CALCULATE_TOTAL = 'MAIN_PAGE/CALCULATE_TOTAL';
-const SET_SORT_FILTER = 'MAIN_PAGE/SET_SORT_FILTER';
-const INCREASE_QUANTITY = 'PRODUCTS/INCREASE_QUANTITY';
-const DECREASE_QUANTITY = 'PRODUCTS/DECREASE_QUANTITY';
-const ADD_PRODUCT_TO_ORDER = 'ORDER/ADD_PRODUCT_TO_ORDER';
-const DELETE_ORDER_ITEM = 'ORDER/DELETE_ORDER_ITEM';
-const SET_ORDER_SUCCESS = 'ORDER/SET_ORDER_SUCCESS';
-const SET_IS_FETCHING = 'COMMON/SET_IS_FETCHING';
-const SET_ORDERS = 'COMMON/SET_ORDERS';
+Array.prototype.unique = function() {
+    var a = this.concat();
+    for (var i = 0; i < a.length; ++i) {
+        for (var j = i + 1; j < a.length; ++j) {
+            if (a[i] === a[j]) a.splice(j--, 1);
+        }
+    }
+    return a;
+};
 
-const persistedState:IOrderLocalStorage =
-    localStorage.getItem('order')!== null&& localStorage.getItem('order')!== undefined ?
+
+const persistedState: I_orderLocalStorage =
+    localStorage.getItem('order') !== null && localStorage.getItem('order') !== undefined ?
         // @ts-ignore
         JSON.parse(localStorage.getItem('order')) : {
             order: [],
@@ -23,11 +34,12 @@ const persistedState:IOrderLocalStorage =
             totalQuantity: 0,
         };
 
-const initialState:IAppState = {
+const initialState: I_appState = {
     products: [
         {
             filter: [{name: 'big'}],
             id: "123",
+            category: '1',
             name: "123",
             photo: "http://93.85.88.35/media/images/%D1%80%D1%8B%D0%B1%D0%BD%D1%8B%D0%B9.jpg",
             photo_thumbnail: "http://93.85.88.35/media/images/%D1%80%D1%8B%D0%B1%D0%BD%D1%8B%D0%B9.jpg",
@@ -37,16 +49,21 @@ const initialState:IAppState = {
             text_short: "da",
         },
     ],
-    order: persistedState.order ? persistedState.order :[],
+    categories: [],
+    order: persistedState.order ? persistedState.order : [],
     totalPrice: persistedState.totalPrice ? persistedState.totalPrice : 0,
     totalQuantity: persistedState.totalQuantity ? persistedState.totalQuantity : 0,
     isFetching: false,
     filters: [{name: 'one'}],
     selectedFilter: 'All',
+    selectedCategory: '',
     orderSuccess: false,
+    orderData: [],
+    submitting: 'stop'
 };
 
-const productsReducer = (state:IAppState = initialState, action:any) => {
+
+const productsReducer = (state: I_appState = initialState, action: I_appActions) => {
     switch (action.type) {
         //setting fetching status
         case SET_IS_FETCHING:
@@ -54,37 +71,43 @@ const productsReducer = (state:IAppState = initialState, action:any) => {
                 ...state,
                 isFetching: action.status,
             };
-        //adding feched products to state
+        //adding fetched products to state
         case SET_PRODUCTS:
             return {
                 ...state,
-                products: action.products
+                products: action.products,
+                categories: action.products.map(p => p.category).unique()
             };
-        //adding feched filters to state
-        case SET_ORDERS:
+        //adding fetched disabled dates and times to state
+        case SET_COMMON_ORDER_SUCCESS:
             return {
                 ...state,
-                orders: action.orders
+                orderData: action.orderData
             };
         case SET_FILTERS:
             return {
                 ...state,
-                filters: [...action.filters, {name: 'All'}]
+                filters: [{name: 'All'}, ...action.filters]
             };
         case SET_SORT_FILTER:
             return {
                 ...state,
-                selectedFilter: action.filter
+                selectedFilter: state.selectedFilter === action.filter ? '' : action.filter
+            };
+        case SET_SORT_CATEGORY:
+            return {
+                ...state,
+                selectedCategory: state.selectedCategory === action.category ? '' : action.category
             };
         //increase quantity of single product in state
         case INCREASE_QUANTITY:
             return {
                 ...state,
-                order: state.order.map((oi:IOrderItem) => {
-                    if(oi.id !== action.id){
+                order: state.order.map((oi: I_orderItem) => {
+                    if (oi.id !== action.id) {
                         return oi;
                     } else {
-                        return {...oi, quantity: oi.quantity+1}
+                        return {...oi, quantity: oi.quantity + 1}
                     }
                 }),
             };
@@ -92,20 +115,22 @@ const productsReducer = (state:IAppState = initialState, action:any) => {
         case DECREASE_QUANTITY:
             return {
                 ...state,
-                order: state.order.map((oi:IOrderItem) => {
-                    if(oi.id === action.id){
-                        return {...oi, quantity: oi.quantity === 1 ? oi.quantity : oi.quantity -1}
+                order: state.order.map((oi: I_orderItem) => {
+                    if (oi.id === action.id) {
+                        return {...oi, quantity: oi.quantity === 1 ? oi.quantity : oi.quantity - 1}
                     } else {
                         return oi
                     }
                 }),
             };
-            //adding product item to order
+        //adding product item to order
         case ADD_PRODUCT_TO_ORDER:
-            if (state.order.some( (oi:IOrderItem) => oi.id === action.productItem.id)) {
+            //console.log("======> add order")
+            //console.log(action)
+            if (state.order.some((oi: I_orderItem) => oi.id === action.productItem.id)) {
                 return {
                     ...state,
-                    order: state.order.map( (oi:IOrderItem) => {
+                    order: state.order.map((oi: I_orderItem) => {
                         if (oi.id === action.productItem.id) {
                             return {
                                 ...oi,
@@ -117,7 +142,7 @@ const productsReducer = (state:IAppState = initialState, action:any) => {
                     })
                 }
             } else {
-                let orderItem:IOrderItem = {
+                let orderItem: I_orderItem = {
                     id: action.productItem.id,
                     name: action.productItem.name,
                     photo_thumbnail: action.productItem.photo_thumbnail,
@@ -137,167 +162,40 @@ const productsReducer = (state:IAppState = initialState, action:any) => {
         case DELETE_ORDER_ITEM:
             return {
                 ...state,
-                order: state.order.filter((oi:IOrderItem)=> oi.id !== action.id)
+                order: state.order.filter((oi: I_orderItem) => oi.id !== action.id)
             };
         case CALCULATE_TOTAL:
             let price = 0;
             let quantity = 0;
-            state.order.forEach( (oi:IOrderItem) => {
-                price += oi.quantity * oi.price;
-                quantity += oi.quantity;
+            state.order.forEach((oi: I_orderItem) => {
+                price = price + oi.quantity * oi.price;
+                quantity = quantity + oi.quantity;
             });
             return {
                 ...state,
-                totalPrice: price,
+                totalPrice: +price.toFixed(2),
                 totalQuantity: quantity,
             };
+        //adding status of Posting Order
         case SET_ORDER_SUCCESS:
-            return {
-                ...state,
-                orderSuccess: action.status,
-            };
+            if (action.status) {
+                return {
+                    ...state,
+                    order: [],
+                    totalPrice: 0,
+                    totalQuantity: 0,
+                    orderSuccess: action.status,
+                };
+            } else {
+                return {
+                    ...state,
+                    orderSuccess: action.status,
+                };
+            }
         default:
             return state;
     }
 };
 
-//interfaces
-interface InterfaceSetProductsSuccess {
-    type: typeof SET_PRODUCTS,
-    products: Array<IProductItem>
-}
-interface IsetOrdersSuccess {
-    type: typeof SET_ORDERS,
-    orders: any
-}
-interface IsetFiltersSuccess {
-    type: typeof SET_FILTERS,
-    filters: Array<IFilterItem>
-}
-interface IcalculateOrder {
-    type: typeof CALCULATE_TOTAL,
-}
-interface I_increaseQuantity {
-    type: typeof INCREASE_QUANTITY,
-    id: string
-}
-interface I_decreaseQuantity {
-    type: typeof DECREASE_QUANTITY,
-    id: string
-}
-interface I_removeFromOrder {
-    type: typeof DELETE_ORDER_ITEM,
-    id: string
-}
-interface I_orderSuccess {
-    type: typeof SET_ORDER_SUCCESS,
-    status: boolean
-}
-interface I_setSortFilter {
-    type: typeof SET_SORT_FILTER,
-    filter: string
-}
-//LOCAL ACTIONS
-export const setProductsSuccess = (products:Array<IProductItem>): InterfaceSetProductsSuccess => {
-    return {
-        type: SET_PRODUCTS, products
-    }
-};
-export const setOrdersSuccess = (orders:any):IsetOrdersSuccess => {
-    return {
-        type: SET_ORDERS, orders
-    }
-};
-export const setFiltersSuccess = (filters:Array<IFilterItem>):IsetFiltersSuccess => {
-    return {
-        type: SET_FILTERS, filters
-    }
-};
-export const setSortFilter = (filter:string):I_setSortFilter => {
-    return {
-        type: SET_SORT_FILTER, filter
-    }
-};
-export const calculateOrder = ():IcalculateOrder => {
-    return {
-        type: CALCULATE_TOTAL
-    }
-};
-export const _increaseQuantity = (id:string):I_increaseQuantity => {
-    return {
-        type: INCREASE_QUANTITY, id
-    }
-};
-export const _decreaseQuantity = (id:string):I_decreaseQuantity => {
-    return {
-        type: DECREASE_QUANTITY, id
-    }
-};
-export const _removeFromOrder = (id:string):I_removeFromOrder => {
-    return {
-        type: DELETE_ORDER_ITEM, id
-    }
-};
-export const _orderSuccess = (status:boolean):I_orderSuccess => {
-    return{
-        type: SET_ORDER_SUCCESS, status
-    }
-};
 
-//EXTERNAL ACTIONS
-export const increaseQuantity = (id:string) => (dispatch: Dispatch) => {
-    dispatch(_increaseQuantity(id));
-    dispatch(calculateOrder());
-};
-export const decreaseQuantity = (id:string) => (dispatch: Dispatch) => {
-    dispatch(_decreaseQuantity(id));
-    dispatch(calculateOrder());
-};
-export const removeFromOrder = (id:string) => (dispatch: Dispatch) => {
-    dispatch(_removeFromOrder(id));
-    dispatch(calculateOrder());
-};
-
-const toggleIsFetching = (status:boolean) => {
-    return {
-        type: SET_IS_FETCHING, status
-    }
-};
-export const addProductToOrder = (productItem: IProductItem, quantity: number) => {
-    return {
-        type: ADD_PRODUCT_TO_ORDER, productItem, quantity
-    }
-};
-
-
-//FETCH ACTIONS
-export const fetchCatalog = () => async (dispatch: any) => {
-    dispatch(toggleIsFetching(true));
-    const products = await productsAPI.getProducts();
-    dispatch(setProductsSuccess(
-        products.map( (pz:any) => {
-            return {
-            ...pz,
-                price: parseFloat(pz.price),
-                size: parseFloat(pz.size)
-            }
-        }
-    )));
-    const filters = await productsAPI.getFilters();
-    dispatch(setFiltersSuccess(filters));
-    dispatch(toggleIsFetching(false));
-};
-
-export const submitOrder = (orderData: any) => async (dispatch : any, getState: any) => {
-    const order:Array<IPostOrderItem> = getState().reducer.order.map( (oi:IOrderItem) => ({quantity: oi.quantity, product_id: oi.id}));
-        const res = await productsAPI.postOrder(orderData, order);
-        if (res)
-            //setting status to block buttons or redirect to payment page
-            dispatch(_orderSuccess(true));
-        setTimeout(dispatch(_orderSuccess(false)), 1000);
-};
-export const fetchOrders = () => async (dispatch: any) => {
-    const orders = await productsAPI.getOrders();
-    dispatch(setOrdersSuccess(orders));
-};
 export default productsReducer;

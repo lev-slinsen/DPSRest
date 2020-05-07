@@ -1,4 +1,4 @@
-from .models import FrontPage, FrontText, FrontImage
+from .models import FrontPage, FrontText, FrontImage, WorkDate, WorkMonth
 from rest_framework import serializers
 
 
@@ -28,4 +28,22 @@ class FrontPageSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = FrontPage
-        fields = ('id', 'page_name', 'front_text', 'front_image')
+        fields = ('page_name', 'front_text', 'front_image')
+
+
+class WorkDateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = WorkDate
+        fields = ('date',)
+
+
+class WorkMonthSerializer(serializers.ModelSerializer):
+    work_dates = serializers.SerializerMethodField()
+
+    def get_work_dates(self, obj):
+        dates = obj.workdate_set.all()
+        return WorkDateSerializer(dates, many=True).data
+
+    class Meta:
+        model = WorkMonth
+        fields = ('month', 'work_dates')

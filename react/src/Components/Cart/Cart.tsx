@@ -1,116 +1,140 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {compose} from "redux";
 import {connect} from "react-redux";
-import {calculateOrder, decreaseQuantity, increaseQuantity, removeFromOrder} from "../../Redux/productsReducer";
 import {NavLink} from "react-router-dom";
-import {IOrderItem} from "../../types/types";
+import {I_orderItem} from "../../types/types";
 import {getOrder, getTotalPrice, getTotalQuantity} from "../../Redux/selectors";
 import {AppStateType} from "../../Redux/Store";
 import style from './Cart.module.css';
 import ButtonMain from "../../common/Buttons/ButtonMain";
+import {decreaseQuantity, increaseQuantity, removeFromOrder} from "../../Redux/actions";
 
 interface IConnectProps {
-    order: Array<IOrderItem>,
+    order: Array<I_orderItem>,
     totalQuantity: number,
     totalPrice: number
 }
-interface IDispatchProps {
-    decreaseQuantity: (id:string)=> void;
-    increaseQuantity: (id:string)=> void;
-    removeFromOrder: (id:string)=> void;
-    calculateOrder: ()=> void;
-}
-interface ICartItemProps {
-    product: IOrderItem,
-    decreaseQuantity: (id:string)=> void;
-    increaseQuantity: (id:string)=> void;
-    removeFromOrder: (id:string)=> void;
-}
-const Cart = ({order, decreaseQuantity, increaseQuantity, removeFromOrder, calculateOrder}:IDispatchProps&IConnectProps) => {
 
-    let orderItems = order.map(i => <CartItem
-        key={i.id}
-        product={i}
-        decreaseQuantity={decreaseQuantity}
-        increaseQuantity={increaseQuantity}
-        removeFromOrder={removeFromOrder}
-    />);
+interface IDispatchProps {
+    decreaseQuantity: (id: string) => void;
+    increaseQuantity: (id: string) => void;
+    removeFromOrder: (id: string) => void;
+}
+
+interface ICartItemProps {
+    product: I_orderItem,
+    decreaseQuantity: (id: string) => void;
+    increaseQuantity: (id: string) => void;
+    removeFromOrder: (id: string) => void;
+}
+
+const Cart = ({order, decreaseQuantity, increaseQuantity, removeFromOrder, totalPrice, totalQuantity}: IDispatchProps & IConnectProps) => {
+
+    let tableItems = order.map((po, i) => <tr key={po.id + 'product_in_cart' + i}>
+            <TableItem product={po} decreaseQuantity={decreaseQuantity}
+                       increaseQuantity={increaseQuantity} removeFromOrder={removeFromOrder}/>
+        </tr>
+    );
+
+    useEffect(
+        () => {
+            window.scrollTo(0, 0);
+        }, []);
 
     return (
-        <div>
-            <div className={style.tableRow}>
-                <h3>Items in your CART</h3>
-            </div>
-            <div className={style.cartWrapper}>
-                {orderItems}
-            </div>
+        <div className={style.cartWrapper}>
+            {order.length ? <h2>Ваша корзина пуста.</h2> : <h2>В корзине товаров: {totalQuantity}</h2>}
+            {order.length ?
+                <React.Fragment>
+                    <div className={style.cartTableWrapper}>
+                        <table className={style.cartTable}>
+                            <thead>
+                            <tr>
+                                <div className={style.cartRowGrid}>
+                                    <div></div>
+                                    <span style={{textAlign: "start"}}>Название</span>
+                                    <div>Цена</div>
+                                    <div>Шт.</div>
+                                    <div>Сумма</div>
+                                </div>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {tableItems}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div className={style.rowBetween}>
+                        <div className={style.col}>
+                            <span>Доставка бесплатная!</span>
+                            <span className={style.bold}>К оплате: {totalPrice} BYN</span>
+                        </div>
+                    </div>
+                </React.Fragment> : ""}
             <div className={style.rowBetween}>
-                <NavLink to="/catalog">
-                    <ButtonMain buttonText={"To Menu"}/>
+                <NavLink to="/catalog" className={style.btnToMenu}>
+                    <ButtonMain buttonText={"В Меню"}/>
                 </NavLink>
-                <NavLink to="/order">
-                    <ButtonMain buttonText={"Order"}/>
+                <NavLink
+                    style={!order.length ? {pointerEvents: 'none'} : {}}
+                    to={order.length ? "/order" : ''} className={style.btnOrder}
+                >
+                    <ButtonMain buttonText={"Заказать"} disabled={!order.length}/>
                 </NavLink>
             </div>
         </div>
     )
 };
 
-
-const CartItem = ({product, decreaseQuantity, increaseQuantity, removeFromOrder}:ICartItemProps) => {
+const TableItem = ({product, decreaseQuantity, increaseQuantity, removeFromOrder}: ICartItemProps) => {
     return (
+        <div className={style.cartRowGrid}>
 
-        <div className={style.tableRow}>
-            <div className={style.row}>
-                <div className={style.mainImg}>
-                    <img src={product.photo_thumbnail} alt={product.text_short}/>
-                </div>
+            <span className={style.mainImg}>
+                <img src={product.photo_thumbnail} alt={product.text_short}/>
+            </span>
 
-            </div>
-            <div className={style.row}>
-                <div className={style.description}>
-                    <h6>{product.name}</h6>
-                    <span>{product.size}</span>
-                </div>
-                <div className={style.description}>
-                    <span>{product.text_short}</span>
-                    <span>Вес 500гр</span>
-                </div>
+
+            <span className={style.description}>
+                <h6>{product.name}</h6>
+                <span className={style.descText}>{product.text_short}</span>
+            </span>
+
+            <div className={style.purpose}>
+                <span>{product.price}</span>
             </div>
 
-            <div className={style.rowCalc}>
-                <div className={style.col}>
-                    <button
-                        onClick={() => {
-                            increaseQuantity(product.id)
-                        }}
-                        className={style.btnSmall}
-                    >+
-                    </button>
-                    <span><b>{product.quantity}</b></span>
-                    <button
-                        onClick={() => {
-                            decreaseQuantity(product.id)
-                        }}
-                        className={style.btnSmallMinus}
-                    >-
-                    </button>
-                </div>
-                <div className={style.calculator}>
-                    <span>{(product.price * product.quantity).toFixed(2)}</span>
-                    <span><b>BYN</b></span>
-
-                </div>
+            <div className={style.colCalc}>
+                <button
+                    onClick={() => {
+                        increaseQuantity(product.id)
+                    }}
+                    className={style.btnSmall}
+                >+
+                </button>
+                <span><b>{product.quantity}</b></span>
+                <button
+                    onClick={() => {
+                        decreaseQuantity(product.id)
+                    }}
+                    className={style.btnSmallMinus}
+                >-
+                </button>
             </div>
-            <button
-                onClick={() => {
-                    removeFromOrder(product.id)
-                }}
-                className={style.btnSmallClose}
-            >X
-            </button>
+
+
+            <div className={style.colPrice}>
+                <span>{(product.price * product.quantity).toFixed(2)}</span>
+                <span><b>BYN</b></span>
+                <button
+                    onClick={() => {
+                        //console.log(product.id);
+                        removeFromOrder(product.id)
+                    }}
+                    className={style.btnSmallClose}>X
+                </button>
+            </div>
         </div>
-
     )
 };
 
@@ -123,5 +147,5 @@ const mapStateToProps = (state: AppStateType) => {
 };
 
 export default compose(
-    connect(mapStateToProps, {increaseQuantity, decreaseQuantity, removeFromOrder, calculateOrder})
+    connect(mapStateToProps, {increaseQuantity, decreaseQuantity, removeFromOrder})
 )(Cart);
