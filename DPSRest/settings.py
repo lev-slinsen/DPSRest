@@ -29,8 +29,9 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DJANGO_DEBUG', False)
 
-ALLOWED_HOSTS = [os.environ.get('HOST_NAME', 'localhost'), os.environ.get('HOST_IP', '127.0.0.1')]
-
+ALLOWED_HOSTS = [os.environ.get('HOST_NAME', 'localhost'),
+                 os.environ.get('HOST_IP', '127.0.0.1'),
+                 'dpsrest.herokuapp.com']
 
 # Application definition
 
@@ -72,6 +73,8 @@ REST_FRAMEWORK = {
 AUTH_USER_MODEL = 'accounts.User'
 
 MIDDLEWARE = [
+    # Required for heroku
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     # Django middleware
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -101,8 +104,6 @@ CORS_ORIGIN_WHITELIST = [
 ]
 CSRF_COOKIE_NAME = "csrftoken"
 
-CSRF_COOKIE_NAME = "csrftoken"
-
 ROOT_URLCONF = 'DPSRest.urls'
 
 TEMPLATES = [
@@ -130,8 +131,12 @@ WSGI_APPLICATION = 'DPSRest.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-DATABASES['default'] = dj_database_url.config(
-    default=os.environ.get('DJANGO_DB'))
+if DEBUG:
+    DATABASES['default'] = dj_database_url.config(
+        default=os.environ.get('DJANGO_DB'))
+else:
+    prod_db = dj_database_url.config(conn_max_age=500)
+    DATABASES['default'].update(prod_db)
 
 
 # Password validation
@@ -186,6 +191,8 @@ LOCALE_PATHS = (
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
+PROJECT_ROOT = os.path.join(os.path.abspath(__file__))
+
 STATIC_URL = '/static/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
@@ -193,6 +200,8 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATICFILES_DIRS = [
     'react/build/static/',
 ]
+
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 MEDIA_URL = '/media/'
 
