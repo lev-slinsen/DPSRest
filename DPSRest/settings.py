@@ -132,8 +132,7 @@ WSGI_APPLICATION = 'DPSRest.wsgi.application'
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
 if DEBUG:
-    DATABASES['default'] = dj_database_url.config(
-        default=os.environ.get('DJANGO_DB'))
+    DATABASES['default'] = dj_database_url.config(default=os.environ.get('DJANGO_DB'))
 else:
     prod_db = dj_database_url.config(conn_max_age=500)
     DATABASES['default'].update(prod_db)
